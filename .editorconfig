@@ -89,8 +89,8 @@ ij_editorconfig_space_before_comma = false
 ij_editorconfig_spaces_around_assignment_operators = true
 
 [{*.cjs,*.js}]
-indent_size = 3
-tab_width = 3
+indent_size = 2
+tab_width = 2
 ij_continuation_indent_size = 1
 ij_javascript_align_imports = false
 ij_javascript_align_multiline_array_initializer_expression = false
