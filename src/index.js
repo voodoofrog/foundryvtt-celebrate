@@ -1,4 +1,4 @@
-import { MODULE_ID, MySettings } from './constants';
+import { MODULE_ID, MySettings, MODULE_ABBREV } from './constants';
 import { registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import { Confetti } from './classes/Confetti';
@@ -23,6 +23,25 @@ Hooks.on('renderChatLog', (app, html) => {
 });
 
 Hooks.once('ready', () => {
+  try {
+    window.Ardittristan.ColorSetting.tester;
+  } catch {
+    ui.notifications.notify(
+      'Please make sure you have the "lib - ColorSettings" module installed and enabled.',
+      'error',
+    );
+  }
+
+  new window.Ardittristan.ColorSetting(MODULE_ID, MySettings.ConfettiColorBase, {
+    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorBase}.Name`,
+    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorBase}.Hint`,
+    label: 'Color Picker',
+    restricted: false,
+    defaultColor: '#000000ff',
+    scope: 'client',
+    insertAfter: `${MODULE_ID}.${MySettings.ConfettiScale}`,
+  });
+
   console.log('Celebrate | Ready');
   new Confetti();
 });

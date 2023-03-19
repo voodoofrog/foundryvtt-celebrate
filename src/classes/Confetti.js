@@ -149,6 +149,23 @@ export class Confetti {
     }
   }
 
+  _convertHexUnitTo256(hexStr) {
+    return parseInt(hexStr.repeat(2 / hexStr.length), 16);
+  }
+
+  /**
+   * turn hex rgba into rgba string
+   *
+   * @param {string} hex 8 long hex value in string form, eg: "#123456ff"
+   *
+   * @returns {Array} Array of rgba[r, g, b, a]
+   */
+  hexToRGBA(hex) {
+    const hexArr = hex.slice(1).match(new RegExp('.{2}', 'g'));
+    const [r, g, b, a] = hexArr.map(this._convertHexUnitTo256);
+    return [r, g, b, Math.round((a / 256 + Number.EPSILON) * 100) / 100];
+  }
+
   /**
    * Adds a given number of confetti particles and kicks off the tweening magic
    *
@@ -157,14 +174,31 @@ export class Confetti {
   addConfettiParticles({ amount, angle, velocity, sourceX, sourceY }) {
     log(false, {});
     let i = 0;
+    const confettiScale = game.settings.get(MODULE_ID, MySettings.ConfettiScale);
+    const colourChoice = game.settings.get(MODULE_ID, MySettings.ConfettiColorChoice);
+    const baseColour = this.hexToRGBA(game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
+
     while (i < amount) {
       // sprite
-      const r = random(4, 6) * this.dpr;
-      const d = random(15, 25) * this.dpr;
+      const r = random(4, 6) * this.dpr * confettiScale;
+      const d = random(15, 25) * this.dpr * confettiScale;
 
-      const cr = random(50, 255);
-      const cg = random(50, 200);
-      const cb = random(50, 200);
+      let cb, cg, cr;
+      if (colourChoice === 'base') {
+        const redMin = Math.min(Math.max(parseInt(baseColour[0] - 50), 0), 255);
+        const redMax = Math.min(Math.max(parseInt(baseColour[0] + 50), 0), 255);
+        const blueMin = Math.min(Math.max(parseInt(baseColour[1] - 50), 0), 255);
+        const blueMax = Math.min(Math.max(parseInt(baseColour[1] + 50), 0), 255);
+        const greenMin = Math.min(Math.max(parseInt(baseColour[2] - 50), 0), 255);
+        const greenMax = Math.min(Math.max(parseInt(baseColour[2] + 50), 0), 255);
+        cr = random(redMin, redMax);
+        cg = random(blueMin, blueMax);
+        cb = random(greenMin, greenMax);
+      } else {
+        cr = random(50, 255);
+        cg = random(50, 200);
+        cb = random(50, 200);
+      }
       const color = `rgb(${cr}, ${cg}, ${cb})`;
 
       const tilt = random(10, -10);
@@ -213,13 +247,26 @@ export class Confetti {
    */
   drawConfetti() {
     log(false, 'drawConfetti');
+    const colourChoice = game.settings.get(MODULE_ID, MySettings.ConfettiColorChoice);
+
     // map over the confetti sprites
     Object.keys(this.confettiSprites).map((spriteId) => {
       const sprite = this.confettiSprites[spriteId];
 
       this.ctx.beginPath();
       this.ctx.lineWidth = sprite.d / 2;
-      this.ctx.strokeStyle = sprite.color;
+
+      let color;
+      if (colourChoice === 'glitter') {
+        const cr = random(0, 255);
+        const cg = random(0, 255);
+        const cb = random(0, 255);
+        color = `rgb(${cr}, ${cg}, ${cb})`;
+      } else {
+        color = sprite.color;
+      }
+
+      this.ctx.strokeStyle = color;
       this.ctx.moveTo(sprite.x + sprite.tilt + sprite.r, sprite.y);
       this.ctx.lineTo(sprite.x + sprite.tilt, sprite.y + sprite.tilt + sprite.r);
       this.ctx.stroke();

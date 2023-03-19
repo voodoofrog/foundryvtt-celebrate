@@ -17,6 +17,9 @@ export const SOUNDS = {
 export const MySettings = {
   GmOnly: 'gm-only',
   ConfettiMultiplier: 'confetti-multiplier',
+  ConfettiScale: 'confetti-scale',
+  ConfettiColorBase: 'confetti-color-base',
+  ConfettiColorChoice: 'confetti-color-choice',
   Mute: 'mute',
   RapidFireLimit: 'rapid-fire-limit',
   ShowButton: 'show-button',

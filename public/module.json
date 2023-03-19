@@ -47,6 +47,18 @@
       "path": "lang/en.json"
     }
   ],
+  "relationships": {
+    "requires": [
+      {
+        "id": "colorsettings",
+        "type": "module",
+        "manifest": "https://github.com/ardittristan/VTTColorSettings/releases/download/2.9.1/module.json",
+        "compatibility": {
+          "verified": "2.9.1"
+        }
+      }
+    ]
+  },
   "socket": true,
   "url": "https://github.com/voodoofrog/foundryvtt-celebrate",
   "readme": "https://github.com/voodoofrog/foundryvtt-celebrate/blob/master/README.md",

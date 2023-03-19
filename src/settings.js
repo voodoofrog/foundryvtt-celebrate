@@ -4,11 +4,11 @@ import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
  * Registers the module settings
  */
 export function registerSettings() {
-  // Register any custom module settings here
   // Debug use
   CONFIG[MODULE_ID] = { debug: false };
 
-  // Register any custom module settings here
+  const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
+
   game.settings.register(MODULE_ID, MySettings.GmOnly, {
     name: `${MODULE_ABBREV}.settings.${MySettings.GmOnly}.Name`,
     default: false,
@@ -28,6 +28,30 @@ export function registerSettings() {
     hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiMultiplier}.Hint`,
   });
 
+  game.settings.register(MODULE_ID, MySettings.ConfettiScale, {
+    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiScale}.Name`,
+    default: 1,
+    type: Number,
+    scope: 'client',
+    range: { min: 0.3, max: 2, step: 0.1 },
+    config: true,
+    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiScale}.Hint`,
+  });
+
+  game.settings.register(MODULE_ID, MySettings.ConfettiColorChoice, {
+    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorChoice}.Name`,
+    default: 'default',
+    type: String,
+    choices: {
+      default: 'Default',
+      base: 'Base Colour',
+      glitter: 'Glitter',
+    },
+    scope: 'client',
+    config: true,
+    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorChoice}.Hint`,
+  });
+
   game.settings.register(MODULE_ID, MySettings.Mute, {
     name: `${MODULE_ABBREV}.settings.${MySettings.Mute}.Name`,
     default: false,
@@ -42,7 +66,7 @@ export function registerSettings() {
     default: 5,
     range: { min: 0, max: 10, step: 1 },
     type: Number,
-    scope: 'client',
+    scope: 'world',
     config: true,
     hint: `${MODULE_ABBREV}.settings.${MySettings.RapidFireLimit}.Hint`,
   });
@@ -54,5 +78,6 @@ export function registerSettings() {
     scope: 'client',
     config: true,
     hint: `${MODULE_ABBREV}.settings.${MySettings.ShowButton}.Hint`,
+    onChange: debouncedReload,
   });
 }

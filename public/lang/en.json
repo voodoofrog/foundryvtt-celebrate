@@ -15,6 +15,18 @@
         "Name": "Confetti Multiplier",
         "Hint": "How much confetti is too much? We let you decide, personally I think the answer is 'as much as you can handle'."
       },
+      "confetti-scale": {
+        "Name": "Confetti Scale",
+        "Hint": "How big d'you want your confetti pieces to be?"
+      },
+      "confetti-color-base": {
+        "Name": "Confetti Colour Base",
+        "Hint": "Confetti will be coloured with this as the base colour if enabled below."
+      },
+      "confetti-color-choice": {
+        "Name": "Confetti Colour Choice",
+        "Hint": "Default: Multi coloured confetti, Base Colour: Confetti with the chosen base colour above, Glitter: Colour cycling confetti."
+      },
       "mute": {
         "Name": "Mute",
         "Hint": "If you think those sounds are annoying, imagine being the guy writing this thing."
