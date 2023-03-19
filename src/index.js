@@ -12,10 +12,6 @@ Hooks.once('init', async () => {
 });
 
 Hooks.on('renderChatLog', (app, html) => {
-  if (app.options.popOut) {
-    return;
-  }
-
   const showButton = game.settings.get(MODULE_ID, MySettings.ShowButton);
   if (showButton) {
     const chatForm = html.find('#chat-form');
