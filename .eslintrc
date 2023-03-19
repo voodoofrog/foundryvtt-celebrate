@@ -10,12 +10,14 @@
   // with one that you do prefer. The second config defines globals defined in `foundry.js` for use w/ `no-shadow`.
   "extends": [
     "@typhonjs-config/eslint-config/esm/2022/browser",
-    "@typhonjs-fvtt/eslint-config-foundry.js"
+    "@typhonjs-fvtt/eslint-config-foundry.js",
+    "plugin:prettier/recommended"
   ],
 
   // Defines / overrides a few more environment parameters not provided in the configs above.
   "env": {
-    "jquery": true
+    "jquery": true,
+    "node": true
   },
 
   // Prevents overwriting any built in globals particularly from `@typhonjs-fvtt/eslint-config-foundry.js`, but also

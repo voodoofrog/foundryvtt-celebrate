@@ -1,0 +1,60 @@
+{
+  "id": "celebrate",
+  "title": "Celebrate",
+  "description": "Get ready to celebrate!",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Nick Stevens (VoodooFrog)",
+      "email": "voodoofrog@forgottendream.co.uk",
+      "url": "https://github.com/voodoofrog"
+    },
+    {
+      "name": "Andrew Krigline",
+      "email": "Calego#0914",
+      "url": "https://github.com/ElfFriend-DnD"
+    },
+    {
+      "name": "Michael Leahy (TyphonJS) - MLeahy#4299",
+      "url": "https://www.typhonjs.io",
+      "discord": "MLeahy#4299"
+    }
+  ],
+  "compatibility": {
+    "minimum": "10",
+    "verified": "10"
+  },
+  "esmodules": [
+    "index.js",
+    "greensock/esm/all.js"
+  ],
+  "styles": [
+    "style.css"
+  ],
+  "packs": [
+    {
+      "name": "celebrate-macros",
+      "label": "Celebrate Macros",
+      "path": "packs/features.db",
+      "entity": "Macro",
+      "module": "celebrate"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "socket": false,
+  "url": "https://github.com/voodoofrog/foundryvtt-celebrate",
+  "readme": "https://github.com/voodoofrog/foundryvtt-celebrate/blob/master/README.md",
+  "bugs": "https://github.com/voodoofrog/foundryvtt-celebrate/issues",
+  "changelog": "https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/",
+  "manifest": "https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/module.json",
+  "download": "https://github.com/voodoofrog/foundryvtt-celebrate/releases/download/0.0.0/module.zip",
+  "protected": false,
+  "coreTranslation": false,
+  "library": false
+}

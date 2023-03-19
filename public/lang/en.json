@@ -1,0 +1,32 @@
+{
+  "CEL": {
+    "title": "Celebrate",
+    "intensity": {
+      "low": "Low Intensity",
+      "med": "Medium Intensity",
+      "high": "High Intensity!"
+    },
+    "settings": {
+      "gm-only": {
+        "Name": "GM Only",
+        "Hint": "If you're a GM who absolutely hates letting your players have nice things, you'll enable this and remove the confetti buttons from their screens."
+      },
+      "confetti-multiplier": {
+        "Name": "Confetti Multiplier",
+        "Hint": "How much confetti is too much? We let you decide, personally I think the answer is 'as much as you can handle'."
+      },
+      "mute": {
+        "Name": "Mute",
+        "Hint": "If you think those sounds are annoying, imagine being the guy writing this thing."
+      },
+      "rapid-fire-limit": {
+        "Name": "Rapid Fire Limit (Seconds)",
+        "Hint": "Sometimes there *needs* to be a limit. (0 is no-limit)"
+      },
+      "show-button": {
+        "Name": "Show Button",
+        "Hint": "(Requires reload) Disable if you are only interested in using it from macros/modules and/or the button conflicts with other module(s)."
+      }
+    }
+  }
+}
