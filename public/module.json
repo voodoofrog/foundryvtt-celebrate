@@ -47,7 +47,7 @@
       "path": "lang/en.json"
     }
   ],
-  "socket": false,
+  "socket": true,
   "url": "https://github.com/voodoofrog/foundryvtt-celebrate",
   "readme": "https://github.com/voodoofrog/foundryvtt-celebrate/blob/master/README.md",
   "bugs": "https://github.com/voodoofrog/foundryvtt-celebrate/issues",
