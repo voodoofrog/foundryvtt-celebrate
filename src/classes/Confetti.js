@@ -1,7 +1,7 @@
-import { ConfettiStrength, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
-import { log, random } from '../helpers';
-import { TweenLite, Power4 } from '/scripts/greensock/esm/all.js';
+import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
 import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
+import { ConfettiStrength, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
+import { log, random, hexToRGBA } from '../helpers';
 
 const DECAY = 3;
 const SPREAD = 50;
@@ -149,21 +149,10 @@ export class Confetti {
     }
   }
 
-  _convertHexUnitTo256(hexStr) {
-    return parseInt(hexStr.repeat(2 / hexStr.length), 16);
-  }
-
-  /**
-   * turn hex rgba into rgba string
-   *
-   * @param {string} hex 8 long hex value in string form, eg: "#123456ff"
-   *
-   * @returns {Array} Array of rgba[r, g, b, a]
-   */
-  hexToRGBA(hex) {
-    const hexArr = hex.slice(1).match(new RegExp('.{2}', 'g'));
-    const [r, g, b, a] = hexArr.map(this._convertHexUnitTo256);
-    return [r, g, b, Math.round((a / 256 + Number.EPSILON) * 100) / 100];
+  _generateRandomColorMinMax(hex) {
+    const min = Math.min(Math.max(parseInt(hex - 50), 0), 255);
+    const max = Math.min(Math.max(parseInt(hex + 50), 0), 255);
+    return random(min, max);
   }
 
   /**
@@ -175,31 +164,25 @@ export class Confetti {
     log(false, {});
     let i = 0;
     const confettiScale = game.settings.get(MODULE_ID, MySettings.ConfettiScale);
-    const colourChoice = game.settings.get(MODULE_ID, MySettings.ConfettiColorChoice);
-    const baseColour = this.hexToRGBA(game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
+    const colorChoice = game.settings.get(MODULE_ID, MySettings.ConfettiColorChoice);
+    const baseColor = hexToRGBA(game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
 
     while (i < amount) {
       // sprite
       const r = random(4, 6) * this.dpr * confettiScale;
       const d = random(15, 25) * this.dpr * confettiScale;
 
-      let cb, cg, cr;
-      if (colourChoice === 'base') {
-        const redMin = Math.min(Math.max(parseInt(baseColour[0] - 50), 0), 255);
-        const redMax = Math.min(Math.max(parseInt(baseColour[0] + 50), 0), 255);
-        const blueMin = Math.min(Math.max(parseInt(baseColour[1] - 50), 0), 255);
-        const blueMax = Math.min(Math.max(parseInt(baseColour[1] + 50), 0), 255);
-        const greenMin = Math.min(Math.max(parseInt(baseColour[2] - 50), 0), 255);
-        const greenMax = Math.min(Math.max(parseInt(baseColour[2] + 50), 0), 255);
-        cr = random(redMin, redMax);
-        cg = random(blueMin, blueMax);
-        cb = random(greenMin, greenMax);
+      let blue, green, red;
+      if (colorChoice === 'base') {
+        red = this._generateRandomColorMinMax(baseColor[0]);
+        green = this._generateRandomColorMinMax(baseColor[1]);
+        blue = this._generateRandomColorMinMax(baseColor[2]);
       } else {
-        cr = random(50, 255);
-        cg = random(50, 200);
-        cb = random(50, 200);
+        red = random(50, 255);
+        green = random(50, 200);
+        blue = random(50, 200);
       }
-      const color = `rgb(${cr}, ${cg}, ${cb})`;
+      const color = `rgb(${red}, ${green}, ${blue})`;
 
       const tilt = random(10, -10);
       const tiltAngleIncremental = random(0.07, 0.05);
@@ -417,7 +400,7 @@ export class Confetti {
     const friction = random(0.01, 0.05);
     const d = 0;
 
-    TweenLite.to(this.confettiSprites[spriteId], DECAY, {
+    GsapCompose.to(this.confettiSprites[spriteId], {
       physics2D: {
         velocity,
         angle,
@@ -425,7 +408,7 @@ export class Confetti {
         friction,
       },
       d,
-      ease: Power4.easeIn,
+      ease: easingFunc['power4.in'],
       onComplete: () => {
         // remove confetti sprite and id
         delete this.confettiSprites[spriteId];
@@ -441,6 +424,7 @@ export class Confetti {
           canvas.app.ticker.remove(this.render, this);
         }
       },
+      duration: DECAY,
     });
   }
 

@@ -25,8 +25,7 @@
     "verified": "10"
   },
   "esmodules": [
-    "index.js",
-    "greensock/esm/all.js"
+    "index.js"
   ],
   "styles": [
     "style.css"

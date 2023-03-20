@@ -25,3 +25,20 @@ export const random = (a = 1, b = 0) => {
   const upper = Math.max(a, b);
   return lower + Math.random() * (upper - lower);
 };
+
+const _convertHexUnitTo256 = (hexStr) => {
+  return parseInt(hexStr.repeat(2 / hexStr.length), 16);
+};
+
+/**
+ * turn hex rgba into rgba string
+ *
+ * @param {string} hex 8 long hex value in string form, eg: "#123456ff"
+ *
+ * @returns {Array} Array of rgba[r, g, b, a]
+ */
+export const hexToRGBA = (hex) => {
+  const hexArr = hex.slice(1).match(new RegExp('.{2}', 'g'));
+  const [r, g, b, a] = hexArr.map(_convertHexUnitTo256);
+  return [r, g, b, Math.round((a / 256 + Number.EPSILON) * 100) / 100];
+};

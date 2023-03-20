@@ -24,5 +24,3 @@ export const MySettings = {
   RapidFireLimit: 'rapid-fire-limit',
   ShowButton: 'show-button',
 };
-
-export const MyFlags = {};
