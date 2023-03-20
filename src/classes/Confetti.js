@@ -160,12 +160,12 @@ export class Confetti {
    *
    * @param {AddConfettiParticleProps} confettiParticleProps An object containing the particle properties
    */
-  addConfettiParticles({ amount, angle, velocity, sourceX, sourceY }) {
+  addConfettiParticles({ amount, angle, velocity, sourceX, sourceY, cColor, cStyle }) {
     log(false, {});
     let i = 0;
     const confettiScale = game.settings.get(MODULE_ID, MySettings.ConfettiScale);
-    const colorChoice = game.settings.get(MODULE_ID, MySettings.ConfettiColorChoice);
-    const baseColor = hexToRGBA(game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
+    const style = cStyle || game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice);
+    const confettiColor = hexToRGBA(cColor || game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
 
     while (i < amount) {
       // sprite
@@ -173,10 +173,10 @@ export class Confetti {
       const d = random(15, 25) * this.dpr * confettiScale;
 
       let blue, green, red;
-      if (colorChoice === 'base' || colorChoice === 'baseGlitter') {
-        red = this._generateRandomColorMinMax(baseColor[0]);
-        green = this._generateRandomColorMinMax(baseColor[1]);
-        blue = this._generateRandomColorMinMax(baseColor[2]);
+      if (style === 'base' || style === 'baseGlitter') {
+        red = this._generateRandomColorMinMax(confettiColor[0]);
+        green = this._generateRandomColorMinMax(confettiColor[1]);
+        blue = this._generateRandomColorMinMax(confettiColor[2]);
       } else {
         red = random(50, 255);
         green = random(50, 200);
@@ -201,6 +201,7 @@ export class Confetti {
         tiltAngleIncremental,
         tiltAngle,
         originalColor: { red, green, blue },
+        style,
       };
 
       this.confettiSprites = {
@@ -232,7 +233,6 @@ export class Confetti {
   drawConfetti() {
     log(false, 'drawConfetti');
 
-    const colourChoice = game.settings.get(MODULE_ID, MySettings.ConfettiColorChoice);
     const deviation = game.settings.get(MODULE_ID, MySettings.ConfettiGlitterDeviation);
 
     // map over the confetti sprites
@@ -243,7 +243,7 @@ export class Confetti {
       this.ctx.lineWidth = sprite.d / 2;
 
       const getColor = () => {
-        if (colourChoice === 'glitter' || colourChoice === 'baseGlitter') {
+        if (sprite.style === 'glitter' || sprite.style === 'baseGlitter') {
           let blue, green, red;
           // select if should be black or white for the frame for glittery effect
           if (Math.random() < 0.33) {
@@ -281,9 +281,9 @@ export class Confetti {
    */
   static getShootConfettiProps(strength) {
     const shootConfettiProps = {
-      amount: 100,
-      velocity: 2000,
       sound: SOUNDS[strength],
+      cColor: game.settings.get(MODULE_ID, MySettings.ConfettiColorBase),
+      cStyle: game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice),
     };
 
     switch (strength) {
@@ -296,7 +296,8 @@ export class Confetti {
         shootConfettiProps.velocity = 1000;
         break;
       default:
-        break;
+        shootConfettiProps.amount = 100;
+        shootConfettiProps.velocity = 2000;
     }
 
     log(false, 'getShootConfettiProps returned', {

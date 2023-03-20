@@ -19,7 +19,7 @@ export const MySettings = {
   ConfettiMultiplier: 'confetti-multiplier',
   ConfettiScale: 'confetti-scale',
   ConfettiColorBase: 'confetti-color-base',
-  ConfettiColorChoice: 'confetti-color-choice',
+  ConfettiStyleChoice: 'confetti-style-choice',
   ConfettiGlitterDeviation: 'confetti-glitter-deviation',
   Mute: 'mute',
   RapidFireLimit: 'rapid-fire-limit',

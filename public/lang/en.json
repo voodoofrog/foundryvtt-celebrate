@@ -23,9 +23,15 @@
         "Name": "Confetti Colour Base",
         "Hint": "Confetti will be coloured with this as the base colour if enabled below."
       },
-      "confetti-color-choice": {
-        "Name": "Confetti Colour Choice",
-        "Hint": "Default: Multi coloured confetti. | Base Colour: Confetti with the chosen base colour above. | Glitter: Sparkly colour cycling confetti. | Base Glitter: Glitter derived from the base colour."
+      "confetti-style-choice": {
+        "Name": "Confetti Style Choice",
+        "Hint": "Default: Multi coloured confetti. | Base Colour: Confetti with the chosen base colour above. | Glitter: Sparkly colour cycling confetti. | Base Glitter: Glitter derived from the base colour.",
+        "Choices": {
+          "Default": "Default",
+          "Base": "Base Colour",
+          "Glitter": "Glitter",
+          "BaseGlitter": "Base Glitter"
+        }
       },
       "confetti-glitter-deviation": {
         "Name": "Glitter Colour Deviation",

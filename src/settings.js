@@ -38,19 +38,19 @@ export function registerSettings() {
     hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiScale}.Hint`,
   });
 
-  game.settings.register(MODULE_ID, MySettings.ConfettiColorChoice, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorChoice}.Name`,
+  game.settings.register(MODULE_ID, MySettings.ConfettiStyleChoice, {
+    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Name`,
     default: 'default',
     type: String,
     choices: {
-      default: 'Default',
-      base: 'Base Colour',
-      glitter: 'Glitter',
-      baseGlitter: 'Base Glitter',
+      default: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.Default`,
+      base: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.Base`,
+      glitter: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.Glitter`,
+      baseGlitter: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.BaseGlitter`,
     },
     scope: 'client',
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorChoice}.Hint`,
+    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Hint`,
   });
 
   game.settings.register(MODULE_ID, MySettings.ConfettiGlitterDeviation, {
