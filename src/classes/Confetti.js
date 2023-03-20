@@ -1,7 +1,7 @@
 import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
 import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
 import { ConfettiStrength, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
-import { log, random, hexToRGBA } from '../helpers';
+import { log, random, hexToRGBA, constrainIntToBounds } from '../helpers';
 
 const DECAY = 3;
 const SPREAD = 50;
@@ -149,9 +149,9 @@ export class Confetti {
     }
   }
 
-  _generateRandomColorMinMax(hex) {
-    const min = Math.min(Math.max(parseInt(hex - 50), 0), 255);
-    const max = Math.min(Math.max(parseInt(hex + 50), 0), 255);
+  _generateRandomColorMinMax(hex, deviation = 50) {
+    const min = constrainIntToBounds(hex - deviation);
+    const max = constrainIntToBounds(hex + deviation);
     return random(min, max);
   }
 
@@ -173,7 +173,7 @@ export class Confetti {
       const d = random(15, 25) * this.dpr * confettiScale;
 
       let blue, green, red;
-      if (colorChoice === 'base') {
+      if (colorChoice === 'base' || colorChoice === 'baseGlitter') {
         red = this._generateRandomColorMinMax(baseColor[0]);
         green = this._generateRandomColorMinMax(baseColor[1]);
         blue = this._generateRandomColorMinMax(baseColor[2]);
@@ -200,6 +200,7 @@ export class Confetti {
         tilt,
         tiltAngleIncremental,
         tiltAngle,
+        originalColor: { red, green, blue },
       };
 
       this.confettiSprites = {
@@ -230,7 +231,9 @@ export class Confetti {
    */
   drawConfetti() {
     log(false, 'drawConfetti');
+
     const colourChoice = game.settings.get(MODULE_ID, MySettings.ConfettiColorChoice);
+    const deviation = game.settings.get(MODULE_ID, MySettings.ConfettiGlitterDeviation);
 
     // map over the confetti sprites
     Object.keys(this.confettiSprites).map((spriteId) => {
@@ -239,17 +242,28 @@ export class Confetti {
       this.ctx.beginPath();
       this.ctx.lineWidth = sprite.d / 2;
 
-      let color;
-      if (colourChoice === 'glitter') {
-        const cr = random(0, 255);
-        const cg = random(0, 255);
-        const cb = random(0, 255);
-        color = `rgb(${cr}, ${cg}, ${cb})`;
-      } else {
-        color = sprite.color;
-      }
+      const getColor = () => {
+        if (colourChoice === 'glitter' || colourChoice === 'baseGlitter') {
+          let blue, green, red;
+          // select if should be black or white for the frame for glittery effect
+          if (Math.random() < 0.33) {
+            if (Math.random() < 0.5) {
+              red = green = blue = 255;
+            } else {
+              red = green = blue = 0;
+            }
+          } else {
+            red = this._generateRandomColorMinMax(sprite.originalColor.red, deviation);
+            green = this._generateRandomColorMinMax(sprite.originalColor.green, deviation);
+            blue = this._generateRandomColorMinMax(sprite.originalColor.blue, deviation);
+          }
+          return `rgb(${red}, ${green}, ${blue})`;
+        }
 
-      this.ctx.strokeStyle = color;
+        return sprite.color;
+      };
+
+      this.ctx.strokeStyle = getColor();
       this.ctx.moveTo(sprite.x + sprite.tilt + sprite.r, sprite.y);
       this.ctx.lineTo(sprite.x + sprite.tilt, sprite.y + sprite.tilt + sprite.r);
       this.ctx.stroke();
@@ -347,7 +361,7 @@ export class Confetti {
     this.drawConfetti();
   }
 
-  toggleCooldown(instance) {
+  _toggleCooldown(instance) {
     instance.isOnCooldown = !instance.isOnCooldown;
   }
 
@@ -366,7 +380,7 @@ export class Confetti {
       return;
     } else {
       this.isOnCooldown = true;
-      setTimeout(this.toggleCooldown, rapidFireLimit * 1000, this);
+      setTimeout(this._toggleCooldown, rapidFireLimit * 1000, this);
     }
 
     log(false, 'shootConfetti, emitting socket', {

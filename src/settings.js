@@ -46,10 +46,21 @@ export function registerSettings() {
       default: 'Default',
       base: 'Base Colour',
       glitter: 'Glitter',
+      baseGlitter: 'Base Glitter',
     },
     scope: 'client',
     config: true,
     hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorChoice}.Hint`,
+  });
+
+  game.settings.register(MODULE_ID, MySettings.ConfettiGlitterDeviation, {
+    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiGlitterDeviation}.Name`,
+    default: 50,
+    type: Number,
+    scope: 'client',
+    range: { min: 0, max: 255, step: 1 },
+    config: true,
+    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiGlitterDeviation}.Hint`,
   });
 
   game.settings.register(MODULE_ID, MySettings.Mute, {

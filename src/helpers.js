@@ -42,3 +42,19 @@ export const hexToRGBA = (hex) => {
   const [r, g, b, a] = hexArr.map(_convertHexUnitTo256);
   return [r, g, b, Math.round((a / 256 + Number.EPSILON) * 100) / 100];
 };
+
+/**
+ * Comstrain an integer between two bounds (inclusive). If the input number
+ * is a string or float it will be converted to an integer.
+ *
+ * @param {number | string} int The integer to constrain
+ *
+ * @param {number} min The lower bound
+ *
+ * @param {number} max The upper bound
+ *
+ * @returns {number} The constrained integer
+ */
+export const constrainIntToBounds = (int, min = 0, max = 255) => {
+  return Math.min(Math.max(parseInt(int), min), max);
+};

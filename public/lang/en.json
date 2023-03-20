@@ -25,7 +25,11 @@
       },
       "confetti-color-choice": {
         "Name": "Confetti Colour Choice",
-        "Hint": "Default: Multi coloured confetti, Base Colour: Confetti with the chosen base colour above, Glitter: Colour cycling confetti."
+        "Hint": "Default: Multi coloured confetti. | Base Colour: Confetti with the chosen base colour above. | Glitter: Sparkly colour cycling confetti. | Base Glitter: Glitter derived from the base colour."
+      },
+      "confetti-glitter-deviation": {
+        "Name": "Glitter Colour Deviation",
+        "Hint": "How much deviation from the base colour you want when colour cycling a glitter option."
       },
       "mute": {
         "Name": "Mute",
