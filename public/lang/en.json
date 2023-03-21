@@ -10,15 +10,15 @@
     "settings": {
       "gm-only": {
         "Name": "GM Only",
-        "Hint": "If you're a GM who absolutely hates letting your players have nice things, you'll enable this and remove the confetti buttons from their screens."
+        "Hint": "If your players are abusing the confetti, enable this and prevent them shooting it."
       },
       "confetti-multiplier": {
         "Name": "Confetti Multiplier",
-        "Hint": "How much confetti is too much? We let you decide, personally I think the answer is 'as much as you can handle'."
+        "Hint": "Multiplies the amount of confetti pieces fired. Set this high at your own peril!"
       },
       "confetti-scale": {
         "Name": "Confetti Scale",
-        "Hint": "How big d'you want your confetti pieces to be?"
+        "Hint": "How big you want your confetti pieces to be."
       },
       "confetti-color-base": {
         "Name": "Confetti Colour Base",
@@ -36,15 +36,15 @@
       },
       "confetti-glitter-deviation": {
         "Name": "Glitter Colour Deviation",
-        "Hint": "How much deviation from the base colour you want when colour cycling a glitter option."
+        "Hint": "How much deviation from the starting colour you want when the glitter pieces are colour cycled."
       },
       "mute": {
         "Name": "Mute",
-        "Hint": "If you think those sounds are annoying, imagine being the guy writing this thing."
+        "Hint": "Mutes the sound. Silence is golden?"
       },
       "rapid-fire-limit": {
-        "Name": "Rapid Fire Limit (Seconds)",
-        "Hint": "Sometimes there *needs* to be a limit. (0 is no-limit)"
+        "Name": "Fire Rate Limit (Seconds)",
+        "Hint": "Starts a cooldown after each shot. Highly recommended! (0 is no-limit)"
       },
       "show-button": {
         "Name": "Show Button",

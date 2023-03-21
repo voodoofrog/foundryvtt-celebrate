@@ -20,20 +20,20 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 
 ## Configuration
 
-| **Name**                   | Description                                                                                                                                       |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GM Only                    | If you're a GM who absolutely hates letting your players have nice things, you'll enable this and remove the confetti buttons from their screens. |
-| Confetti Multiplier        | How much confetti is too much? We let you decide, personally I think the answer is 'as much as you can handle'.                                   |
-| Confetti Scale             | How big d'you want your confetti pieces to be?                                                                                                    |
-| Confetti Colour Base       | Confetti will be coloured with this as the base colour.                                                                                           |
-| Confetti Style Choice      | Default: Multi coloured confetti.                                                                                                                 |
-|                            | Base Colour: Confetti with the chosen colour above.                                                                                               |
-|                            | Glitter: Sparkly colour cycling confetti.                                                                                                         |
-|                            | Base Glitter: Glitter derived from the base colour.                                                                                               |
-| Glitter Colour Deviation   | How much deviation from the starting colour you want when colour cycling the glitter pieces.                                                      |
-| Mute                       | If _you_ think those sounds are annoying, imagine being the guy writing this thing.                                                               |
-| Rapid Fire Limit (Seconds) | [WORLD SETTING] Sometimes there _needs_ to be a limit. (0 is no limit)                                                                            |
-| Show Button                | Disable if you are only interested in using it from macros/modules and/or the button conflicts with other module(s).                              |
+| **Name**                  | Description                                                                                                       |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| GM Only                   | [WORLD SETTING] If your players are abusing the confetti, enable this and prevent them shooting it.               |
+| Confetti Multiplier       | Multiplies the amount of confetti pieces fired. Set this high at your own peril!                                  |
+| Confetti Scale            | How big you want your confetti pieces to be.                                                                      |
+| Confetti Colour Base      | Confetti will be coloured with this as the base colour.                                                           |
+| Confetti Style Choice     | Default: Multi coloured confetti.                                                                                 |
+|                           | Base Colour: Confetti with the chosen colour above.                                                               |
+|                           | Glitter: Sparkly colour cycling confetti.                                                                         |
+|                           | Base Glitter: Glitter derived from the base colour.                                                               |
+| Glitter Colour Deviation  | How much deviation from the starting colour you want when the glitter pieces are colour cycled.                   |
+| Mute                      | Mutes the sound. Silence is golden?                                                                               |
+| Fire Rate Limit (Seconds) | [WORLD SETTING] Starts a cooldown after each shot. Highly recommended!                                            |
+| Show Button               | Disable if you are only interested in using it from macros/modules and/or the button conflicts with other things. |
 
 ## Compatibility
 
