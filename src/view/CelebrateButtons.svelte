@@ -3,8 +3,8 @@
 <script>
   import { ConfettiStrength, MODULE_ABBREV } from '../constants';
   import { Confetti } from '../classes/Confetti';
+  import { cooldownStore } from '../index';
 
-  let isOnCooldown = false;
   const title = game.i18n.localize(`${MODULE_ABBREV}.title`);
   const low = game.i18n.localize(`${MODULE_ABBREV}.intensity.low`);
   const med = game.i18n.localize(`${MODULE_ABBREV}.intensity.med`);
@@ -16,12 +16,14 @@
     Confetti.instance.shootConfetti(shootConfettiProps);
   }
 
-  function handleCooldown(event) {
-    isOnCooldown = event.detail;
-  }
+  let isOnCooldown = false;
+
+  cooldownStore.subscribe((value) => {
+    isOnCooldown = value;
+  });
 </script>
 
-<svelte:window on:confettiOnCooldown={handleCooldown} />
+<svelte:window />
 
 <div class="celebrate-buttons flexrow">
   <p>{title}:</p>

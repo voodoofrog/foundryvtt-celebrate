@@ -2,6 +2,9 @@ import { MODULE_ID, MySettings, MODULE_ABBREV } from './constants';
 import { registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import { Confetti } from './classes/Confetti';
+import { writable } from 'svelte/store';
+
+export const cooldownStore = writable(false);
 
 Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(MODULE_ID);

@@ -2,6 +2,7 @@ import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
 import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
 import { ConfettiStrength, MODULE_ABBREV, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
 import { log, random, hexToRGBA, constrainIntToBounds } from '../helpers';
+import { cooldownStore } from '../index';
 
 const DECAY = 3;
 const SPREAD = 50;
@@ -13,6 +14,9 @@ const GRAVITY = 1200;
  * Main class to handle ~~3D Dice~~ Confetti animations.
  */
 export class Confetti {
+  static instance;
+  isOnCooldown = false;
+
   /**
    * Create and initialize a new Confetti.
    */
@@ -30,6 +34,10 @@ export class Confetti {
 
     game.audio.pending.push(this._preloadSounds.bind(this));
 
+    cooldownStore.subscribe((value) => {
+      this.isOnCooldown = value;
+    });
+
     window[WINDOW_ID] = {
       confettiStrength: ConfettiStrength,
       getShootConfettiProps: Confetti.getShootConfettiProps,
@@ -37,20 +45,6 @@ export class Confetti {
       shootConfetti: this.shootConfetti.bind(this),
     };
     Hooks.call(`${MODULE_ID}Ready`, this);
-  }
-
-  _isOnCooldown = false;
-
-  static instance;
-
-  get isOnCooldown() {
-    return this._isOnCooldown;
-  }
-
-  set isOnCooldown(val) {
-    this._isOnCooldown = val;
-    const event = new CustomEvent('confettiOnCooldown', { detail: val });
-    window.dispatchEvent(event);
   }
 
   /**
@@ -362,10 +356,6 @@ export class Confetti {
     this.drawConfetti();
   }
 
-  _toggleCooldown(instance) {
-    instance.isOnCooldown = !instance.isOnCooldown;
-  }
-
   /**
    * Emit a socket message to all users with the ShootConfettiProps
    * Also fire confetti on this screen
@@ -385,8 +375,8 @@ export class Confetti {
       ui.notifications.warn(game.i18n.localize(`${MODULE_ABBREV}.gm_warning`));
       return;
     } else {
-      this.isOnCooldown = true;
-      setTimeout(this._toggleCooldown, rapidFireLimit * 1000, this);
+      cooldownStore.set(true);
+      setTimeout(() => cooldownStore.set(false), rapidFireLimit * 1000, this);
     }
 
     log(false, 'shootConfetti, emitting socket', {
