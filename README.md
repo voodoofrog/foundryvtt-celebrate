@@ -3,8 +3,10 @@
 ![Latest Release Download Count](https://img.shields.io/badge/dynamic/json?label=Downloads@latest&query=assets%5B1%5D.download_count&url=https%3A%2F%2Fapi.github.com%2Frepos%2Fvoodoofrog%2Ffoundryvtt-celebrate%2Freleases%2Flatest)
 ![Forge Installs](https://img.shields.io/badge/dynamic/json?label=Forge%20Installs&query=package.installs&suffix=%25&url=https%3A%2F%2Fforge-vtt.com%2Fapi%2Fbazaar%2Fpackage%2Fcelebrate&colorB=4aa94a)
 ![Foundry Core Compatible Version](https://img.shields.io/badge/dynamic/json.svg?url=https%3A%2F%2Fraw.githubusercontent.com%2Fvoodoofrog%2Ffoundryvtt-celebrate%2Fmain%2Fpublic%2Fmodule.json&label=Foundry%20Version&query=$.compatibility.minimum&colorB=orange)
+[![ko-fi](https://img.shields.io/badge/-buy%20Elffriend--DnD%20a%20coke-red)](https://ko-fi.com/elffriend)
 
-Celebrate the good times! This module lets you shoot confetti with either some handy-dandy buttons on the chat sidebar or via provided macros. You can also configure the style and colour choices of your confetti which will be synced to other players. Note that settings like scale, multipliers, or glitter colour cycle deviations will _not_ be synced for the comfort of other players.
+## Celebrate the good times!
+This module lets you shoot confetti with either some handy-dandy buttons on the chat sidebar or via provided macros. You can also configure the style and colour choices of your confetti which will be synced to other players. Note that settings like scale, multipliers, or glitter colour cycle deviations will _not_ be synced for the comfort of other players.
 
 ## Installation
 
@@ -93,6 +95,6 @@ function makeConfetti() {
 
 Sound Effects from [Zapsplat.com](https://www.zapsplat.com/).
 
-This was originally forked from [Confetti](https://github.com/ElfFriend-DnD/foundryvtt-confetti) by ElfFriend-DnD
+This was originally forked from [Confetti](https://github.com/ElfFriend-DnD/foundryvtt-confetti) by ElfFriend-DnD so if you want to chuck some bones at anyone choose them not me. There's a badge above for it.
 
 The template used to bootstrap this module is [template-svelte-esm](https://github.com/typhonjs-fvtt-demo/template-svelte-esm) by TyphonJs who also provided some help.
