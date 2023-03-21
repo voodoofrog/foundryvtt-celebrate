@@ -16,7 +16,7 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 
 ## Screenshots
 
-![Demonstration of the Confetti.](readme-img/cover-image.png)
+![Demonstration of the Confetti.](screenshot.png)
 
 ## Configuration
 
@@ -32,7 +32,7 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 |                            | Base Glitter: Glitter derived from the base colour.                                                                                               |
 | Glitter Colour Deviation   | How much deviation from the starting colour you want when colour cycling the glitter pieces.                                                      |
 | Mute                       | If _you_ think those sounds are annoying, imagine being the guy writing this thing.                                                               |
-| Rapid Fire Limit (Seconds) | [WORLD SETTING] Sometimes there *needs* to be a limit. (0 is no limit)                                                                            |
+| Rapid Fire Limit (Seconds) | [WORLD SETTING] Sometimes there _needs_ to be a limit. (0 is no limit)                                                                            |
 | Show Button                | Disable if you are only interested in using it from macros/modules and/or the button conflicts with other module(s).                              |
 
 ## Compatibility
@@ -44,7 +44,9 @@ No known issues at this time, but if you spot any be sure to report it.
 After the hook `celebrateReady` is fired, the following api methods are expected to be on `window.confetti`:
 
 ### `confettiStrength`
+
 a typescript enum:
+
 ```ts
 enum ConfettiStrength {
   'low' = 0,
@@ -82,13 +84,13 @@ function makeConfetti() {
 }
 ```
 
-
 ## Known Issues
 
 - Spamming the confetti buttons could cause serious slow down or crashes. That's what the Fire Limit is for.
 - If you set the Confetti Multiplier to max, things could get dicey, but it largely depends on your machine.
 
 ## Acknowledgements
+
 Sound Effects from [Zapsplat.com](https://www.zapsplat.com/).
 
 This was originally forked from [Confetti](https://github.com/ElfFriend-DnD/foundryvtt-confetti) by ElfFriend-DnD
