@@ -16,6 +16,7 @@ export function registerSettings() {
     scope: 'world',
     config: true,
     hint: `${MODULE_ABBREV}.settings.${MySettings.GmOnly}.Hint`,
+    onChange: debouncedReload,
   });
 
   game.settings.register(MODULE_ID, MySettings.ConfettiMultiplier, {
@@ -23,7 +24,7 @@ export function registerSettings() {
     default: 1,
     type: Number,
     scope: 'client',
-    range: { min: 0.1, max: 10, step: 0.1 },
+    range: { min: 0.1, max: 3, step: 0.1 },
     config: true,
     hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiMultiplier}.Hint`,
   });

@@ -1,5 +1,6 @@
 {
   "CEL": {
+    "gm_warning": "The GM has restricted the use of confetti to GMs only!",
     "title": "Celebrate",
     "intensity": {
       "low": "Low Intensity",

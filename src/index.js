@@ -12,13 +12,17 @@ Hooks.once('init', async () => {
 });
 
 Hooks.on('renderChatLog', (app, html) => {
+  const gmOnly = game.settings.get(MODULE_ID, MySettings.GmOnly);
   const showButton = game.settings.get(MODULE_ID, MySettings.ShowButton);
+
   if (showButton) {
-    const chatForm = html.find('#chat-form');
-    const div = document.createElement('div');
-    div.className = 'flex0';
-    chatForm.after(div);
-    new CelebrateButtons({ target: div });
+    if (!gmOnly || game.user.isGM) {
+      const chatForm = html.find('#chat-form');
+      const div = document.createElement('div');
+      div.className = 'flex0';
+      chatForm.after(div);
+      new CelebrateButtons({ target: div });
+    }
   }
 });
 

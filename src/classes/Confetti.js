@@ -1,6 +1,6 @@
 import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
 import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
-import { ConfettiStrength, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
+import { ConfettiStrength, MODULE_ABBREV, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
 import { log, random, hexToRGBA, constrainIntToBounds } from '../helpers';
 
 const DECAY = 3;
@@ -375,9 +375,14 @@ export class Confetti {
   shootConfetti(shootConfettiProps) {
     const socketProps = { data: shootConfettiProps };
     const rapidFireLimit = game.settings.get(MODULE_ID, MySettings.RapidFireLimit);
+    const gmOnly = game.settings.get(MODULE_ID, MySettings.GmOnly);
 
     if (this.isOnCooldown) {
       log(false, 'shootConfetti prevented by rapid fire setting');
+      return;
+    } else if (gmOnly && !game.user.isGM) {
+      log(false, 'shootConfetti prevented by gm only setting');
+      ui.notifications.warn(game.i18n.localize(`${MODULE_ABBREV}.gm_warning`));
       return;
     } else {
       this.isOnCooldown = true;
