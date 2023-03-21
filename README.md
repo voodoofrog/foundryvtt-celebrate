@@ -45,31 +45,31 @@ After the hook `celebrateReady` is fired, the following api methods are expected
 
 ### `confettiStrength`
 
-a typescript enum:
+a javascript object:
 
-```ts
-enum ConfettiStrength {
-  'low' = 0,
-  'med' = 1,
-  'high' = 2,
-}
+```js
+const ConfettiStrength = {
+  low: 0,
+  med: 1,
+  high: 2,
+};
 ```
 
-### `getShootConfettiProps(strength: ConfettiStrength)`
+### `getShootConfettiProps(strength: (1 | 2 | 3))`
 
 Returns the properties that `handleShootConfetti` and `shootConfetti` use based on the strength you feed it.
 
-### `handleShootConfetti(shootConfettiProps: ShootConfettiProps)`
+### `handleShootConfetti({ amount, ...shootConfettiProps }: ShootConfettiProps)`
 
 Makes the appropriate amount of confetti fire on only the current user's screen.
 
-### `shootConfetti(shootConfettiProps: ShootConfettiProps)`
+### `Confetti.shootConfetti(shootConfettiProps: ShootConfettiProps)`
 
 Makes the appropriate amount of confetti fire on all clients' screens.
 
 ### Example:
 
-```ts
+```js
 function makeConfetti() {
   const strength = window.confetti.confettiStrength.low;
   const shootConfettiProps = window.confetti.getShootConfettiProps(strength);
