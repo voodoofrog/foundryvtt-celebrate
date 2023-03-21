@@ -83,13 +83,15 @@ export function registerSettings() {
     hint: `${MODULE_ABBREV}.settings.${MySettings.RapidFireLimit}.Hint`,
   });
 
-  game.settings.register(MODULE_ID, MySettings.ShowButton, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.ShowButton}.Name`,
-    default: true,
-    type: Boolean,
-    scope: 'client',
-    config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.ShowButton}.Hint`,
-    onChange: debouncedReload,
-  });
+  if (!game.settings.get(MODULE_ID, MySettings.GmOnly) || game.user.isGM) {
+    game.settings.register(MODULE_ID, MySettings.ShowButton, {
+      name: `${MODULE_ABBREV}.settings.${MySettings.ShowButton}.Name`,
+      default: true,
+      type: Boolean,
+      scope: 'client',
+      config: true,
+      hint: `${MODULE_ABBREV}.settings.${MySettings.ShowButton}.Hint`,
+      onChange: debouncedReload,
+    });
+  }
 }
