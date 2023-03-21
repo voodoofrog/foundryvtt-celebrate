@@ -55,7 +55,7 @@ const ConfettiStrength = {
 };
 ```
 
-### `getShootConfettiProps(strength: (1 | 2 | 3))`
+### `getShootConfettiProps(strength: (0 | 1 | 2))`
 
 Returns the properties that `handleShootConfetti` and `shootConfetti` use based on the strength you feed it.
 

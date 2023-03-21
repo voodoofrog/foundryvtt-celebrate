@@ -275,7 +275,7 @@ export class Confetti {
   /**
    * Get ShootConfettiProps from strength
    *
-   * @param {(1|2|3)} strength The input strength
+   * @param {(0|1|2)} strength The input strength
    *
    * @returns {object} The props
    */
