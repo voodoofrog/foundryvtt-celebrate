@@ -268,13 +268,21 @@ export class Confetti {
    * @returns {object} The props
    */
   static getShootConfettiProps(strength) {
+    const style = game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice);
+
     const shootConfettiProps = {
       strength,
-      cColor: game.settings.get(MODULE_ID, MySettings.ConfettiColorBase),
-      cStyle: game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice),
+      cStyle: style,
       cScale: game.settings.get(MODULE_ID, MySettings.ConfettiScale),
-      cgDeviation: game.settings.get(MODULE_ID, MySettings.ConfettiGlitterDeviation),
     };
+
+    if (style === 'base' || style === 'baseGlitter') {
+      shootConfettiProps.cColor = game.settings.get(MODULE_ID, MySettings.ConfettiColorBase);
+    }
+
+    if (style === 'glitter' || style === 'baseGlitter') {
+      shootConfettiProps.cgDeviation = game.settings.get(MODULE_ID, MySettings.ConfettiGlitterDeviation);
+    }
 
     switch (strength) {
       case ConfettiStrength.high:
