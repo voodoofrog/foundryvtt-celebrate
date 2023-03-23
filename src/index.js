@@ -49,6 +49,6 @@ Hooks.once('ready', () => {
     insertAfter: `${MODULE_ID}.${MySettings.ConfettiScale}`,
   });
 
-  console.log('Celebrate | Ready');
   new Confetti();
+  console.log('Celebrate | Ready');
 });
