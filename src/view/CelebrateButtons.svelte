@@ -10,13 +10,13 @@
   const med = game.i18n.localize(`${MODULE_ABBREV}.intensity.med`);
   const high = game.i18n.localize(`${MODULE_ABBREV}.intensity.high`);
 
+  let isOnCooldown = false;
+
   function onClick(strength) {
     const confettiStrength = ConfettiStrength[strength];
     const shootConfettiProps = Confetti.getShootConfettiProps(confettiStrength);
     Confetti.instance.shootConfetti(shootConfettiProps);
   }
-
-  let isOnCooldown = false;
 
   cooldownStore.subscribe((value) => {
     isOnCooldown = value;
