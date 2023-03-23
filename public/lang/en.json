@@ -49,6 +49,14 @@
       "show-button": {
         "Name": "Show Button",
         "Hint": "(Requires reload) Disable if you are only interested in using it from macros/modules and/or the button conflicts with other module(s)."
+      },
+      "allow-other-confetti-scale": {
+        "Name": "Show Other Players Confetti Scale",
+        "Hint": "Tick if you want to see the confetti from other players scaled by their settings."
+      },
+      "allow-other-confetti-deviation": {
+        "Name": "Show Other Players Glitter Deviation",
+        "Hint": "Tick if you want to see the glitter confetti from other players colour cycled by their settings."
       }
     }
   }

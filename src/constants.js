@@ -24,4 +24,6 @@ export const MySettings = {
   Mute: 'mute',
   RapidFireLimit: 'rapid-fire-limit',
   ShowButton: 'show-button',
+  AllowOtherConfettiScale: 'allow-other-confetti-scale',
+  AllowOtherConfettiDeviation: 'allow-other-confetti-deviation',
 };

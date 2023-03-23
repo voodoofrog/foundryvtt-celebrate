@@ -88,6 +88,34 @@ export const registerSettings = () => {
 
   settings.register({
     namespace: MODULE_ID,
+    key: MySettings.AllowOtherConfettiScale,
+    folder: 'general',
+    options: {
+      name: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiScale}.Name`,
+      default: true,
+      type: Boolean,
+      scope: 'client',
+      config: true,
+      hint: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiScale}.Hint`,
+    },
+  });
+
+  settings.register({
+    namespace: MODULE_ID,
+    key: MySettings.AllowOtherConfettiDeviation,
+    folder: 'general',
+    options: {
+      name: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiDeviation}.Name`,
+      default: true,
+      type: Boolean,
+      scope: 'client',
+      config: true,
+      hint: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiDeviation}.Hint`,
+    },
+  });
+
+  settings.register({
+    namespace: MODULE_ID,
     key: MySettings.ConfettiStyleChoice,
     folder: 'appearance',
     options: {
