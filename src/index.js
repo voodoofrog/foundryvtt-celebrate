@@ -46,7 +46,7 @@ Hooks.once('ready', () => {
     restricted: false,
     defaultColor: '#000000ff',
     scope: 'client',
-    insertAfter: `${MODULE_ID}.${MySettings.ConfettiScale}`,
+    insertAfter: `${MODULE_ID}.${MySettings.Mute}`,
   });
 
   new Confetti();
