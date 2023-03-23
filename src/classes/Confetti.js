@@ -105,18 +105,7 @@ export class Confetti {
    * @returns {Array} An array of sound player functions
    */
   _preloadSounds() {
-    return Object.values(SOUNDS).map(
-      (soundPath) => () =>
-        AudioHelper.play(
-          {
-            src: soundPath,
-            autoplay: false,
-            volume: 0,
-            loop: false,
-          },
-          false,
-        ),
-    );
+    return Object.values(SOUNDS).map((soundPath) => () => game.audio.preload(soundPath));
   }
 
   /**
@@ -275,7 +264,7 @@ export class Confetti {
    */
   static getShootConfettiProps(strength) {
     const shootConfettiProps = {
-      sound: SOUNDS[strength],
+      strength,
       cColor: game.settings.get(MODULE_ID, MySettings.ConfettiColorBase),
       cStyle: game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice),
     };
@@ -319,7 +308,7 @@ export class Confetti {
     canvas.app.ticker.add(this.render, this);
 
     if (!mute) {
-      AudioHelper.play({ src: shootConfettiProps.sound, volume: 0.8, autoplay: true, loop: false }, true);
+      game.audio.play(SOUNDS[shootConfettiProps.strength], { volume: 0.8 });
     }
 
     // bottom left
