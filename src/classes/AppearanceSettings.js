@@ -38,9 +38,8 @@ export class AppearanceSettings extends FormApplication {
 
   async _updateObject(event, formData) {
     const settings = expandObject(formData);
-    game.settings.set(MODULE_ID, MySettings.ConfettiColorBase, settings[MySettings.ConfettiColorBase]);
-    game.settings.set(MODULE_ID, MySettings.ConfettiStyleChoice, settings[MySettings.ConfettiStyleChoice]);
-    game.settings.set(MODULE_ID, MySettings.ConfettiGlitterDeviation, settings[MySettings.ConfettiGlitterDeviation]);
-    game.settings.set(MODULE_ID, MySettings.ConfettiScale, settings[MySettings.ConfettiScale]);
+    Object.keys(settings).forEach((key) => {
+      game.settings.set(MODULE_ID, key, settings[key]);
+    });
   }
 }
