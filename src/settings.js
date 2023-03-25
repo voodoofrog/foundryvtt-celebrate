@@ -77,6 +77,17 @@ export const registerSettings = () => {
     hint: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiDeviation}.Hint`,
   });
 
+  game.settings.registerMenu(MODULE_ID, MySettings.AppearanceMenu, {
+    name: 'Confetti Appearance',
+    label: 'Configure Confetti',
+    hint: 'Change your confetti appearance.',
+    icon: 'fas fa-bars',
+    type: AppearanceSettings,
+    restricted: false,
+  });
+};
+
+export const registerAppearanceSettings = () => {
   game.settings.register(MODULE_ID, MySettings.ConfettiColorBase, {
     default: true,
     type: String,
@@ -103,14 +114,5 @@ export const registerSettings = () => {
     type: Number,
     scope: 'client',
     config: false,
-  });
-
-  game.settings.registerMenu(MODULE_ID, MySettings.AppearanceMenu, {
-    name: 'Confetti Appearance',
-    label: 'Configure Confetti',
-    hint: 'Change your confetti appearance.',
-    icon: 'fas fa-bars',
-    type: AppearanceSettings,
-    restricted: false,
   });
 };

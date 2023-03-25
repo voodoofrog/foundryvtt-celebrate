@@ -1,5 +1,5 @@
 import { MODULE_ID, MySettings, MODULE_ABBREV } from './constants';
-import { registerSettings } from './settings';
+import { registerAppearanceSettings, registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import { Confetti } from './classes/Confetti';
 import { writable } from 'svelte/store';
@@ -12,6 +12,7 @@ Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
 
 Hooks.once('init', async () => {
   registerSettings();
+  registerAppearanceSettings();
 });
 
 Hooks.on('renderChatLog', (app, html) => {
