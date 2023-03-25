@@ -26,4 +26,5 @@ export const MySettings = {
   ShowButton: 'show-button',
   AllowOtherConfettiScale: 'allow-other-confetti-scale',
   AllowOtherConfettiDeviation: 'allow-other-confetti-deviation',
+  AppearanceMenu: 'confetti-appearance-menu',
 };

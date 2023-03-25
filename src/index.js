@@ -1,8 +1,9 @@
 import { MODULE_ID, MySettings, MODULE_ABBREV } from './constants';
-import { registerSettings } from './settings';
+import { registerSettings, registerAppearanceSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import { Confetti } from './classes/Confetti';
 import { writable } from 'svelte/store';
+import { AppearanceSettings } from './view/AppearanceSettings';
 
 export const cooldownStore = writable(false);
 
@@ -12,6 +13,7 @@ Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
 
 Hooks.once('init', async () => {
   registerSettings();
+  AppearanceSettings.settings = registerAppearanceSettings();
 });
 
 Hooks.on('renderChatLog', (app, html) => {
@@ -46,7 +48,6 @@ Hooks.once('ready', () => {
     restricted: false,
     defaultColor: '#000000ff',
     scope: 'client',
-    insertAfter: `${MODULE_ID}.${MySettings.AllowOtherConfettiDeviation}`,
   });
 
   new Confetti();
