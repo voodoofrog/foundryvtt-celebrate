@@ -5,7 +5,8 @@
 [![ko-fi](https://img.shields.io/badge/-buy%20Elffriend--DnD%20a%20coke-red)](https://ko-fi.com/elffriend)
 
 ## Celebrate the good times!
-This module lets you shoot confetti with either some handy-dandy buttons on the chat sidebar or via provided macros. You can also configure the style and colour choices of your confetti which will be synced to other players. Note that settings like scale, multipliers, or glitter colour cycle deviations will _not_ be synced for the comfort of other players.
+
+This module lets you shoot confetti with either some handy-dandy buttons on the chat sidebar or via provided macros. You can also configure the style and color choices of your confetti which will be synced to other players. Note that settings like scale, multipliers, or glitter color cycle deviations will _not_ be synced for the comfort of other players.
 
 ## Installation
 
@@ -26,12 +27,12 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 | GM Only                   | [WORLD SETTING] If your players are abusing the confetti, enable this and prevent them shooting it.               |
 | Confetti Multiplier       | Multiplies the amount of confetti pieces fired. Set this high at your own peril!                                  |
 | Confetti Scale            | How big you want your confetti pieces to be.                                                                      |
-| Confetti Colour Base      | Confetti will be coloured with this as the base colour.                                                           |
-| Confetti Style Choice     | Default: Multi coloured confetti.                                                                                 |
-|                           | Base Colour: Confetti with the chosen colour above.                                                               |
-|                           | Glitter: Sparkly colour cycling confetti.                                                                         |
-|                           | Base Glitter: Glitter derived from the base colour.                                                               |
-| Glitter Colour Deviation  | How much deviation from the starting colour you want when the glitter pieces are colour cycled.                   |
+| Confetti Color Base       | Confetti will be colored with this as the base color.                                                             |
+| Confetti Style Choice     | Default: Multi colored confetti.                                                                                  |
+|                           | Base Color: Confetti with the chosen color above.                                                                 |
+|                           | Glitter: Sparkly color cycling confetti.                                                                          |
+|                           | Base Glitter: Glitter derived from the base color.                                                                |
+| Glitter Color Deviation   | How much deviation from the starting color you want when the glitter pieces are color cycled.                     |
 | Mute                      | Mutes the sound. Silence is golden?                                                                               |
 | Fire Rate Limit (Seconds) | [WORLD SETTING] Starts a cooldown after each shot. Highly recommended!                                            |
 | Show Button               | Disable if you are only interested in using it from macros/modules and/or the button conflicts with other things. |
