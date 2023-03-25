@@ -6,7 +6,7 @@
 
 ## Celebrate the good times!
 
-This module lets you shoot confetti with either some handy-dandy buttons on the chat sidebar or via provided macros. You can configure the style and colour choices of your confetti and these changes will be shown to other players when you fire! Also, if needed, you can change some settings to prevent certain effects from being displayed, see below for more details.
+This module lets you shoot confetti with either some handy-dandy buttons on the chat sidebar or via provided macros. You can configure the style and color choices of your confetti and these changes will be shown to other players when you fire! Also, if needed, you can change some settings to prevent certain effects from being displayed, see below for more details.
 
 ## Installation
 
@@ -30,13 +30,13 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 | Show Button                          | Disable if you are only interested in using it from macros/modules and/or the button conflicts with other things. |
 | Mute                                 | Mutes the sound. Silence is golden?                                                                               |
 | Show Other Players Confetti Scale    | Tick if you want to see the confetti from other players scaled by their settings.                                 |
-| Show Other Players Glitter Deviation | Tick if you want to see the glitter confetti from other players colour cycled by their settings.                  |
-| Confetti Colour Base                 | Confetti will be coloured with this as the base colour.                                                           |
-| Confetti Style Choice                | Default: Multi coloured confetti.                                                                                 |
-|                                      | Base Colour: Confetti with the chosen colour above.                                                               |
-|                                      | Glitter: Sparkly colour cycling confetti.                                                                         |
-|                                      | Base Glitter: Glitter derived from the base colour.                                                               |
-| Glitter Colour Deviation             | How much deviation from the starting colour you want when the glitter pieces are colour cycled.                   |
+| Show Other Players Glitter Deviation | Tick if you want to see the glitter confetti from other players color cycled by their settings.                   |
+| Confetti Color Base                  | Confetti will be colored with this as the base color.                                                             |
+| Confetti Style Choice                | Default: Multi colored confetti.                                                                                  |
+|                                      | Base Color: Confetti with the chosen color above.                                                                 |
+|                                      | Glitter: Sparkly color cycling confetti.                                                                          |
+|                                      | Base Glitter: Glitter derived from the base color.                                                                |
+| Glitter Color Deviation              | How much deviation from the starting color you want when the glitter pieces are color cycled.                     |
 | Confetti Scale                       | How big you want your confetti pieces to be.                                                                      |
 
 ## Compatibility
