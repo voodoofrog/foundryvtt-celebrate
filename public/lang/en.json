@@ -1,5 +1,6 @@
 {
   "CEL": {
+    "apply": "Apply",
     "gm_warning": "The GM has restricted the use of confetti to GMs only!",
     "title": "Celebrate",
     "intensity": {
@@ -7,6 +8,7 @@
       "med": "Medium Intensity",
       "high": "High Intensity!"
     },
+    "test": "Test Settings",
     "settings": {
       "gm-only": {
         "Name": "GM Only",
