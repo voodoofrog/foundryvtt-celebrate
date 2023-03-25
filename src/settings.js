@@ -78,9 +78,9 @@ export const registerSettings = () => {
   });
 
   game.settings.registerMenu(MODULE_ID, MySettings.AppearanceMenu, {
-    name: 'Confetti Appearance',
-    label: 'Configure Confetti',
-    hint: 'Change your confetti appearance.',
+    name: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Name`,
+    label: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Label`,
+    hint: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Hint`,
     icon: 'fas fa-bars',
     type: AppearanceSettings,
     restricted: false,

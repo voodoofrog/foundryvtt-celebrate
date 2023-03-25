@@ -11,7 +11,7 @@ export class AppearanceSettings extends FormApplication {
       id: 'confetti-appearance-settings',
       submitOnChange: false,
       template: TEMPLATES.APPEARANCE_SETTINGS,
-      title: 'LOCALIZE ME',
+      title: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Title`,
       classes: ['sheet'],
     };
 
