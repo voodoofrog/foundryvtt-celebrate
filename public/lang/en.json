@@ -33,9 +33,9 @@
         "name": "Show Buttons",
         "hint": "(Requires reload) Disable if you are only interested in using it from macros/modules and/or the buttons conflict with other module(s)."
       },
-      "muteSounds": {
-        "name": "Mute Sounds",
-        "hint": "Mutes the confetti firing sounds. Silence is golden?"
+      "soundVolume": {
+        "name": "Sound Volume",
+        "hint": "Sets the volume for the confetti firing sounds."
       },
       "showOthersConfettiScale": {
         "name": "Show Other Players Confetti Scale",

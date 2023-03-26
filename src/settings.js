@@ -50,19 +50,20 @@ export const registerSettings = () => {
     onChange: debouncedReload,
   });
 
-  game.settings.register(MODULE_ID, SETTINGS.MUTE_SOUNDS, {
-    name: `${MODULE_ID}.settings.${SETTINGS.MUTE_SOUNDS}.name`,
-    default: false,
-    type: Boolean,
+  game.settings.register(MODULE_ID, SETTINGS.SOUND_VOLUME, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SOUND_VOLUME}.name`,
+    default: 0.8,
+    type: Number,
     scope: 'client',
+    range: { min: 0.0, max: 1, step: 0.1 },
     config: true,
-    hint: `${MODULE_ID}.settings.${SETTINGS.MUTE_SOUNDS}.hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SOUND_VOLUME}.hint`,
   });
 
   game.settings.register(MODULE_ID, SETTINGS.SHOW_OTHERS_CONFETTI_SCALE, {
     name: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_CONFETTI_SCALE}.name`,
     default: true,
-    type: Boolean,
+    type: Number,
     scope: 'client',
     config: true,
     hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_CONFETTI_SCALE}.hint`,

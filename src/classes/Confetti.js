@@ -13,9 +13,9 @@ const {
   CONFETTI_MULTIPLIER,
   FIRE_RATE_LIMIT,
   GM_ONLY,
-  MUTE_SOUNDS,
   SHOW_OTHERS_CONFETTI_SCALE,
   SHOW_OTHERS_GLITTER_DEVIATION,
+  SOUND_VOLUME,
 } = SETTINGS;
 
 /**
@@ -321,12 +321,13 @@ export class Confetti {
     });
 
     const confettiMultiplier = game.settings.get(MODULE_ID, CONFETTI_MULTIPLIER);
-    const mute = game.settings.get(MODULE_ID, MUTE_SOUNDS);
+    const volume = game.settings.get(MODULE_ID, SOUND_VOLUME);
+    const mute = volume === 0.0;
 
     canvas.app.ticker.add(this.render, this);
 
     if (!mute) {
-      game.audio.play(SOUNDS[shootConfettiProps.strength], { volume: 0.8 });
+      game.audio.play(SOUNDS[shootConfettiProps.strength], { volume });
     }
 
     // bottom left
