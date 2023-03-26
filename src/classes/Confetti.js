@@ -1,12 +1,13 @@
 import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
 import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
 import { ConfettiStrength, MODULE_ABBREV, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
-import { log, random, hexToRGBA, constrainIntToBounds } from '../helpers';
+import { log, random } from '../helpers';
 import { cooldownStore } from '../index';
 
 const DECAY = 3;
 const SPREAD = 50;
 const GRAVITY = 1200;
+const RGB_SCALAR = 1 / 255;
 
 /**
  * Stolen right from Dice so Nice and butchered
@@ -132,10 +133,15 @@ export class Confetti {
     }
   }
 
-  _generateRandomColorMinMax(hex, deviation = 50) {
-    const min = constrainIntToBounds(hex - deviation);
-    const max = constrainIntToBounds(hex + deviation);
-    return random(min, max);
+  _randomizeShade(color, maxDeviation = 50) {
+    const randomDeviation = Math.round(random(0, maxDeviation));
+    const scaledRandomDeviation = RGB_SCALAR * randomDeviation;
+
+    if (Math.random() < 0.5) {
+      return color.subtract(scaledRandomDeviation);
+    } else {
+      return color.add(scaledRandomDeviation);
+    }
   }
 
   /**
@@ -150,7 +156,7 @@ export class Confetti {
     const allowSyncDeviation = game.settings.get(MODULE_ID, MySettings.AllowOtherConfettiDeviation);
     const confettiScale = allowSyncScale && cScale ? cScale : game.settings.get(MODULE_ID, MySettings.ConfettiScale);
     const style = cStyle || game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice);
-    const confettiColor = hexToRGBA(cColor || game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
+    const confettiColor = Color.from(cColor || game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
     const gDeviation =
       allowSyncDeviation && cgDeviation
         ? cgDeviation
@@ -163,9 +169,10 @@ export class Confetti {
 
       let blue, green, red;
       if (style === 'base' || style === 'baseGlitter') {
-        red = this._generateRandomColorMinMax(confettiColor[0]);
-        green = this._generateRandomColorMinMax(confettiColor[1]);
-        blue = this._generateRandomColorMinMax(confettiColor[2]);
+        const randomShade = this._randomizeShade(confettiColor);
+        red = randomShade.r * 255;
+        green = randomShade.g * 255;
+        blue = randomShade.b * 255;
       } else {
         red = random(50, 255);
         green = random(50, 200);
@@ -189,7 +196,7 @@ export class Confetti {
         tilt,
         tiltAngleIncremental,
         tiltAngle,
-        originalColor: { red, green, blue },
+        originalColor: { red: red / 255, green: green / 255, blue: blue / 255 },
         style,
         gDeviation,
       };
@@ -232,20 +239,9 @@ export class Confetti {
 
       const getColor = () => {
         if (sprite.style === 'glitter' || sprite.style === 'baseGlitter') {
-          let blue, green, red;
-          // select if should be black or white for the frame for glittery effect
-          if (Math.random() < 0.33) {
-            if (Math.random() < 0.5) {
-              red = green = blue = 255;
-            } else {
-              red = green = blue = 0;
-            }
-          } else {
-            red = this._generateRandomColorMinMax(sprite.originalColor.red, sprite.gDeviation);
-            green = this._generateRandomColorMinMax(sprite.originalColor.green, sprite.gDeviation);
-            blue = this._generateRandomColorMinMax(sprite.originalColor.blue, sprite.gDeviation);
-          }
-          return `rgb(${red}, ${green}, ${blue})`;
+          const { red, green, blue } = sprite.originalColor;
+          const randomShade = this._randomizeShade(Color.fromRGB([red, green, blue]), sprite.gDeviation);
+          return `rgb(${randomShade.r * 255}, ${randomShade.g * 255}, ${randomShade.b * 255})`;
         }
 
         return sprite.color;
