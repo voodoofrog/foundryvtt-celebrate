@@ -1,14 +1,6 @@
 import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
 import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
-import {
-  CONFETTI_STRENGTH,
-  CONFETTI_STYLES,
-  MODULE_ABBREV,
-  MODULE_ID,
-  SETTINGS,
-  SOUNDS,
-  WINDOW_ID,
-} from '../constants';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, SOUNDS, WINDOW_ID } from '../constants';
 import { log, random } from '../helpers';
 import { cooldownStore } from '../index';
 
@@ -387,7 +379,7 @@ export class Confetti {
       return;
     } else if (gmOnly && !game.user.isGM) {
       log(false, 'shootConfetti prevented by gm only setting');
-      ui.notifications.warn(game.i18n.localize(`${MODULE_ABBREV}.gm_warning`));
+      ui.notifications.warn(game.i18n.localize(`${MODULE_ID}.gmWarning`));
       return;
     } else {
       cooldownStore.set(true);

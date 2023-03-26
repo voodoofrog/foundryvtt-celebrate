@@ -1,5 +1,4 @@
 export const MODULE_ID = 'celebrate';
-export const MODULE_ABBREV = 'CEL';
 export const WINDOW_ID = 'confetti';
 
 export const CONFETTI_STRENGTH = {

@@ -1,6 +1,16 @@
 {
   "celebrate": {
-    "common": {},
+    "buttons": {
+      "title": "Celebrate",
+      "intensity": {
+        "low": "Low Intensity",
+        "med": "Medium Intensity",
+        "high": "High Intensity!"
+      }
+    },
+    "notifications": {
+      "gmWarning": "The GM has restricted the use of confetti to GMs only!"
+    },
     "settings": {
       "appearanceMenu": {
         "name": "Confetti Appearance",

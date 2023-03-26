@@ -1,14 +1,14 @@
 <svelte:options accessors={true} />
 
 <script>
-  import { CONFETTI_STRENGTH, MODULE_ABBREV } from '../constants';
+  import { CONFETTI_STRENGTH, MODULE_ID } from '../constants';
   import { Confetti } from '../classes/Confetti';
   import { cooldownStore } from '../index';
 
-  const title = game.i18n.localize(`${MODULE_ABBREV}.title`);
-  const low = game.i18n.localize(`${MODULE_ABBREV}.intensity.low`);
-  const med = game.i18n.localize(`${MODULE_ABBREV}.intensity.med`);
-  const high = game.i18n.localize(`${MODULE_ABBREV}.intensity.high`);
+  const title = game.i18n.localize(`${MODULE_ID}.buttons.title`);
+  const low = game.i18n.localize(`${MODULE_ID}.buttons.intensity.low`);
+  const med = game.i18n.localize(`${MODULE_ID}.buttons.intensity.med`);
+  const high = game.i18n.localize(`${MODULE_ID}.buttons.intensity.high`);
 
   let isOnCooldown = false;
 
