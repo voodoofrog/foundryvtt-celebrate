@@ -58,6 +58,11 @@
         "confettiScale": {
           "name": "Confetti Scale",
           "hint": "How big you want your confetti pieces to be."
+        },
+        "buttons": {
+          "test": "Test Settings",
+          "cancel": "Cancel",
+          "submit": "Save"
         }
       }
     }
