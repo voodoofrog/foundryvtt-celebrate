@@ -1,7 +1,7 @@
 <svelte:options accessors={true} />
 
 <script>
-  import { ConfettiStrength, MODULE_ABBREV } from '../constants';
+  import { CONFETTI_STRENGTH, MODULE_ABBREV } from '../constants';
   import { Confetti } from '../classes/Confetti';
   import { cooldownStore } from '../index';
 
@@ -13,7 +13,7 @@
   let isOnCooldown = false;
 
   function onClick(strength) {
-    const confettiStrength = ConfettiStrength[strength];
+    const confettiStrength = CONFETTI_STRENGTH[strength];
     const shootConfettiProps = Confetti.getShootConfettiProps(confettiStrength);
     Confetti.instance.shootConfetti(shootConfettiProps);
   }

@@ -1,24 +1,29 @@
-import { MODULE_ABBREV, MODULE_ID, MySettings, TEMPLATES } from '../constants';
+import { CONFETTI_STYLES, MODULE_ID, SETTINGS, TEMPLATES } from '../constants';
 import { log } from '../helpers';
 import { Confetti } from './Confetti';
 
-const choiceData = {
-  style_choices: {
-    default: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.Default`,
-    base: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.Base`,
-    glitter: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.Glitter`,
-    baseGlitter: `${MODULE_ABBREV}.settings.${MySettings.ConfettiStyleChoice}.Choices.BaseGlitter`,
-  },
+const {
+  APPEARANCE: { CONFETTI_COLOR_BASE, CONFETTI_STYLE_CHOICE, CONFETTI_GLITTER_DEVIATION, CONFETTI_SCALE },
+} = SETTINGS;
+
+const buildChoiceData = () => {
+  const styleObj = {
+    style_choices: {},
+  };
+  Object.keys(CONFETTI_STYLES).forEach((key) => {
+    styleObj.style_choices[key] = CONFETTI_STYLES[key].translation;
+  });
+  return styleObj;
 };
 
 export class AppearanceSettings extends FormApplication {
   constructor() {
     super();
     this.tempData = {
-      'confetti-color-base': game.settings.get(MODULE_ID, MySettings.ConfettiColorBase),
-      'confetti-style-choice': game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice),
-      'confetti-glitter-deviation': game.settings.get(MODULE_ID, MySettings.ConfettiGlitterDeviation),
-      'confetti-scale': game.settings.get(MODULE_ID, MySettings.ConfettiScale),
+      [CONFETTI_COLOR_BASE]: game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE),
+      [CONFETTI_STYLE_CHOICE]: game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE),
+      [CONFETTI_GLITTER_DEVIATION]: game.settings.get(MODULE_ID, CONFETTI_GLITTER_DEVIATION),
+      [CONFETTI_SCALE]: game.settings.get(MODULE_ID, CONFETTI_SCALE),
     };
   }
 
@@ -30,12 +35,12 @@ export class AppearanceSettings extends FormApplication {
       height: 'auto',
       id: 'confetti-appearance-settings',
       template: TEMPLATES.APPEARANCE_SETTINGS,
-      title: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Title`,
+      title: `${MODULE_ID}.settings.appearance.windowTitle`,
     });
   }
 
   getData() {
-    return { ...this.tempData, ...choiceData };
+    return { ...this.tempData, ...buildChoiceData() };
   }
 
   async _updateObject(_, formData) {
@@ -54,10 +59,10 @@ export class AppearanceSettings extends FormApplication {
     const testFireProps = {
       amount: 200,
       velocity: 3000,
-      cStyle: event.delegateTarget[MySettings.ConfettiStyleChoice].value,
-      cColor: event.delegateTarget[MySettings.ConfettiColorBase]?.value,
-      cScale: event.delegateTarget[MySettings.ConfettiScale]?.value,
-      cgDeviation: event.delegateTarget[MySettings.ConfettiGlitterDeviation]?.value,
+      cStyle: event.delegateTarget[CONFETTI_STYLE_CHOICE].value,
+      cColor: event.delegateTarget[CONFETTI_COLOR_BASE]?.value,
+      cScale: event.delegateTarget[CONFETTI_SCALE]?.value,
+      cgDeviation: event.delegateTarget[CONFETTI_GLITTER_DEVIATION]?.value,
       strength: 2,
     };
 

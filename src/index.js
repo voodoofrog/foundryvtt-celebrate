@@ -1,4 +1,4 @@
-import { MODULE_ID, MySettings } from './constants';
+import { MODULE_ID, SETTINGS } from './constants';
 import { registerAppearanceSettings, registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import { Confetti } from './classes/Confetti';
@@ -16,8 +16,8 @@ Hooks.once('init', async () => {
 });
 
 Hooks.on('renderChatLog', (app, html) => {
-  const gmOnly = game.settings.get(MODULE_ID, MySettings.GmOnly);
-  const showButton = game.settings.get(MODULE_ID, MySettings.ShowButton);
+  const gmOnly = game.settings.get(MODULE_ID, SETTINGS.GM_ONLY);
+  const showButton = game.settings.get(MODULE_ID, SETTINGS.SHOW_BUTTONS);
 
   if (showButton) {
     if (!gmOnly || game.user.isGM) {

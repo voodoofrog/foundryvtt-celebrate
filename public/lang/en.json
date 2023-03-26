@@ -1,71 +1,64 @@
 {
-  "CEL": {
-    "apply": "Apply",
-    "cancel": "Cancel",
-    "gm_warning": "The GM has restricted the use of confetti to GMs only!",
-    "title": "Celebrate",
-    "intensity": {
-      "low": "Low Intensity",
-      "med": "Medium Intensity",
-      "high": "High Intensity!"
-    },
-    "test": "Test Settings",
+  "celebrate": {
+    "common": {},
     "settings": {
-      "gm-only": {
-        "Name": "GM Only",
-        "Hint": "If your players are abusing the confetti, enable this and prevent them shooting it."
+      "appearanceMenu": {
+        "name": "Confetti Appearance",
+        "label": "Configure Appearance",
+        "hint": "Change your confetti appearance."
       },
-      "confetti-multiplier": {
-        "Name": "Confetti Multiplier",
-        "Hint": "Multiplies the amount of confetti pieces fired. Set this high at your own peril!"
+      "gmOnly": {
+        "name": "GM Only",
+        "hint": "If your players are abusing the confetti, enable this and prevent them shooting it."
       },
-      "confetti-scale": {
-        "Name": "Confetti Scale",
-        "Hint": "How big you want your confetti pieces to be."
+      "fireRateLimit": {
+        "name": "Fire Rate Limit (Seconds)",
+        "hint": "Starts a cooldown after each shot. Highly recommended! (0 is no-limit)"
       },
-      "confetti-color-base": {
-        "Name": "Confetti Color Base",
-        "Hint": "Confetti will be colored with this as the base color if enabled below."
+      "confettiMultiplier": {
+        "name": "Confetti Multiplier",
+        "hint": "Multiplies the amount of confetti pieces fired. Set this high at your own peril!"
       },
-      "confetti-style-choice": {
-        "Name": "Confetti Style Choice",
-        "Hint": "Default: Multi colored confetti. | Base Color: Confetti with the chosen base color below. | Glitter: Sparkly color cycling confetti. | Base Glitter: Glitter derived from the base color.",
-        "Choices": {
-          "Default": "Default",
-          "Base": "Base Color",
-          "Glitter": "Glitter",
-          "BaseGlitter": "Base Glitter"
+      "showButtons": {
+        "name": "Show Buttons",
+        "hint": "(Requires reload) Disable if you are only interested in using it from macros/modules and/or the buttons conflict with other module(s)."
+      },
+      "muteSounds": {
+        "name": "Mute Sounds",
+        "hint": "Mutes the confetti firing sounds. Silence is golden?"
+      },
+      "showOthersConfettiScale": {
+        "name": "Show Other Players Confetti Scale",
+        "hint": "Tick if you want to see the confetti from other players scaled by their settings."
+      },
+      "showOthersGlitterDeviation": {
+        "name": "Show Other Players Glitter Deviation",
+        "hint": "Tick if you want to see the glitter confetti from other players colour cycled by their settings."
+      },
+      "appearance": {
+        "windowTitle": "Configure Confetti Appearance",
+        "confettiStyleChoice": {
+          "name": "Confetti Style Choice",
+          "hint": "Default: Multi colored confetti. | Base Color: Confetti with the chosen base color below. | Glitter: Sparkly color cycling confetti. | Base Glitter: Glitter derived from the base color.",
+          "choices": {
+            "default": "Default",
+            "base": "Base Color",
+            "glitter": "Glitter",
+            "baseGlitter": "Base Glitter"
+          }
+        },
+        "confettiColorBase": {
+          "name": "Confetti Color Base",
+          "hint": "Confetti will be colored with this as the base color if enabled below."
+        },
+        "confettiGlitterDeviation": {
+          "name": "Glitter Color Deviation",
+          "hint": "How much deviation from the starting color you want when the glitter pieces are color cycled."
+        },
+        "confettiScale": {
+          "name": "Confetti Scale",
+          "hint": "How big you want your confetti pieces to be."
         }
-      },
-      "confetti-glitter-deviation": {
-        "Name": "Glitter Color Deviation",
-        "Hint": "How much deviation from the starting color you want when the glitter pieces are color cycled."
-      },
-      "mute": {
-        "Name": "Mute",
-        "Hint": "Mutes the sound. Silence is golden?"
-      },
-      "rapid-fire-limit": {
-        "Name": "Fire Rate Limit (Seconds)",
-        "Hint": "Starts a cooldown after each shot. Highly recommended! (0 is no-limit)"
-      },
-      "show-button": {
-        "Name": "Show Button",
-        "Hint": "(Requires reload) Disable if you are only interested in using it from macros/modules and/or the button conflicts with other module(s)."
-      },
-      "allow-other-confetti-scale": {
-        "Name": "Show Other Players Confetti Scale",
-        "Hint": "Tick if you want to see the confetti from other players scaled by their settings."
-      },
-      "allow-other-confetti-deviation": {
-        "Name": "Show Other Players Glitter Deviation",
-        "Hint": "Tick if you want to see the glitter confetti from other players colour cycled by their settings."
-      },
-      "confetti-appearance-menu": {
-        "Name": "Confetti Appearance",
-        "Label": "Configure Appearance",
-        "Hint": "Change your confetti appearance.",
-        "Title": "Configure Confetti Appearance"
       }
     }
   }

@@ -30,8 +30,8 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 | GM Only                              | [WORLD SETTING] If your players are abusing the confetti, enable this and prevent them shooting it.               |
 | Fire Rate Limit (Seconds)            | [WORLD SETTING] Starts a cooldown after each shot. Highly recommended!                                            |
 | Confetti Multiplier                  | Multiplies the amount of confetti pieces fired. Set this high at your own peril!                                  |
-| Show Button                          | Disable if you are only interested in using it from macros/modules and/or the button conflicts with other things. |
-| Mute                                 | Mutes the sound. Silence is golden?                                                                               |
+| Show Buttons                         | Disable if you are only interested in using it from macros/modules and/or the buttons conflict with other things. |
+| Mute Sounds                          | Mutes the confetti firing sounds. Silence is golden?                                                              |
 | Show Other Players Confetti Scale    | Tick if you want to see the confetti from other players scaled by their settings.                                 |
 | Show Other Players Glitter Deviation | Tick if you want to see the glitter confetti from other players color cycled by their settings.                   |
 

@@ -1,5 +1,5 @@
 import { AppearanceSettings } from './classes/AppearanceSettings';
-import { MODULE_ABBREV, MODULE_ID, MySettings } from './constants';
+import { CONFETTI_STYLES, MODULE_ID, SETTINGS } from './constants';
 
 const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
 
@@ -10,77 +10,77 @@ export const registerSettings = () => {
   // Debug use
   CONFIG[MODULE_ID] = { debug: false };
 
-  game.settings.register(MODULE_ID, MySettings.GmOnly, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.GmOnly}.Name`,
+  game.settings.register(MODULE_ID, SETTINGS.GM_ONLY, {
+    name: `${MODULE_ID}.settings.${SETTINGS.GM_ONLY}.name`,
     default: false,
     type: Boolean,
     scope: 'world',
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.GmOnly}.Hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.GM_ONLY}.hint`,
     onChange: debouncedReload,
   });
 
-  game.settings.register(MODULE_ID, MySettings.RapidFireLimit, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.RapidFireLimit}.Name`,
+  game.settings.register(MODULE_ID, SETTINGS.FIRE_RATE_LIMIT, {
+    name: `${MODULE_ID}.settings.${SETTINGS.FIRE_RATE_LIMIT}.name`,
     default: 5,
     range: { min: 0, max: 10, step: 1 },
     type: Number,
     scope: 'world',
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.RapidFireLimit}.Hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.FIRE_RATE_LIMIT}.hint`,
   });
 
-  game.settings.register(MODULE_ID, MySettings.ConfettiMultiplier, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiMultiplier}.Name`,
+  game.settings.register(MODULE_ID, SETTINGS.CONFETTI_MULTIPLIER, {
+    name: `${MODULE_ID}.settings.${SETTINGS.CONFETTI_MULTIPLIER}.name`,
     default: 1,
     type: Number,
     scope: 'client',
     range: { min: 0.1, max: 3, step: 0.1 },
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiMultiplier}.Hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.CONFETTI_MULTIPLIER}.hint`,
   });
 
-  game.settings.register(MODULE_ID, MySettings.ShowButton, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.ShowButton}.Name`,
+  game.settings.register(MODULE_ID, SETTINGS.SHOW_BUTTONS, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SHOW_BUTTONS}.name`,
     default: true,
     type: Boolean,
     scope: 'client',
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.ShowButton}.Hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_BUTTONS}.hint`,
     onChange: debouncedReload,
   });
 
-  game.settings.register(MODULE_ID, MySettings.Mute, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.Mute}.Name`,
+  game.settings.register(MODULE_ID, SETTINGS.MUTE_SOUNDS, {
+    name: `${MODULE_ID}.settings.${SETTINGS.MUTE_SOUNDS}.name`,
     default: false,
     type: Boolean,
     scope: 'client',
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.Mute}.Hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.MUTE_SOUNDS}.hint`,
   });
 
-  game.settings.register(MODULE_ID, MySettings.AllowOtherConfettiScale, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiScale}.Name`,
+  game.settings.register(MODULE_ID, SETTINGS.SHOW_OTHERS_CONFETTI_SCALE, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_CONFETTI_SCALE}.name`,
     default: true,
     type: Boolean,
     scope: 'client',
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiScale}.Hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_CONFETTI_SCALE}.hint`,
   });
 
-  game.settings.register(MODULE_ID, MySettings.AllowOtherConfettiDeviation, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiDeviation}.Name`,
+  game.settings.register(MODULE_ID, SETTINGS.SHOW_OTHERS_GLITTER_DEVIATION, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_DEVIATION}.name`,
     default: true,
     type: Boolean,
     scope: 'client',
     config: true,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.AllowOtherConfettiDeviation}.Hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_DEVIATION}.hint`,
   });
 
-  game.settings.registerMenu(MODULE_ID, MySettings.AppearanceMenu, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Name`,
-    label: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Label`,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.AppearanceMenu}.Hint`,
+  game.settings.registerMenu(MODULE_ID, SETTINGS.MENU_APPEARANCE, {
+    name: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.name`,
+    label: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.label`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.hint`,
     icon: 'fas fa-bars',
     type: AppearanceSettings,
     restricted: false,
@@ -88,28 +88,28 @@ export const registerSettings = () => {
 };
 
 export const registerAppearanceSettings = () => {
-  game.settings.register(MODULE_ID, MySettings.ConfettiColorBase, {
-    default: true,
+  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_COLOR_BASE, {
+    default: '',
     type: String,
     scope: 'client',
     config: false,
   });
 
-  game.settings.register(MODULE_ID, MySettings.ConfettiStyleChoice, {
-    default: 'default',
+  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE, {
+    default: CONFETTI_STYLES.default.key,
     type: String,
     scope: 'client',
     config: false,
   });
 
-  game.settings.register(MODULE_ID, MySettings.ConfettiGlitterDeviation, {
+  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_GLITTER_DEVIATION, {
     default: 128,
     type: Number,
     scope: 'client',
     config: false,
   });
 
-  game.settings.register(MODULE_ID, MySettings.ConfettiScale, {
+  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE, {
     default: 1,
     type: Number,
     scope: 'client',

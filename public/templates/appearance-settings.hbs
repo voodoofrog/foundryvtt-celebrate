@@ -1,41 +1,41 @@
 <form>
   <section class="content">
     <div class="form-group">
-      <label>{{localize "CEL.settings.confetti-style-choice.Name"}}</label>
+      <label>{{localize "celebrate.settings.appearance.confettiStyleChoice.name"}}</label>
       <div class="form-fields">
-        <select name="confetti-style-choice">
-          {{selectOptions style_choices selected=confetti-style-choice localize=true}}
+        <select name="confettiStyleChoice">
+          {{selectOptions style_choices selected=confettiStyleChoice localize=true}}
         </select>
       </div>
-      <p class="notes">{{localize "CEL.settings.confetti-style-choice.Hint"}}</p>
+      <p class="notes">{{localize "celebrate.settings.appearance.confettiStyleChoice.hint"}}</p>
     </div>
-{{#unless (eq confetti-style-choice 'default')}}
- {{#unless (eq confetti-style-choice 'glitter')}}
+{{#unless (eq confettiStyleChoice 'default')}}
+  {{#unless (eq confettiStyleChoice 'glitter')}}
     <div class="form-group">
-      <label>{{localize "CEL.settings.confetti-color-base.Name"}}</label>
+      <label>{{localize "celebrate.settings.appearance.confettiColorBase.name"}}</label>
       <div class="form-fields">
-        {{ colorPicker name="confetti-color-base" value=confetti-color-base }}
+        {{ colorPicker name="confettiColorBase" value=confettiColorBase }}
       </div>
-      <p class="notes">{{localize "CEL.settings.confetti-color-base.Hint"}}</p>
-    </div>
-  {{/unless}}
-
-  {{#unless (eq confetti-style-choice 'base')}}
-    <div class="form-group">
-      <label>{{localize "CEL.settings.confetti-glitter-deviation.Name"}}</label>
-      <div class="form-fields">
-        {{rangePicker name="confetti-glitter-deviation" value=confetti-glitter-deviation min=0 max=255 step=1}}
-      </div>
-      <p class="notes">{{localize "CEL.settings.confetti-glitter-deviation.Hint"}}</p>
+      <p class="notes">{{localize "celebrate.settings.appearance.confettiColorBase.hint"}}</p>
     </div>
   {{/unless}}
 
+  {{#unless (eq confettiStyleChoice 'base')}}
     <div class="form-group">
-      <label>{{localize "CEL.settings.confetti-scale.Name"}}</label>
+      <label>{{localize "celebrate.settings.appearance.confettiGlitterDeviation.name"}}</label>
       <div class="form-fields">
-        {{rangePicker name="confetti-scale" value=confetti-scale min=0.3 max=2 step=0.1}}
+        {{rangePicker name="confettiGlitterDeviation" value=confettiGlitterDeviation min=0 max=255 step=1}}
       </div>
-      <p class="notes">{{localize "CEL.settings.confetti-glitter-deviation.Hint"}}</p>
+      <p class="notes">{{localize "celebrate.settings.appearance.confettiGlitterDeviation.hint"}}</p>
+    </div>
+  {{/unless}}
+
+    <div class="form-group">
+      <label>{{localize "celebrate.settings.appearance.confettiScale.name"}}</label>
+      <div class="form-fields">
+        {{rangePicker name="confettiScale" value=confettiScale min=0.3 max=2 step=0.1}}
+      </div>
+      <p class="notes">{{localize "celebrate.settings.appearance.confettiScale.hint"}}</p>
     </div>
   </section>
 {{/unless}}
