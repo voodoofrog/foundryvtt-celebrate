@@ -1,5 +1,7 @@
 {
   "CEL": {
+    "apply": "Apply",
+    "cancel": "Cancel",
     "gm_warning": "The GM has restricted the use of confetti to GMs only!",
     "title": "Celebrate",
     "intensity": {
@@ -7,6 +9,7 @@
       "med": "Medium Intensity",
       "high": "High Intensity!"
     },
+    "test": "Test Settings",
     "settings": {
       "gm-only": {
         "Name": "GM Only",
@@ -26,7 +29,7 @@
       },
       "confetti-style-choice": {
         "Name": "Confetti Style Choice",
-        "Hint": "Default: Multi colored confetti. | Base Color: Confetti with the chosen base color above. | Glitter: Sparkly color cycling confetti. | Base Glitter: Glitter derived from the base color.",
+        "Hint": "Default: Multi colored confetti. | Base Color: Confetti with the chosen base color below. | Glitter: Sparkly color cycling confetti. | Base Glitter: Glitter derived from the base color.",
         "Choices": {
           "Default": "Default",
           "Base": "Base Color",
@@ -57,6 +60,12 @@
       "allow-other-confetti-deviation": {
         "Name": "Show Other Players Glitter Deviation",
         "Hint": "Tick if you want to see the glitter confetti from other players colour cycled by their settings."
+      },
+      "confetti-appearance-menu": {
+        "Name": "Confetti Appearance",
+        "Label": "Configure Appearance",
+        "Hint": "Change your confetti appearance.",
+        "Title": "Configure Confetti Appearance"
       }
     }
   }
