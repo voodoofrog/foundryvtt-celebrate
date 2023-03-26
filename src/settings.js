@@ -140,7 +140,7 @@ export const registerSettings = () => {
     folder: 'appearance',
     options: {
       name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiGlitterDeviation}.Name`,
-      default: 50,
+      default: 128,
       type: Number,
       scope: 'client',
       range: { min: 0, max: 255, step: 1 },
