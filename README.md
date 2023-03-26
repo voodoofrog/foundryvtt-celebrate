@@ -22,8 +22,11 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 
 ## Configuration
 
+### Base
+
 | **Name**                             | Description                                                                                                       |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| Confetti Appearance                  | Change your confetti appearance.                                                                                  |
 | GM Only                              | [WORLD SETTING] If your players are abusing the confetti, enable this and prevent them shooting it.               |
 | Fire Rate Limit (Seconds)            | [WORLD SETTING] Starts a cooldown after each shot. Highly recommended!                                            |
 | Confetti Multiplier                  | Multiplies the amount of confetti pieces fired. Set this high at your own peril!                                  |
@@ -31,13 +34,18 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 | Mute                                 | Mutes the sound. Silence is golden?                                                                               |
 | Show Other Players Confetti Scale    | Tick if you want to see the confetti from other players scaled by their settings.                                 |
 | Show Other Players Glitter Deviation | Tick if you want to see the glitter confetti from other players color cycled by their settings.                   |
-| Confetti Color Base                  | Confetti will be colored with this as the base color.                                                             |
-| Confetti Style Choice                | Default: Multi colored confetti.                                                                                  |
-|                                      | Base Color: Confetti with the chosen color above.                                                                 |
-|                                      | Glitter: Sparkly color cycling confetti.                                                                          |
-|                                      | Base Glitter: Glitter derived from the base color.                                                                |
-| Glitter Color Deviation              | How much deviation from the starting color you want when the glitter pieces are color cycled.                     |
-| Confetti Scale                       | How big you want your confetti pieces to be.                                                                      |
+
+### Confetti Appearance
+
+| **Name**                | Description                                                                                   |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| Confetti Style Choice   | Default: Multi colored confetti.                                                              |
+|                         | Base Color: Confetti with the chosen color below.                                             |
+|                         | Glitter: Sparkly color cycling confetti.                                                      |
+|                         | Base Glitter: Glitter derived from the base color.                                            |
+| Confetti Color Base     | Confetti will be colored with this as the base color.                                         |
+| Glitter Color Deviation | How much deviation from the starting color you want when the glitter pieces are color cycled. |
+| Confetti Scale          | How big you want your confetti pieces to be.                                                  |
 
 ## Compatibility
 

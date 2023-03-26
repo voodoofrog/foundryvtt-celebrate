@@ -1,6 +1,7 @@
 {
   "CEL": {
     "apply": "Apply",
+    "cancel": "Cancel",
     "gm_warning": "The GM has restricted the use of confetti to GMs only!",
     "title": "Celebrate",
     "intensity": {
@@ -28,7 +29,7 @@
       },
       "confetti-style-choice": {
         "Name": "Confetti Style Choice",
-        "Hint": "Default: Multi colored confetti. | Base Color: Confetti with the chosen base color above. | Glitter: Sparkly color cycling confetti. | Base Glitter: Glitter derived from the base color.",
+        "Hint": "Default: Multi colored confetti. | Base Color: Confetti with the chosen base color below. | Glitter: Sparkly color cycling confetti. | Base Glitter: Glitter derived from the base color.",
         "Choices": {
           "Default": "Default",
           "Base": "Base Color",

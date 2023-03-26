@@ -1,14 +1,6 @@
 <form>
   <section class="content">
     <div class="form-group">
-      <label>{{localize "CEL.settings.confetti-color-base.Name"}}</label>
-      <div class="form-fields">
-        {{ colorPicker name="confetti-color-base" value=confetti-color-base }}
-      </div>
-      <p class="notes">{{localize "CEL.settings.confetti-color-base.Hint"}}</p>
-    </div>
-
-    <div class="form-group">
       <label>{{localize "CEL.settings.confetti-style-choice.Name"}}</label>
       <div class="form-fields">
         <select name="confetti-style-choice">
@@ -17,7 +9,18 @@
       </div>
       <p class="notes">{{localize "CEL.settings.confetti-style-choice.Hint"}}</p>
     </div>
+{{#unless (eq confetti-style-choice 'default')}}
+ {{#unless (eq confetti-style-choice 'glitter')}}
+    <div class="form-group">
+      <label>{{localize "CEL.settings.confetti-color-base.Name"}}</label>
+      <div class="form-fields">
+        {{ colorPicker name="confetti-color-base" value=confetti-color-base }}
+      </div>
+      <p class="notes">{{localize "CEL.settings.confetti-color-base.Hint"}}</p>
+    </div>
+  {{/unless}}
 
+  {{#unless (eq confetti-style-choice 'base')}}
     <div class="form-group">
       <label>{{localize "CEL.settings.confetti-glitter-deviation.Name"}}</label>
       <div class="form-fields">
@@ -25,6 +28,7 @@
       </div>
       <p class="notes">{{localize "CEL.settings.confetti-glitter-deviation.Hint"}}</p>
     </div>
+  {{/unless}}
 
     <div class="form-group">
       <label>{{localize "CEL.settings.confetti-scale.Name"}}</label>
@@ -34,9 +38,10 @@
       <p class="notes">{{localize "CEL.settings.confetti-glitter-deviation.Hint"}}</p>
     </div>
   </section>
-
+{{/unless}}
   <footer class="sheet-footer flexrow">
-    <button>{{localize "CEL.test"}}</button>
-    <button type="submit"><i class="far fa-save"></i>{{localize "CEL.apply"}}</button>
+    <button data-action="test"><i class="far fa-party-horn"></i>{{localize "CEL.test"}}</button>
+    <button data-action="cancel"><i class="far fa-cancel"></i>{{localize "CEL.cancel"}}</button>
+    <button data-action="submit"><i class="far fa-save"></i>{{localize "CEL.apply"}}</button>
   </footer>
 </form>
