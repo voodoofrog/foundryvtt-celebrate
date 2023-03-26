@@ -103,7 +103,7 @@ export const registerAppearanceSettings = () => {
   });
 
   game.settings.register(MODULE_ID, MySettings.ConfettiGlitterDeviation, {
-    default: 50,
+    default: 128,
     type: Number,
     scope: 'client',
     config: false,
