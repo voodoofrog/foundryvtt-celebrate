@@ -9,12 +9,12 @@ const SPREAD = 50;
 const GRAVITY = 1200;
 const RGB_SCALAR = 1 / 255;
 const {
-  APPEARANCE: { CONFETTI_SCALE, CONFETTI_STYLE_CHOICE, CONFETTI_COLOR_BASE, CONFETTI_GLITTER_DEVIATION },
+  APPEARANCE: { CONFETTI_SCALE, CONFETTI_STYLE_CHOICE, CONFETTI_COLOR_BASE, CONFETTI_GLITTER_STRENGTH },
   CONFETTI_MULTIPLIER,
   FIRE_RATE_LIMIT,
   GM_ONLY,
   SHOW_OTHERS_CONFETTI_SCALE,
-  SHOW_OTHERS_GLITTER_DEVIATION,
+  SHOW_OTHERS_GLITTER_STRENGTH,
   SOUND_VOLUME,
 } = SETTINGS;
 
@@ -140,16 +140,16 @@ export class Confetti {
    *
    * @param {AddConfettiParticleProps} confettiParticleProps An object containing the particle properties
    */
-  addConfettiParticles({ amount, angle, velocity, sourceX, sourceY, cColor, cStyle, cScale, cgDeviation }) {
+  addConfettiParticles({ amount, angle, velocity, sourceX, sourceY, cColor, cStyle, cScale, cgStrength }) {
     log(false, {});
     let i = 0;
     const allowSyncScale = game.settings.get(MODULE_ID, SHOW_OTHERS_CONFETTI_SCALE);
-    const allowSyncDeviation = game.settings.get(MODULE_ID, SHOW_OTHERS_GLITTER_DEVIATION);
+    const allowSyncDeviation = game.settings.get(MODULE_ID, SHOW_OTHERS_GLITTER_STRENGTH);
     const confettiScale = allowSyncScale && cScale ? cScale : game.settings.get(MODULE_ID, CONFETTI_SCALE);
-    const style = cStyle || game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
-    const confettiColor = Color.from(cColor || game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE));
+    const style = cStyle ?? game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
+    const confettiColor = Color.from(cColor ?? game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE));
     const gDeviation =
-      allowSyncDeviation && cgDeviation ? cgDeviation : game.settings.get(MODULE_ID, CONFETTI_GLITTER_DEVIATION);
+      allowSyncDeviation && cgStrength ? cgStrength : game.settings.get(MODULE_ID, CONFETTI_GLITTER_STRENGTH);
 
     while (i < amount) {
       // sprite
@@ -240,23 +240,34 @@ export class Confetti {
    *
    * @param {(0|1|2)} strength The input strength
    *
+   * @param {object} [options={}] Optional parameters object
+   *
+   * @param {string} [options.style] The confetti style
+   *
+   * @param {number} [options.scale] The confetti scale
+   *
+   * @param {string} [options.color] Colour hex string
+   *
+   * @param {number} [options.glitterStr] Glitter strength
+   *
    * @returns {object} The props
    */
-  static getShootConfettiProps(strength) {
-    const style = game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
+  static getShootConfettiProps(strength, options = {}) {
+    const { style, scale, color, glitterStr } = options;
+    const _style = style ?? game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
 
     const shootConfettiProps = {
       strength,
-      cStyle: style,
-      cScale: game.settings.get(MODULE_ID, CONFETTI_SCALE),
+      cStyle: _style,
+      cScale: scale ?? game.settings.get(MODULE_ID, CONFETTI_SCALE),
     };
 
-    if (style === CONFETTI_STYLES.base.key || style === CONFETTI_STYLES.baseGlitter.key) {
-      shootConfettiProps.cColor = game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE);
+    if (_style === CONFETTI_STYLES.base.key || _style === CONFETTI_STYLES.baseGlitter.key) {
+      shootConfettiProps.cColor = color ?? game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE);
     }
 
-    if (style === CONFETTI_STYLES.glitter.key || style === CONFETTI_STYLES.baseGlitter.key) {
-      shootConfettiProps.cgDeviation = game.settings.get(MODULE_ID, CONFETTI_GLITTER_DEVIATION);
+    if (_style === CONFETTI_STYLES.glitter.key || _style === CONFETTI_STYLES.baseGlitter.key) {
+      shootConfettiProps.cgStrength = glitterStr ?? game.settings.get(MODULE_ID, CONFETTI_GLITTER_STRENGTH);
     }
 
     switch (strength) {

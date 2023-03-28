@@ -69,13 +69,13 @@ export const registerSettings = () => {
     hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_CONFETTI_SCALE}.hint`,
   });
 
-  game.settings.register(MODULE_ID, SETTINGS.SHOW_OTHERS_GLITTER_DEVIATION, {
-    name: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_DEVIATION}.name`,
+  game.settings.register(MODULE_ID, SETTINGS.SHOW_OTHERS_GLITTER_STRENGTH, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_STRENGTH}.name`,
     default: true,
     type: Boolean,
     scope: 'client',
     config: true,
-    hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_DEVIATION}.hint`,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_STRENGTH}.hint`,
   });
 
   game.settings.registerMenu(MODULE_ID, SETTINGS.MENU_APPEARANCE, {
@@ -103,7 +103,7 @@ export const registerAppearanceSettings = () => {
     config: false,
   });
 
-  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_GLITTER_DEVIATION, {
+  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_GLITTER_STRENGTH, {
     default: 128,
     type: Number,
     scope: 'client',

@@ -41,9 +41,9 @@
         "name": "Show Other Players Confetti Scale",
         "hint": "Tick if you want to see the confetti from other players scaled by their settings."
       },
-      "showOthersGlitterDeviation": {
-        "name": "Show Other Players Glitter Deviation",
-        "hint": "Tick if you want to see the glitter confetti from other players colour cycled by their settings."
+      "showOthersGlitterStrength": {
+        "name": "Show Other Players Glitter Strength",
+        "hint": "Tick if you want to see the glitter confetti from other players at their chosen strength."
       },
       "appearance": {
         "windowTitle": "Configure Confetti Appearance",
@@ -61,9 +61,9 @@
           "name": "Confetti Color Base",
           "hint": "Confetti will be colored with this as the base color if enabled below."
         },
-        "confettiGlitterDeviation": {
-          "name": "Glitter Color Deviation",
-          "hint": "How much deviation from the starting color you want when the glitter pieces are color cycled."
+        "confettiGlitterStrength": {
+          "name": "Glitter Strength",
+          "hint": "How glittery you want your confetti glitter to be."
         },
         "confettiScale": {
           "name": "Confetti Scale",

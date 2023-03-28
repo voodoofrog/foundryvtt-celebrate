@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { CONFETTI_STRENGTH, MODULE_ID, SETTINGS } from './constants';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS } from './constants';
 import { registerAppearanceSettings, registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import CelebrateCanvas from './view/CelebrateCanvas.svelte';
@@ -40,6 +40,7 @@ Hooks.once('ready', () => {
 
   const api = {
     confettiStrength: CONFETTI_STRENGTH,
+    confettiStyles: Object.values(CONFETTI_STYLES).map((style) => style.key), // TODO: make this a mapped object
     getShootConfettiProps: Confetti.getShootConfettiProps,
     handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
     shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance),
