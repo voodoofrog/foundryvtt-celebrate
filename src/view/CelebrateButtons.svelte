@@ -69,6 +69,7 @@
       font-weight: bold;
       font-size: 18px;
       box-shadow: 0 0 6px inset #8d9ea7;
+      transition: all ease-in-out 0.25s;
       position: relative;
       padding: 0.2rem 0;
 
@@ -101,7 +102,7 @@
       i {
         height: 1.2rem;
         width: auto;
-        transition: all ease-in-out 0.25s;
+        transition: none;
 
         * {
           fill: #fff;
