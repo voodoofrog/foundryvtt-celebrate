@@ -63,7 +63,7 @@ export const registerSettings = () => {
   game.settings.register(MODULE_ID, SETTINGS.SHOW_OTHERS_CONFETTI_SCALE, {
     name: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_CONFETTI_SCALE}.name`,
     default: true,
-    type: Number,
+    type: Boolean,
     scope: 'client',
     config: true,
     hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_CONFETTI_SCALE}.hint`,
