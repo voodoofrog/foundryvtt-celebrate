@@ -26,6 +26,7 @@ const {
 export class Confetti {
   static instance;
   isOnCooldown = false;
+  ctx;
 
   /**
    * Create and initialize a new Confetti.
@@ -38,7 +39,6 @@ export class Confetti {
     Confetti.instance = this;
     this.dpr = canvas.app.renderer.resolution ?? window.devicePixelRatio ?? 1;
 
-    this._buildCanvas();
     this._initListeners();
     this.confettiSprites = {};
 
@@ -48,39 +48,30 @@ export class Confetti {
       this.isOnCooldown = value;
     });
 
+    // TODO: The old api for backwards compatibily - to be removed
     window[WINDOW_ID] = {
       confettiStrength: CONFETTI_STRENGTH,
       getShootConfettiProps: Confetti.getShootConfettiProps,
       handleShootConfetti: this.handleShootConfetti.bind(this),
       shootConfetti: this.shootConfetti.bind(this),
     };
-    Hooks.call(`${MODULE_ID}Ready`, this);
+    Hooks.call(`${WINDOW_ID}Ready`, this);
+  }
+
+  get constraints() {
+    return {
+      width: this.ctx.canvas.width,
+      height: this.ctx.canvas.height,
+    };
   }
 
   /**
-   * Create and inject the confetti canvas.
+   * Set the canvas element for confetti.
    *
-   * @private
+   * @param {Element} canvasElement The canvas element to attach to
    */
-  _buildCanvas() {
-    this.confettiCanvas = $(
-      '<canvas id="confetti-canvas" style="position: absolute; left: 0; top: 0;pointer-events: none;">',
-    );
-    this.confettiCanvas.css('z-index', 2000);
-    this.confettiCanvas.appendTo($('body'));
-
-    log(false, {
-      dpr: this.dpr,
-      confettiCanvas: this.confettiCanvas,
-      canvasDims: {
-        width: this.confettiCanvas.width(),
-        height: this.confettiCanvas.height(),
-      },
-    });
-
-    this.resizeConfettiCanvas();
-
-    this.ctx = this.confettiCanvas[0].getContext('2d');
+  setCanvasElement(canvasElement) {
+    this.ctx = canvasElement.getContext('2d');
   }
 
   /**
@@ -95,18 +86,6 @@ export class Confetti {
       });
       this.handleShootConfetti(request.data);
     });
-
-    this._rtime;
-    this._timeout = false;
-
-    $(window).on('resize', () => {
-      log(false, 'RESIIIIIIZING');
-      this._rtime = new Date();
-      if (this._timeout === false) {
-        this._timeout = true;
-        setTimeout(this._resizeEnd.bind(this), 1000);
-      }
-    });
   }
 
   /**
@@ -119,27 +98,20 @@ export class Confetti {
   }
 
   /**
-   * Resize to the window total size.
+   * Callback for `resizeObserver` on canvas to set the canvas size.
+   *
+   * @param {number} width The width to set
+   *
+   * @param {number} height The height to set
    */
-  resizeConfettiCanvas() {
-    const width = window.innerWidth * this.dpr;
-    const height = window.innerHeight * this.dpr;
-    // set all the heights and widths
-    this.confettiCanvas.width(`${window.innerWidth}px`);
-    this.confettiCanvas.height(`${window.innerHeight - 1}px`);
-    this.confettiCanvas[0].width = width;
-    this.confettiCanvas[0].height = height;
-  }
+  onCanvasResize(width, height) {
+    log(false, `onCanvasResize - width: ${width}; height: ${height}`);
 
-  _resizeEnd() {
-    if (new Date().getTime() - this._rtime.getTime() < 1000) {
-      setTimeout(this._resizeEnd.bind(this), 1000);
-    } else {
-      log(false, 'resize probably ended');
-      this._timeout = false;
-      // resize ended probably, lets resize the canvas dimensions
-      this.resizeConfettiCanvas();
-    }
+    const w = width * this.dpr;
+    const h = height * this.dpr;
+
+    this.ctx.canvas.width = w;
+    this.ctx.canvas.height = h;
   }
 
   _randomizeShade(color, maxDeviation = 50) {
@@ -238,7 +210,7 @@ export class Confetti {
    */
   clearConfetti() {
     log(false, 'clearConfetti');
-    this.ctx.clearRect(0, 0, this.confettiCanvas[0].width, this.confettiCanvas[0].height);
+    this.ctx.clearRect(0, 0, this.constraints.width, this.constraints.height);
   }
 
   /**
@@ -335,7 +307,7 @@ export class Confetti {
       amount: amount * confettiMultiplier,
       angle: -70,
       sourceX: 0,
-      sourceY: this.confettiCanvas[0].height,
+      sourceY: this.constraints.height,
       ...shootConfettiProps,
     });
 
@@ -343,8 +315,8 @@ export class Confetti {
     this.addConfettiParticles({
       amount: amount * confettiMultiplier,
       angle: -110,
-      sourceX: this.confettiCanvas[0].width - $('#sidebar').width() * this.dpr,
-      sourceY: this.confettiCanvas[0].height,
+      sourceX: this.constraints.width - $('#sidebar').width() * this.dpr,
+      sourceY: this.constraints.height,
       ...shootConfettiProps,
     });
   }

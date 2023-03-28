@@ -53,7 +53,7 @@ No known issues at this time, but if you spot any be sure to report it.
 
 ## API
 
-After the hook `celebrateReady` is fired, the following api methods are expected to be on `window.confetti`:
+After the hook `celebrateReady` is fired, the following api methods are expected to be on `game.modules.get('celebrate').api`:
 
 ### `confettiStrength`
 
@@ -83,18 +83,21 @@ Makes the appropriate amount of confetti fire on all clients' screens.
 
 ```js
 function makeConfetti() {
-  const strength = window.confetti.confettiStrength.low;
-  const shootConfettiProps = window.confetti.getShootConfettiProps(strength);
+  const celebrateApi = game.modules.get('celebrate').api;
+  const strength = celebrateApi.confettiStrength.low;
+  const shootConfettiProps = celebrateApi.getShootConfettiProps(strength);
 
   if (isSecretCelebration) {
     // I only want this to happen on my user's screen
-    window.confetti.handleShootConfetti(shootConfettiProps);
+    celebrateApi.handleShootConfetti(shootConfettiProps);
   } else {
     // I want confetti on all connected users' screens
-    window.confetti.shootConfetti(shootConfettiProps);
+    celebrateApi.shootConfetti(shootConfettiProps);
   }
 }
 ```
+
+For backwards compatability with Confetti, Celebrate will also fire the `confettiReady` hook and provide the api on `window.confetti.api`, although this will eventually be removed.
 
 ## Known Issues
 

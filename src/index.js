@@ -1,8 +1,9 @@
-import { MODULE_ID, SETTINGS } from './constants';
+import { writable } from 'svelte/store';
+import { CONFETTI_STRENGTH, MODULE_ID, SETTINGS } from './constants';
 import { registerAppearanceSettings, registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
+import CelebrateCanvas from './view/CelebrateCanvas.svelte';
 import { Confetti } from './classes/Confetti';
-import { writable } from 'svelte/store';
 
 export const cooldownStore = writable(false);
 
@@ -32,5 +33,20 @@ Hooks.on('renderChatLog', (app, html) => {
 
 Hooks.once('ready', () => {
   new Confetti();
+
+  new CelebrateCanvas({
+    target: document.body,
+  });
+
+  const api = {
+    confettiStrength: CONFETTI_STRENGTH,
+    getShootConfettiProps: Confetti.getShootConfettiProps,
+    handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
+    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance),
+  };
+
+  Object.freeze(api);
+  game.modules.get(MODULE_ID).api = api;
+
   console.log('Celebrate | Ready');
 });
