@@ -1,12 +1,22 @@
 import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
 import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
-import { ConfettiStrength, MODULE_ABBREV, MODULE_ID, MySettings, SOUNDS, WINDOW_ID } from '../constants';
-import { log, random, hexToRGBA, constrainIntToBounds } from '../helpers';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, SOUNDS, WINDOW_ID } from '../constants';
+import { log, random } from '../helpers';
 import { cooldownStore } from '../index';
 
 const DECAY = 3;
 const SPREAD = 50;
 const GRAVITY = 1200;
+const RGB_SCALAR = 1 / 255;
+const {
+  APPEARANCE: { CONFETTI_SCALE, CONFETTI_STYLE_CHOICE, CONFETTI_COLOR_BASE, CONFETTI_GLITTER_DEVIATION },
+  CONFETTI_MULTIPLIER,
+  FIRE_RATE_LIMIT,
+  GM_ONLY,
+  SHOW_OTHERS_CONFETTI_SCALE,
+  SHOW_OTHERS_GLITTER_DEVIATION,
+  SOUND_VOLUME,
+} = SETTINGS;
 
 /**
  * Stolen right from Dice so Nice and butchered
@@ -16,6 +26,7 @@ const GRAVITY = 1200;
 export class Confetti {
   static instance;
   isOnCooldown = false;
+  ctx;
 
   /**
    * Create and initialize a new Confetti.
@@ -28,7 +39,6 @@ export class Confetti {
     Confetti.instance = this;
     this.dpr = canvas.app.renderer.resolution ?? window.devicePixelRatio ?? 1;
 
-    this._buildCanvas();
     this._initListeners();
     this.confettiSprites = {};
 
@@ -38,39 +48,30 @@ export class Confetti {
       this.isOnCooldown = value;
     });
 
+    // TODO: The old api for backwards compatibily - to be removed
     window[WINDOW_ID] = {
-      confettiStrength: ConfettiStrength,
+      confettiStrength: CONFETTI_STRENGTH,
       getShootConfettiProps: Confetti.getShootConfettiProps,
       handleShootConfetti: this.handleShootConfetti.bind(this),
       shootConfetti: this.shootConfetti.bind(this),
     };
-    Hooks.call(`${MODULE_ID}Ready`, this);
+    Hooks.call(`${WINDOW_ID}Ready`, this);
+  }
+
+  get constraints() {
+    return {
+      width: this.ctx.canvas.width,
+      height: this.ctx.canvas.height,
+    };
   }
 
   /**
-   * Create and inject the confetti canvas.
+   * Set the canvas element for confetti.
    *
-   * @private
+   * @param {Element} canvasElement The canvas element to attach to
    */
-  _buildCanvas() {
-    this.confettiCanvas = $(
-      '<canvas id="confetti-canvas" style="position: absolute; left: 0; top: 0;pointer-events: none;">',
-    );
-    this.confettiCanvas.css('z-index', 2000);
-    this.confettiCanvas.appendTo($('body'));
-
-    log(false, {
-      dpr: this.dpr,
-      confettiCanvas: this.confettiCanvas,
-      canvasDims: {
-        width: this.confettiCanvas.width(),
-        height: this.confettiCanvas.height(),
-      },
-    });
-
-    this.resizeConfettiCanvas();
-
-    this.ctx = this.confettiCanvas[0].getContext('2d');
+  setCanvasElement(canvasElement) {
+    this.ctx = canvasElement.getContext('2d');
   }
 
   /**
@@ -85,18 +86,6 @@ export class Confetti {
       });
       this.handleShootConfetti(request.data);
     });
-
-    this._rtime;
-    this._timeout = false;
-
-    $(window).on('resize', () => {
-      log(false, 'RESIIIIIIZING');
-      this._rtime = new Date();
-      if (this._timeout === false) {
-        this._timeout = true;
-        setTimeout(this._resizeEnd.bind(this), 1000);
-      }
-    });
   }
 
   /**
@@ -109,33 +98,41 @@ export class Confetti {
   }
 
   /**
-   * Resize to the window total size.
+   * Callback for `resizeObserver` on canvas to set the canvas size.
+   *
+   * @param {number} width The width to set
+   *
+   * @param {number} height The height to set
    */
-  resizeConfettiCanvas() {
-    const width = window.innerWidth * this.dpr;
-    const height = window.innerHeight * this.dpr;
-    // set all the heights and widths
-    this.confettiCanvas.width(`${window.innerWidth}px`);
-    this.confettiCanvas.height(`${window.innerHeight - 1}px`);
-    this.confettiCanvas[0].width = width;
-    this.confettiCanvas[0].height = height;
+  onCanvasResize(width, height) {
+    log(false, `onCanvasResize - width: ${width}; height: ${height}`);
+
+    const w = width * this.dpr;
+    const h = height * this.dpr;
+
+    this.ctx.canvas.width = w;
+    this.ctx.canvas.height = h;
   }
 
-  _resizeEnd() {
-    if (new Date().getTime() - this._rtime.getTime() < 1000) {
-      setTimeout(this._resizeEnd.bind(this), 1000);
+  _randomizeShade(color, maxDeviation = 50) {
+    const randomDeviation = Math.round(random(0, maxDeviation));
+    const scaledRandomDeviation = RGB_SCALAR * randomDeviation;
+
+    if (Math.random() < 0.5) {
+      return color.subtract(scaledRandomDeviation);
     } else {
-      log(false, 'resize probably ended');
-      this._timeout = false;
-      // resize ended probably, lets resize the canvas dimensions
-      this.resizeConfettiCanvas();
+      return color.add(scaledRandomDeviation);
     }
   }
 
-  _generateRandomColorMinMax(hex, deviation = 50) {
-    const min = constrainIntToBounds(hex - deviation);
-    const max = constrainIntToBounds(hex + deviation);
-    return random(min, max);
+  _getDrawColor(sprite) {
+    if (sprite.style === CONFETTI_STYLES.glitter.key || sprite.style === CONFETTI_STYLES.baseGlitter.key) {
+      const { red, green, blue } = sprite.originalColor;
+      const randomShade = this._randomizeShade(Color.fromRGB([red, green, blue]), sprite.gDeviation);
+      return `rgb(${randomShade.r * 255}, ${randomShade.g * 255}, ${randomShade.b * 255})`;
+    }
+
+    return sprite.color;
   }
 
   /**
@@ -146,15 +143,13 @@ export class Confetti {
   addConfettiParticles({ amount, angle, velocity, sourceX, sourceY, cColor, cStyle, cScale, cgDeviation }) {
     log(false, {});
     let i = 0;
-    const allowSyncScale = game.settings.get(MODULE_ID, MySettings.AllowOtherConfettiScale);
-    const allowSyncDeviation = game.settings.get(MODULE_ID, MySettings.AllowOtherConfettiDeviation);
-    const confettiScale = allowSyncScale && cScale ? cScale : game.settings.get(MODULE_ID, MySettings.ConfettiScale);
-    const style = cStyle || game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice);
-    const confettiColor = hexToRGBA(cColor || game.settings.get(MODULE_ID, MySettings.ConfettiColorBase));
+    const allowSyncScale = game.settings.get(MODULE_ID, SHOW_OTHERS_CONFETTI_SCALE);
+    const allowSyncDeviation = game.settings.get(MODULE_ID, SHOW_OTHERS_GLITTER_DEVIATION);
+    const confettiScale = allowSyncScale && cScale ? cScale : game.settings.get(MODULE_ID, CONFETTI_SCALE);
+    const style = cStyle || game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
+    const confettiColor = Color.from(cColor || game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE));
     const gDeviation =
-      allowSyncDeviation && cgDeviation
-        ? cgDeviation
-        : game.settings.get(MODULE_ID, MySettings.ConfettiGlitterDeviation);
+      allowSyncDeviation && cgDeviation ? cgDeviation : game.settings.get(MODULE_ID, CONFETTI_GLITTER_DEVIATION);
 
     while (i < amount) {
       // sprite
@@ -162,10 +157,11 @@ export class Confetti {
       const d = random(15, 25) * this.dpr * confettiScale;
 
       let blue, green, red;
-      if (style === 'base' || style === 'baseGlitter') {
-        red = this._generateRandomColorMinMax(confettiColor[0]);
-        green = this._generateRandomColorMinMax(confettiColor[1]);
-        blue = this._generateRandomColorMinMax(confettiColor[2]);
+      if (style === CONFETTI_STYLES.base.key || style === CONFETTI_STYLES.baseGlitter.key) {
+        const randomShade = this._randomizeShade(confettiColor);
+        red = randomShade.r * 255;
+        green = randomShade.g * 255;
+        blue = randomShade.b * 255;
       } else {
         red = random(50, 255);
         green = random(50, 200);
@@ -189,7 +185,7 @@ export class Confetti {
         tilt,
         tiltAngleIncremental,
         tiltAngle,
-        originalColor: { red, green, blue },
+        originalColor: { red: red / 255, green: green / 255, blue: blue / 255 },
         style,
         gDeviation,
       };
@@ -214,7 +210,7 @@ export class Confetti {
    */
   clearConfetti() {
     log(false, 'clearConfetti');
-    this.ctx.clearRect(0, 0, this.confettiCanvas[0].width, this.confettiCanvas[0].height);
+    this.ctx.clearRect(0, 0, this.constraints.width, this.constraints.height);
   }
 
   /**
@@ -230,28 +226,7 @@ export class Confetti {
       this.ctx.beginPath();
       this.ctx.lineWidth = sprite.d / 2;
 
-      const getColor = () => {
-        if (sprite.style === 'glitter' || sprite.style === 'baseGlitter') {
-          let blue, green, red;
-          // select if should be black or white for the frame for glittery effect
-          if (Math.random() < 0.33) {
-            if (Math.random() < 0.5) {
-              red = green = blue = 255;
-            } else {
-              red = green = blue = 0;
-            }
-          } else {
-            red = this._generateRandomColorMinMax(sprite.originalColor.red, sprite.gDeviation);
-            green = this._generateRandomColorMinMax(sprite.originalColor.green, sprite.gDeviation);
-            blue = this._generateRandomColorMinMax(sprite.originalColor.blue, sprite.gDeviation);
-          }
-          return `rgb(${red}, ${green}, ${blue})`;
-        }
-
-        return sprite.color;
-      };
-
-      this.ctx.strokeStyle = getColor();
+      this.ctx.strokeStyle = this._getDrawColor(sprite);
       this.ctx.moveTo(sprite.x + sprite.tilt + sprite.r, sprite.y);
       this.ctx.lineTo(sprite.x + sprite.tilt, sprite.y + sprite.tilt + sprite.r);
       this.ctx.stroke();
@@ -268,28 +243,28 @@ export class Confetti {
    * @returns {object} The props
    */
   static getShootConfettiProps(strength) {
-    const style = game.settings.get(MODULE_ID, MySettings.ConfettiStyleChoice);
+    const style = game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
 
     const shootConfettiProps = {
       strength,
       cStyle: style,
-      cScale: game.settings.get(MODULE_ID, MySettings.ConfettiScale),
+      cScale: game.settings.get(MODULE_ID, CONFETTI_SCALE),
     };
 
-    if (style === 'base' || style === 'baseGlitter') {
-      shootConfettiProps.cColor = game.settings.get(MODULE_ID, MySettings.ConfettiColorBase);
+    if (style === CONFETTI_STYLES.base.key || style === CONFETTI_STYLES.baseGlitter.key) {
+      shootConfettiProps.cColor = game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE);
     }
 
-    if (style === 'glitter' || style === 'baseGlitter') {
-      shootConfettiProps.cgDeviation = game.settings.get(MODULE_ID, MySettings.ConfettiGlitterDeviation);
+    if (style === CONFETTI_STYLES.glitter.key || style === CONFETTI_STYLES.baseGlitter.key) {
+      shootConfettiProps.cgDeviation = game.settings.get(MODULE_ID, CONFETTI_GLITTER_DEVIATION);
     }
 
     switch (strength) {
-      case ConfettiStrength.high:
+      case CONFETTI_STRENGTH.high:
         shootConfettiProps.amount = 200;
         shootConfettiProps.velocity = 3000;
         break;
-      case ConfettiStrength.low:
+      case CONFETTI_STRENGTH.low:
         shootConfettiProps.amount = 50;
         shootConfettiProps.velocity = 1000;
         break;
@@ -317,13 +292,14 @@ export class Confetti {
       ticker: canvas.app.ticker.count,
     });
 
-    const confettiMultiplier = game.settings.get(MODULE_ID, MySettings.ConfettiMultiplier);
-    const mute = game.settings.get(MODULE_ID, MySettings.Mute);
+    const confettiMultiplier = game.settings.get(MODULE_ID, CONFETTI_MULTIPLIER);
+    const volume = game.settings.get(MODULE_ID, SOUND_VOLUME);
+    const mute = volume === 0.0;
 
     canvas.app.ticker.add(this.render, this);
 
     if (!mute) {
-      game.audio.play(SOUNDS[shootConfettiProps.strength], { volume: 0.8 });
+      game.audio.play(SOUNDS[shootConfettiProps.strength], { volume });
     }
 
     // bottom left
@@ -331,7 +307,7 @@ export class Confetti {
       amount: amount * confettiMultiplier,
       angle: -70,
       sourceX: 0,
-      sourceY: this.confettiCanvas[0].height,
+      sourceY: this.constraints.height,
       ...shootConfettiProps,
     });
 
@@ -339,8 +315,8 @@ export class Confetti {
     this.addConfettiParticles({
       amount: amount * confettiMultiplier,
       angle: -110,
-      sourceX: this.confettiCanvas[0].width - $('#sidebar').width() * this.dpr,
-      sourceY: this.confettiCanvas[0].height,
+      sourceX: this.constraints.width - $('#sidebar').width() * this.dpr,
+      sourceY: this.constraints.height,
       ...shootConfettiProps,
     });
   }
@@ -368,15 +344,15 @@ export class Confetti {
    */
   shootConfetti(shootConfettiProps) {
     const socketProps = { data: shootConfettiProps };
-    const rapidFireLimit = game.settings.get(MODULE_ID, MySettings.RapidFireLimit);
-    const gmOnly = game.settings.get(MODULE_ID, MySettings.GmOnly);
+    const rapidFireLimit = game.settings.get(MODULE_ID, FIRE_RATE_LIMIT);
+    const gmOnly = game.settings.get(MODULE_ID, GM_ONLY);
 
     if (this.isOnCooldown) {
       log(false, 'shootConfetti prevented by rapid fire setting');
       return;
     } else if (gmOnly && !game.user.isGM) {
       log(false, 'shootConfetti prevented by gm only setting');
-      ui.notifications.warn(game.i18n.localize(`${MODULE_ABBREV}.gm_warning`));
+      ui.notifications.warn(game.i18n.localize(`${MODULE_ID}.gmWarning`));
       return;
     } else {
       cooldownStore.set(true);

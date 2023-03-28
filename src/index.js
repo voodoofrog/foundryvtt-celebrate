@@ -1,8 +1,9 @@
-import { MODULE_ID, MySettings, MODULE_ABBREV } from './constants';
-import { registerSettings, registerAppearanceSettings } from './settings';
-import CelebrateButtons from './view/CelebrateButtons.svelte';
-import { Confetti } from './classes/Confetti';
 import { writable } from 'svelte/store';
+import { CONFETTI_STRENGTH, MODULE_ID, SETTINGS } from './constants';
+import { registerAppearanceSettings, registerSettings } from './settings';
+import CelebrateButtons from './view/CelebrateButtons.svelte';
+import CelebrateCanvas from './view/CelebrateCanvas.svelte';
+import { Confetti } from './classes/Confetti';
 import { AppearanceSettings } from './view/AppearanceSettings';
 
 export const cooldownStore = writable(false);
@@ -17,8 +18,8 @@ Hooks.once('init', async () => {
 });
 
 Hooks.on('renderChatLog', (app, html) => {
-  const gmOnly = game.settings.get(MODULE_ID, MySettings.GmOnly);
-  const showButton = game.settings.get(MODULE_ID, MySettings.ShowButton);
+  const gmOnly = game.settings.get(MODULE_ID, SETTINGS.GM_ONLY);
+  const showButton = game.settings.get(MODULE_ID, SETTINGS.SHOW_BUTTONS);
 
   if (showButton) {
     if (!gmOnly || game.user.isGM) {
@@ -32,24 +33,21 @@ Hooks.on('renderChatLog', (app, html) => {
 });
 
 Hooks.once('ready', () => {
-  try {
-    window.Ardittristan.ColorSetting.tester;
-  } catch {
-    ui.notifications.notify(
-      'Please make sure you have the "lib - ColorSettings" module installed and enabled.',
-      'error',
-    );
-  }
+  new Confetti();
 
-  new window.Ardittristan.ColorSetting(MODULE_ID, MySettings.ConfettiColorBase, {
-    name: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorBase}.Name`,
-    hint: `${MODULE_ABBREV}.settings.${MySettings.ConfettiColorBase}.Hint`,
-    label: 'Color Picker',
-    restricted: false,
-    defaultColor: '#000000ff',
-    scope: 'client',
+  new CelebrateCanvas({
+    target: document.body,
   });
 
-  new Confetti();
+  const api = {
+    confettiStrength: CONFETTI_STRENGTH,
+    getShootConfettiProps: Confetti.getShootConfettiProps,
+    handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
+    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance),
+  };
+
+  Object.freeze(api);
+  game.modules.get(MODULE_ID).api = api;
+
   console.log('Celebrate | Ready');
 });
