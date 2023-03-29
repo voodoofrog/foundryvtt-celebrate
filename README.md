@@ -75,7 +75,7 @@ Returns the properties that `handleShootConfetti` and `shootConfetti` use based 
 
 Makes the appropriate amount of confetti fire on only the current user's screen.
 
-### `Confetti.shootConfetti(shootConfettiProps: ShootConfettiProps)`
+### `shootConfetti(shootConfettiProps: ShootConfettiProps)`
 
 Makes the appropriate amount of confetti fire on all clients' screens.
 
