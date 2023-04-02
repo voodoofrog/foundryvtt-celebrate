@@ -3,7 +3,7 @@ import { log } from '../helpers';
 import { Confetti } from './Confetti';
 
 const {
-  APPEARANCE: { CONFETTI_COLOR_BASE, CONFETTI_STYLE_CHOICE, CONFETTI_GLITTER_DEVIATION, CONFETTI_SCALE },
+  APPEARANCE: { CONFETTI_COLOR_BASE, CONFETTI_STYLE_CHOICE, CONFETTI_GLITTER_STRENGTH, CONFETTI_SCALE },
 } = SETTINGS;
 
 const buildChoiceData = () => {
@@ -22,7 +22,7 @@ export class AppearanceSettings extends FormApplication {
     this.tempData = {
       [CONFETTI_COLOR_BASE]: game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE),
       [CONFETTI_STYLE_CHOICE]: game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE),
-      [CONFETTI_GLITTER_DEVIATION]: game.settings.get(MODULE_ID, CONFETTI_GLITTER_DEVIATION),
+      [CONFETTI_GLITTER_STRENGTH]: game.settings.get(MODULE_ID, CONFETTI_GLITTER_STRENGTH),
       [CONFETTI_SCALE]: game.settings.get(MODULE_ID, CONFETTI_SCALE),
     };
   }
@@ -62,7 +62,7 @@ export class AppearanceSettings extends FormApplication {
       cStyle: event.delegateTarget[CONFETTI_STYLE_CHOICE].value,
       cColor: event.delegateTarget[CONFETTI_COLOR_BASE]?.value,
       cScale: event.delegateTarget[CONFETTI_SCALE]?.value,
-      cgDeviation: event.delegateTarget[CONFETTI_GLITTER_DEVIATION]?.value,
+      cgDeviation: event.delegateTarget[CONFETTI_GLITTER_STRENGTH]?.value,
       strength: 2,
     };
 

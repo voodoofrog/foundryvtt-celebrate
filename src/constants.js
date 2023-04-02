@@ -21,11 +21,11 @@ export const SETTINGS = {
   SHOW_BUTTONS: 'showButtons',
   SOUND_VOLUME: 'soundVolume',
   SHOW_OTHERS_CONFETTI_SCALE: 'showOthersConfettiScale',
-  SHOW_OTHERS_GLITTER_DEVIATION: 'showOthersGlitterDeviation',
+  SHOW_OTHERS_GLITTER_STRENGTH: 'showOthersGlitterStrength',
   APPEARANCE: {
     CONFETTI_STYLE_CHOICE: 'confettiStyleChoice',
     CONFETTI_COLOR_BASE: 'confettiColorBase',
-    CONFETTI_GLITTER_DEVIATION: 'confettiGlitterDeviation',
+    CONFETTI_GLITTER_STRENGTH: 'confettiGlitterStrength',
     CONFETTI_SCALE: 'confettiScale',
   },
 };
