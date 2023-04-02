@@ -95,7 +95,7 @@ Makes the appropriate amount of confetti fire on all clients' screens.
 ### Example:
 
 ```js
-function makeConfetti() {
+function makeConfetti(isSecretCelebration) {
   const celebrateApi = game.modules.get('celebrate').api;
   const strength = celebrateApi.confettiStrength.low;
   const shootConfettiProps = celebrateApi.getShootConfettiProps(strength);

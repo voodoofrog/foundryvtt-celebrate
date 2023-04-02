@@ -40,7 +40,7 @@ Hooks.once('ready', () => {
 
   const api = {
     confettiStrength: CONFETTI_STRENGTH,
-    confettiStyles: Object.values(CONFETTI_STYLES).map((style) => style.key), // TODO: make this a mapped object
+    confettiStyles: Object.values(CONFETTI_STYLES).reduce((acc, style) => ({ ...acc, [style.key]: style.key }), {}),
     getShootConfettiProps: Confetti.getShootConfettiProps,
     handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
     shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance),
