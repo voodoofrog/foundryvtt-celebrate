@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { resizeObserver } from '@typhonjs-fvtt/runtime/svelte/action';
+  import { resizeObserver } from '#runtime/svelte/action/dom';
   import { Confetti } from '../classes/Confetti';
 
   let canvasEl;

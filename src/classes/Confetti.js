@@ -1,5 +1,5 @@
-import { GsapCompose, easingFunc } from '@typhonjs-fvtt/runtime/svelte/gsap';
-import '@typhonjs-fvtt/runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
+import { GsapCompose, easingFunc } from '#runtime/svelte/gsap';
+import '#runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
 import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, SOUNDS, WINDOW_ID } from '../constants';
 import { log, random } from '../helpers';
 import { cooldownStore } from '../index';
