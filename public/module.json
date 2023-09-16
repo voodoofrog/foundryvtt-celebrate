@@ -38,7 +38,7 @@
       "name": "celebrate-macros",
       "label": "Celebrate Macros",
       "path": "packs/features.db",
-      "entity": "Macro",
+      "type": "Macro",
       "module": "celebrate"
     }
   ],
