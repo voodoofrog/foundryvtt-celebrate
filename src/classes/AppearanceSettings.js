@@ -62,7 +62,7 @@ export class AppearanceSettings extends FormApplication {
       cStyle: event.delegateTarget[CONFETTI_STYLE_CHOICE].value,
       cColor: event.delegateTarget[CONFETTI_COLOR_BASE]?.value,
       cScale: event.delegateTarget[CONFETTI_SCALE]?.value,
-      cgDeviation: event.delegateTarget[CONFETTI_GLITTER_STRENGTH]?.value,
+      cgStrength: event.delegateTarget[CONFETTI_GLITTER_STRENGTH]?.value,
       strength: 2,
     };
 

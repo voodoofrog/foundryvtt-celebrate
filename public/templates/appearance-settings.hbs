@@ -22,11 +22,11 @@
 
   {{#unless (eq confettiStyleChoice 'base')}}
     <div class="form-group">
-      <label>{{localize "celebrate.settings.appearance.confettiGlitterDeviation.name"}}</label>
+      <label>{{localize "celebrate.settings.appearance.confettiGlitterStrength.name"}}</label>
       <div class="form-fields">
-        {{rangePicker name="confettiGlitterDeviation" value=confettiGlitterDeviation min=0 max=255 step=1}}
+        {{rangePicker name="confettiGlitterStrength" value=confettiGlitterStrength min=0 max=255 step=1}}
       </div>
-      <p class="notes">{{localize "celebrate.settings.appearance.confettiGlitterDeviation.hint"}}</p>
+      <p class="notes">{{localize "celebrate.settings.appearance.confettiGlitterStrength.hint"}}</p>
     </div>
   {{/unless}}
 {{/unless}}
