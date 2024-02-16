@@ -127,6 +127,6 @@ For backwards compatability with Confetti, Celebrate will also fire the `confett
 
 Sound Effects from [Zapsplat.com](https://www.zapsplat.com/).
 
-This was originally forked from [Confetti](https://github.com/ElfFriend-DnD/foundryvtt-confetti) by ElfFriend-DnD so if you want to chuck some bones at anyone choose them not me. There's a badge above for it.
+This was originally forked from [Confetti](https://github.com/ElfFriend-DnD/foundryvtt-confetti) by ElfFriend-DnD, so big thanks to him for letting me continue his work and for making it in the first place.
 
 The template used to bootstrap this module is [template-svelte-esm](https://github.com/typhonjs-fvtt-demo/template-svelte-esm) by TyphonJs who also provided some help.
