@@ -27,6 +27,12 @@
   "esmodules": [
     "index.js"
   ],
+  "flags": {
+    "hotReload": {
+      "extensions": ["json", "hbs"],
+      "paths": ["lang", "templates"]
+    }
+  },
   "styles": [
     "style.css"
   ],
