@@ -29,7 +29,7 @@ jobs:
       - run: npm install
 
       # Build distribution.
-      - run: npm run build
+      - run: npm run build:prod
 
       # Create a zip file with all files required by the module to add to the release.
       - run: cd dist && zip -r "$OLDPWD/module.zip" .
@@ -47,3 +47,9 @@ jobs:
           artifacts: './public/module.json, ./module.zip'
           tag: ${{ github.event.release.tag_name }}
           body: ${{ github.event.release.body }}
+      # Publish release to Foundry package list
+      - name: Publish FoundryVTT Package
+        uses: cs96and/FoundryVTT-release-package@v1.0.2
+        with:
+          package-token: ${{ secrets.PACKAGE_TOKEN }}
+          manifest-url: https://github.com/${{github.repository}}/releases/download/${{github.event.release.tag_name}}/module.json

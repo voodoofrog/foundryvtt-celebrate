@@ -8,4 +8,5 @@ node_modules/
 /index.js
 /index.js.map
 /style.css
-foundryconfig.json
+foundry-data-path-config.json
+/public/packs/features
