@@ -35,7 +35,7 @@ Hooks.once('ready', () => {
   new Confetti();
 
   new CelebrateCanvas({
-    target: document.body,
+    target: document.body
   });
 
   const api = {
@@ -43,7 +43,7 @@ Hooks.once('ready', () => {
     confettiStyles: Object.values(CONFETTI_STYLES).reduce((acc, style) => ({ ...acc, [style.key]: style.key }), {}),
     getShootConfettiProps: Confetti.getShootConfettiProps,
     handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
-    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance),
+    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance)
   };
 
   Object.freeze(api);

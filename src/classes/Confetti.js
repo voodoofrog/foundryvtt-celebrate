@@ -15,7 +15,7 @@ const {
   GM_ONLY,
   SHOW_OTHERS_CONFETTI_SCALE,
   SHOW_OTHERS_GLITTER_STRENGTH,
-  SOUND_VOLUME,
+  SOUND_VOLUME
 } = SETTINGS;
 
 /**
@@ -53,7 +53,7 @@ export class Confetti {
       confettiStrength: CONFETTI_STRENGTH,
       getShootConfettiProps: Confetti.getShootConfettiProps,
       handleShootConfetti: this.handleShootConfetti.bind(this),
-      shootConfetti: this.shootConfetti.bind(this),
+      shootConfetti: this.shootConfetti.bind(this)
     };
     Hooks.call(`${WINDOW_ID}Ready`, this);
   }
@@ -61,7 +61,7 @@ export class Confetti {
   get constraints() {
     return {
       width: this.ctx.canvas.width,
-      height: this.ctx.canvas.height,
+      height: this.ctx.canvas.height
     };
   }
 
@@ -82,7 +82,7 @@ export class Confetti {
   _initListeners() {
     game.socket.on(`module.${MODULE_ID}`, (request) => {
       log(false, 'got socket connection', {
-        request,
+        request
       });
       this.handleShootConfetti(request.data);
     });
@@ -187,17 +187,17 @@ export class Confetti {
         tiltAngle,
         originalColor: { red: red / 255, green: green / 255, blue: blue / 255 },
         style,
-        gDeviation,
+        gDeviation
       };
 
       this.confettiSprites = {
         ...this.confettiSprites,
-        [id]: sprite,
+        [id]: sprite
       };
 
       log(false, 'addConfettiParticles', {
         sprite,
-        confettiSprites: this.confettiSprites,
+        confettiSprites: this.confettiSprites
       });
 
       this.tweenConfettiParticle(id);
@@ -259,7 +259,7 @@ export class Confetti {
     const shootConfettiProps = {
       strength,
       cStyle: _style,
-      cScale: scale ?? game.settings.get(MODULE_ID, CONFETTI_SCALE),
+      cScale: scale ?? game.settings.get(MODULE_ID, CONFETTI_SCALE)
     };
 
     if (_style === CONFETTI_STYLES.base.key || _style === CONFETTI_STYLES.baseGlitter.key) {
@@ -286,7 +286,7 @@ export class Confetti {
 
     log(false, 'getShootConfettiProps returned', {
       strength,
-      shootConfettiProps,
+      shootConfettiProps
     });
 
     return shootConfettiProps;
@@ -300,7 +300,7 @@ export class Confetti {
   handleShootConfetti({ amount, ...shootConfettiProps }) {
     log(false, 'handleShootConfetti', {
       shootConfettiProps,
-      ticker: canvas.app.ticker.count,
+      ticker: canvas.app.ticker.count
     });
 
     const confettiMultiplier = game.settings.get(MODULE_ID, CONFETTI_MULTIPLIER);
@@ -319,7 +319,7 @@ export class Confetti {
       angle: -70,
       sourceX: 0,
       sourceY: this.constraints.height,
-      ...shootConfettiProps,
+      ...shootConfettiProps
     });
 
     // bottom right
@@ -328,7 +328,7 @@ export class Confetti {
       angle: -110,
       sourceX: this.constraints.width - $('#sidebar').width() * this.dpr,
       sourceY: this.constraints.height,
-      ...shootConfettiProps,
+      ...shootConfettiProps
     });
   }
 
@@ -337,7 +337,7 @@ export class Confetti {
    */
   render() {
     log(false, 'render', {
-      ctx: this.ctx,
+      ctx: this.ctx
     });
 
     // first clear the board
@@ -372,7 +372,7 @@ export class Confetti {
 
     log(false, 'shootConfetti, emitting socket', {
       shootConfettiProps,
-      socketProps,
+      socketProps
     });
 
     this.handleShootConfetti(socketProps.data);
@@ -406,7 +406,7 @@ export class Confetti {
         velocity,
         angle,
         gravity,
-        friction,
+        friction
       },
       d,
       ease: easingFunc['power4.in'],
@@ -416,7 +416,7 @@ export class Confetti {
 
         log(false, 'tween complete', {
           spriteId,
-          confettiSprites: this.confettiSprites,
+          confettiSprites: this.confettiSprites
         });
 
         if (Object.keys(this.confettiSprites).length === 0) {
@@ -425,7 +425,7 @@ export class Confetti {
           canvas.app.ticker.remove(this.render, this);
         }
       },
-      duration: DECAY,
+      duration: DECAY
     });
   }
 

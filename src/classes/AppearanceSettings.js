@@ -3,12 +3,12 @@ import { log } from '../helpers';
 import { Confetti } from './Confetti';
 
 const {
-  APPEARANCE: { CONFETTI_COLOR_BASE, CONFETTI_STYLE_CHOICE, CONFETTI_GLITTER_STRENGTH, CONFETTI_SCALE },
+  APPEARANCE: { CONFETTI_COLOR_BASE, CONFETTI_STYLE_CHOICE, CONFETTI_GLITTER_STRENGTH, CONFETTI_SCALE }
 } = SETTINGS;
 
 const buildChoiceData = () => {
   const styleObj = {
-    style_choices: {},
+    style_choices: {}
   };
   Object.keys(CONFETTI_STYLES).forEach((key) => {
     styleObj.style_choices[key] = CONFETTI_STYLES[key].translation;
@@ -23,7 +23,7 @@ export class AppearanceSettings extends FormApplication {
       [CONFETTI_COLOR_BASE]: game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE),
       [CONFETTI_STYLE_CHOICE]: game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE),
       [CONFETTI_GLITTER_STRENGTH]: game.settings.get(MODULE_ID, CONFETTI_GLITTER_STRENGTH),
-      [CONFETTI_SCALE]: game.settings.get(MODULE_ID, CONFETTI_SCALE),
+      [CONFETTI_SCALE]: game.settings.get(MODULE_ID, CONFETTI_SCALE)
     };
   }
 
@@ -35,7 +35,7 @@ export class AppearanceSettings extends FormApplication {
       height: 'auto',
       id: 'confetti-appearance-settings',
       template: TEMPLATES.APPEARANCE_SETTINGS,
-      title: `${MODULE_ID}.settings.appearance.windowTitle`,
+      title: `${MODULE_ID}.settings.appearance.windowTitle`
     });
   }
 
@@ -63,7 +63,7 @@ export class AppearanceSettings extends FormApplication {
       cColor: event.delegateTarget[CONFETTI_COLOR_BASE]?.value,
       cScale: event.delegateTarget[CONFETTI_SCALE]?.value,
       cgStrength: event.delegateTarget[CONFETTI_GLITTER_STRENGTH]?.value,
-      strength: 2,
+      strength: 2
     };
 
     switch (action) {
