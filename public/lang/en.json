@@ -37,6 +37,18 @@
         "name": "Sound Volume",
         "hint": "Sets the volume for the confetti firing sounds."
       },
+      "soundIntensityHigh": {
+        "name": "High Intensity Sound",
+        "hint": "Sets the sound file for the high intensity confetti."
+      },
+      "soundIntensityMed": {
+        "name": "Medium Intensity Sound",
+        "hint": "Sets the sound file for the medium intensity confetti."
+      },
+      "soundIntensityLow": {
+        "name": "Low Intensity Sound",
+        "hint": "Sets the sound file for the low intensity confetti."
+      },
       "showOthersConfettiScale": {
         "name": "Show Other Players Confetti Scale",
         "hint": "Tick if you want to see the confetti from other players scaled by their settings."

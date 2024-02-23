@@ -31,6 +31,9 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 | Confetti Multiplier                 | Multiplies the amount of confetti pieces fired. Set this high at your own peril!                                  |
 | Show Buttons                        | Disable if you are only interested in using it from macros/modules and/or the buttons conflict with other things. |
 | Sound Volume                        | Sets the volume for the confetti firing sounds.                                                                   |
+| High Intensity Sound                | [WORLD SETTING] Sets the sound file for the high intensity confetti.                                              |
+| Medium Intensity Sound              | [WORLD SETTING] Sets the sound file for the medium intensity confetti.                                            |
+| Low Intensity Sound                 | [WORLD SETTING] Sets the sound file for the low intensity confetti.                                               |
 | Show Other Players Confetti Scale   | Tick if you want to see the confetti from other players scaled by their settings.                                 |
 | Show Other Players Glitter Strength | Tick if you want to see the glitter confetti from other players at their chosen strength.                         |
 
@@ -125,7 +128,7 @@ For backwards compatability with Confetti, Celebrate will also fire the `confett
 
 ## Acknowledgements
 
-Sound Effects from [Zapsplat.com](https://www.zapsplat.com/).
+Default sound effects from [Zapsplat.com](https://www.zapsplat.com/).
 
 This was originally forked from [Confetti](https://github.com/ElfFriend-DnD/foundryvtt-confetti) by ElfFriend-DnD, so big thanks to him for letting me continue his work and for making it in the first place.
 

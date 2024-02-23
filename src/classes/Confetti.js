@@ -1,7 +1,7 @@
 import { GsapCompose, easingFunc } from '#runtime/svelte/gsap';
 import '#runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
-import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, SOUNDS, WINDOW_ID } from '../constants';
-import { log, random } from '../helpers';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, WINDOW_ID } from '../constants';
+import { log, random, getSoundsMap } from '../helpers';
 import { cooldownStore } from '../index';
 
 const DECAY = 3;
@@ -94,7 +94,7 @@ export class Confetti {
    * @returns {Array} An array of sound player functions
    */
   _preloadSounds() {
-    return Object.values(SOUNDS).map((soundPath) => () => game.audio.preload(soundPath));
+    return Object.values(getSoundsMap()).map((soundPath) => () => game.audio.preload(soundPath));
   }
 
   /**
@@ -310,7 +310,7 @@ export class Confetti {
     canvas.app.ticker.add(this.render, this);
 
     if (!mute) {
-      game.audio.play(SOUNDS[shootConfettiProps.strength], { volume });
+      game.audio.play(getSoundsMap()[shootConfettiProps.strength], { volume });
     }
 
     // bottom left
