@@ -1,4 +1,4 @@
-import { MODULE_ID } from './constants';
+import { MODULE_ID, CONFETTI_STRENGTH, SETTINGS } from './constants';
 
 /**
  * @param {boolean} force Display even if debug mode is off
@@ -25,4 +25,12 @@ export const random = (a = 1, b = 0) => {
   const lower = Math.min(a, b);
   const upper = Math.max(a, b);
   return lower + Math.random() * (upper - lower);
+};
+
+export const getSoundsMap = () => {
+  return {
+    [CONFETTI_STRENGTH.low]: game.settings.get(MODULE_ID, SETTINGS.SOUND_INTENSITY_LOW),
+    [CONFETTI_STRENGTH.med]: game.settings.get(MODULE_ID, SETTINGS.SOUND_INTENSITY_MED),
+    [CONFETTI_STRENGTH.high]: game.settings.get(MODULE_ID, SETTINGS.SOUND_INTENSITY_HIGH)
+  };
 };

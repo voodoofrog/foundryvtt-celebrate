@@ -1,5 +1,5 @@
 import { AppearanceSettings } from './classes/AppearanceSettings';
-import { CONFETTI_STYLES, MODULE_ID, SETTINGS } from './constants';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, SOUNDS } from './constants';
 
 const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
 
@@ -58,6 +58,36 @@ export const registerSettings = () => {
     range: { min: 0.0, max: 1, step: 0.1 },
     config: true,
     hint: `${MODULE_ID}.settings.${SETTINGS.SOUND_VOLUME}.hint`
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.SOUND_INTENSITY_HIGH, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SOUND_INTENSITY_HIGH}.name`,
+    default: SOUNDS[CONFETTI_STRENGTH.high],
+    type: String,
+    scope: 'world',
+    config: true,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SOUND_INTENSITY_HIGH}.hint`,
+    filePicker: 'audio'
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.SOUND_INTENSITY_MED, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SOUND_INTENSITY_MED}.name`,
+    default: SOUNDS[CONFETTI_STRENGTH.med],
+    type: String,
+    scope: 'world',
+    config: true,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SOUND_INTENSITY_MED}.hint`,
+    filePicker: 'audio'
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.SOUND_INTENSITY_LOW, {
+    name: `${MODULE_ID}.settings.${SETTINGS.SOUND_INTENSITY_LOW}.name`,
+    default: SOUNDS[CONFETTI_STRENGTH.low],
+    type: String,
+    scope: 'world',
+    config: true,
+    hint: `${MODULE_ID}.settings.${SETTINGS.SOUND_INTENSITY_LOW}.hint`,
+    filePicker: 'audio'
   });
 
   game.settings.register(MODULE_ID, SETTINGS.SHOW_OTHERS_CONFETTI_SCALE, {

@@ -20,6 +20,9 @@ export const SETTINGS = {
   CONFETTI_MULTIPLIER: 'confettiMultiplier',
   SHOW_BUTTONS: 'showButtons',
   SOUND_VOLUME: 'soundVolume',
+  SOUND_INTENSITY_HIGH: 'soundIntensityHigh',
+  SOUND_INTENSITY_MED: 'soundIntensityMed',
+  SOUND_INTENSITY_LOW: 'soundIntensityLow',
   SHOW_OTHERS_CONFETTI_SCALE: 'showOthersConfettiScale',
   SHOW_OTHERS_GLITTER_STRENGTH: 'showOthersGlitterStrength',
   APPEARANCE: {
