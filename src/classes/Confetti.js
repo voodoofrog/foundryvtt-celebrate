@@ -1,6 +1,6 @@
 import { GsapCompose, easingFunc } from '#runtime/svelte/gsap';
 import '#runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
-import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, WINDOW_ID } from '../constants';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS } from '../constants';
 import { log, random, getSoundsMap } from '../helpers';
 import { cooldownStore } from '../index';
 
@@ -47,15 +47,6 @@ export class Confetti {
     cooldownStore.subscribe((value) => {
       this.isOnCooldown = value;
     });
-
-    // TODO: The old api for backwards compatibily - to be removed
-    window[WINDOW_ID] = {
-      confettiStrength: CONFETTI_STRENGTH,
-      getShootConfettiProps: Confetti.getShootConfettiProps,
-      handleShootConfetti: this.handleShootConfetti.bind(this),
-      shootConfetti: this.shootConfetti.bind(this)
-    };
-    Hooks.call(`${WINDOW_ID}Ready`, this);
   }
 
   get constraints() {
