@@ -55,7 +55,7 @@ No known issues at this time, but if you spot any be sure to report it.
 
 ## API
 
-After the hook `celebrateReady` is fired, the following api methods are expected to be on `game.modules.get('celebrate').api`:
+After the hook `celebrateApiReady` is fired (the hook itself also passes the api in the first argument), the following api methods are expected to be on `game.modules.get('celebrate').api`:
 
 ### `confettiStrength`
 
@@ -97,8 +97,13 @@ Makes the appropriate amount of confetti fire on all clients' screens.
 ### Example:
 
 ```js
+let celebrateApi;
+
+Hooks.once('celebrateApiReady', (api) => {
+  celebrateApi = api;
+});
+
 function makeConfetti(isSecretCelebration) {
-  const celebrateApi = game.modules.get('celebrate').api;
   const strength = celebrateApi.confettiStrength.low;
   const shootConfettiProps = celebrateApi.getShootConfettiProps(strength);
   const glitterStyle = celebrateApi.confettiStyles.baseGlitter;
@@ -118,8 +123,6 @@ function makeConfetti(isSecretCelebration) {
   }
 }
 ```
-
-For backwards compatability with Confetti, Celebrate will also fire the `confettiReady` hook and provide the api on `window.confetti.api`, although this will eventually be removed.
 
 ## Known Issues
 

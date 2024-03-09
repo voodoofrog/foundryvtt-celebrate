@@ -50,4 +50,5 @@ Hooks.once('ready', () => {
   game.modules.get(MODULE_ID).api = api;
 
   console.log('Celebrate | Ready');
+  Hooks.callAll(`celebrateApiReady`, api);
 });
