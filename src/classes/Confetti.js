@@ -1,7 +1,10 @@
-import { GsapCompose, easingFunc } from '#runtime/svelte/gsap';
+import { GsapCompose, easingFunc, gsap } from '#runtime/svelte/gsap';
+import { Colord } from '#runtime/color/colord';
 import '#runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
+import '#runtime/svelte/gsap/plugin/PixiPlugin';
+import '#runtime/svelte/gsap/plugin/bonus/CustomWiggle';
 import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS } from '../constants';
-import { log, random, getSoundsMap } from '../helpers';
+import { log, random, getSoundsMap, callback } from '../helpers';
 import { cooldownStore } from '../index';
 
 const DECAY = 3;
@@ -9,7 +12,13 @@ const SPREAD = 50;
 const GRAVITY = 1200;
 const RGB_SCALAR = 1 / 255;
 const {
-  APPEARANCE: { CONFETTI_SCALE, CONFETTI_STYLE_CHOICE, CONFETTI_COLOR_BASE, CONFETTI_GLITTER_STRENGTH },
+  APPEARANCE: {
+    CONFETTI_SCALE,
+    CONFETTI_STYLE_CHOICE,
+    CONFETTI_COLOR_BASE,
+    CONFETTI_GLITTER_STRENGTH,
+    CONFETTI_TEXTURE
+  },
   CONFETTI_MULTIPLIER,
   FIRE_RATE_LIMIT,
   GM_ONLY,
@@ -18,15 +27,38 @@ const {
   SOUND_VOLUME
 } = SETTINGS;
 
-/**
- * Stolen right from Dice so Nice and butchered
- * https://gitlab.com/riccisi/foundryvtt-dice-so-nice/-/blob/master/module/main.js
- * Main class to handle ~~3D Dice~~ Confetti animations.
- */
+const randomizeShade = (color, maxDeviation = 50) => {
+  const randomDeviation = Math.round(random(0, maxDeviation));
+  const scaledRandomDeviation = RGB_SCALAR * randomDeviation;
+
+  if (Math.random() < 0.5) {
+    return color.subtract(scaledRandomDeviation);
+  } else {
+    return color.add(scaledRandomDeviation);
+  }
+};
+
+const getDrawColor = (time, sprite) => {
+  if (sprite.style === CONFETTI_STYLES.glitter.key || sprite.style === CONFETTI_STYLES.baseGlitter.key) {
+    const { red, green, blue } = sprite.originalColor;
+    const randomShade = randomizeShade(Color.fromRGB([red, green, blue]), sprite.gDeviation);
+    return `rgb(${randomShade.r * 255}, ${randomShade.g * 255}, ${randomShade.b * 255})`;
+  }
+
+  return sprite.color;
+};
+
 export class Confetti {
   static instance;
   isOnCooldown = false;
   ctx;
+  textures = {
+    circle: null,
+    classic: null,
+    crescent: null,
+    skull: null,
+    star: null
+  };
 
   /**
    * Create and initialize a new Confetti.
@@ -43,6 +75,7 @@ export class Confetti {
     this.confettiSprites = {};
 
     game.audio.pending.push(this._preloadSounds.bind(this));
+    this.loadTextures();
 
     cooldownStore.subscribe((value) => {
       this.isOnCooldown = value;
@@ -51,9 +84,17 @@ export class Confetti {
 
   get constraints() {
     return {
-      width: this.ctx.canvas.width,
-      height: this.ctx.canvas.height
+      width: canvas.app.renderer.width,
+      height: canvas.app.renderer.height
     };
+  }
+
+  async loadTextures() {
+    this.textures.circle = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/circle.png`);
+    this.textures.classic = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/classic.png`);
+    this.textures.crescent = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/crescent.png`);
+    this.textures.skull = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/skull.png`);
+    this.textures.star = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/star.png`);
   }
 
   /**
@@ -105,33 +146,12 @@ export class Confetti {
     this.ctx.canvas.height = h;
   }
 
-  _randomizeShade(color, maxDeviation = 50) {
-    const randomDeviation = Math.round(random(0, maxDeviation));
-    const scaledRandomDeviation = RGB_SCALAR * randomDeviation;
-
-    if (Math.random() < 0.5) {
-      return color.subtract(scaledRandomDeviation);
-    } else {
-      return color.add(scaledRandomDeviation);
-    }
-  }
-
-  _getDrawColor(sprite) {
-    if (sprite.style === CONFETTI_STYLES.glitter.key || sprite.style === CONFETTI_STYLES.baseGlitter.key) {
-      const { red, green, blue } = sprite.originalColor;
-      const randomShade = this._randomizeShade(Color.fromRGB([red, green, blue]), sprite.gDeviation);
-      return `rgb(${randomShade.r * 255}, ${randomShade.g * 255}, ${randomShade.b * 255})`;
-    }
-
-    return sprite.color;
-  }
-
   /**
    * Adds a given number of confetti particles and kicks off the tweening magic
    *
    * @param {AddConfettiParticleProps} confettiParticleProps An object containing the particle properties
    */
-  addConfettiParticles({ amount, angle, velocity, sourceX, sourceY, cColor, cStyle, cScale, cgStrength }) {
+  addConfettiParticles({ amount, angle, velocity, sourceX, sourceY, cColor, cStyle, cScale, cgStrength, texture }) {
     log(false, {});
     let i = 0;
     const allowSyncScale = game.settings.get(MODULE_ID, SHOW_OTHERS_CONFETTI_SCALE);
@@ -144,12 +164,9 @@ export class Confetti {
 
     while (i < amount) {
       // sprite
-      const r = random(4, 6) * this.dpr * confettiScale;
-      const d = random(15, 25) * this.dpr * confettiScale;
-
       let blue, green, red;
       if (style === CONFETTI_STYLES.base.key || style === CONFETTI_STYLES.baseGlitter.key) {
-        const randomShade = this._randomizeShade(confettiColor);
+        const randomShade = randomizeShade(confettiColor);
         red = randomShade.r * 255;
         green = randomShade.g * 255;
         blue = randomShade.b * 255;
@@ -158,72 +175,41 @@ export class Confetti {
         green = random(50, 200);
         blue = random(50, 200);
       }
-      const color = `rgb(${red}, ${green}, ${blue})`;
+      const colorHex = new Colord(`rgb(${red}, ${green}, ${blue})`).toHex();
 
-      const tilt = random(10, -10);
-      const tiltAngleIncremental = random(0.07, 0.05);
-      const tiltAngle = 0;
+      const rScale = Math.max(random(confettiScale / 2, (confettiScale - 0.4) / 2), 0.1);
+
+      const pixiSprite = new PIXI.Sprite(this.textures[texture]);
+      pixiSprite.anchor.set(0.5);
+      pixiSprite.angle = angle;
+      pixiSprite.x = sourceX;
+      pixiSprite.y = sourceY;
+      pixiSprite.scale.set(rScale, rScale);
+      pixiSprite.tint = `0x${colorHex.replace('#', '')}`;
+
+      // additional
+      pixiSprite.velocity = velocity;
+      pixiSprite.originalColor = { red: red / 255, green: green / 255, blue: blue / 255 };
+      pixiSprite.style = style;
+      pixiSprite.gDeviation = gDeviation;
+
+      canvas.overlay.addChild(pixiSprite);
 
       const id = randomID(); // foundry core
-      const sprite = {
-        angle,
-        velocity,
-        x: sourceX,
-        y: sourceY,
-        r,
-        d,
-        color,
-        tilt,
-        tiltAngleIncremental,
-        tiltAngle,
-        originalColor: { red: red / 255, green: green / 255, blue: blue / 255 },
-        style,
-        gDeviation
-      };
 
       this.confettiSprites = {
         ...this.confettiSprites,
-        [id]: sprite
+        [id]: pixiSprite
       };
 
       log(false, 'addConfettiParticles', {
-        sprite,
+        pixiSprite,
         confettiSprites: this.confettiSprites
       });
 
       this.tweenConfettiParticle(id);
       i++;
     }
-  }
-
-  /**
-   * Clear the confettiCanvas
-   */
-  clearConfetti() {
-    log(false, 'clearConfetti');
-    this.ctx.clearRect(0, 0, this.constraints.width, this.constraints.height);
-  }
-
-  /**
-   * Draw a frame of the animation.
-   */
-  drawConfetti() {
-    log(false, 'drawConfetti');
-
-    // map over the confetti sprites
-    Object.keys(this.confettiSprites).map((spriteId) => {
-      const sprite = this.confettiSprites[spriteId];
-
-      this.ctx.beginPath();
-      this.ctx.lineWidth = sprite.d / 2;
-
-      this.ctx.strokeStyle = this._getDrawColor(sprite);
-      this.ctx.moveTo(sprite.x + sprite.tilt + sprite.r, sprite.y);
-      this.ctx.lineTo(sprite.x + sprite.tilt, sprite.y + sprite.tilt + sprite.r);
-      this.ctx.stroke();
-
-      this.updateConfettiParticle(spriteId);
-    });
   }
 
   /**
@@ -244,13 +230,15 @@ export class Confetti {
    * @returns {object} The props
    */
   static getShootConfettiProps(strength, options = {}) {
-    const { style, scale, color, glitterStr } = options;
+    const { style, scale, color, glitterStr, texture } = options;
     const _style = style ?? game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
+    const _texture = texture ?? game.settings.get(MODULE_ID, CONFETTI_TEXTURE);
 
     const shootConfettiProps = {
       strength,
       cStyle: _style,
-      cScale: scale ?? game.settings.get(MODULE_ID, CONFETTI_SCALE)
+      cScale: scale ?? game.settings.get(MODULE_ID, CONFETTI_SCALE),
+      texture: _texture
     };
 
     if (_style === CONFETTI_STYLES.base.key || _style === CONFETTI_STYLES.baseGlitter.key) {
@@ -298,8 +286,6 @@ export class Confetti {
     const volume = game.settings.get(MODULE_ID, SOUND_VOLUME);
     const mute = volume === 0.0;
 
-    canvas.app.ticker.add(this.render, this);
-
     if (!mute) {
       game.audio.play(getSoundsMap()[shootConfettiProps.strength], { volume });
     }
@@ -321,21 +307,6 @@ export class Confetti {
       sourceY: this.constraints.height,
       ...shootConfettiProps
     });
-  }
-
-  /**
-   * Clear the old frame and render a new one.
-   */
-  render() {
-    log(false, 'render', {
-      ctx: this.ctx
-    });
-
-    // first clear the board
-    this.clearConfetti();
-
-    // draw the sprites
-    this.drawConfetti();
   }
 
   /**
@@ -390,19 +361,39 @@ export class Confetti {
     const angle = random(minAngle, maxAngle);
     const gravity = GRAVITY;
     const friction = random(0.01, 0.05);
-    const d = 0;
 
-    GsapCompose.to(this.confettiSprites[spriteId], {
+    const sprite = this.confettiSprites[spriteId];
+
+    const colorTl = gsap.timeline({ repeat: -1, repeatRefresh: true });
+    const skewTl = gsap.timeline({ repeat: -1, repeatRefresh: true });
+    colorTl.to(sprite, {
+      pixi: {
+        colorize: getDrawColor,
+        colorizeAmount: 1
+      },
+      duration: 0.05
+    });
+
+    skewTl.to(sprite, {
+      pixi: { skewY: 'random([90, 0, 90])' },
+      duration: 0.5
+    });
+
+    GsapCompose.to(sprite, {
       physics2D: {
         velocity,
         angle,
         gravity,
         friction
       },
-      d,
+      pixi: {
+        scale: 0,
+        alpha: 0
+      },
       ease: easingFunc['power4.in'],
-      onComplete: () => {
+      onComplete: callback((tween) => {
         // remove confetti sprite and id
+        canvas.overlay.removeChild(sprite);
         delete this.confettiSprites[spriteId];
 
         log(false, 'tween complete', {
@@ -412,29 +403,14 @@ export class Confetti {
 
         if (Object.keys(this.confettiSprites).length === 0) {
           log(false, 'all tweens complete');
-          this.clearConfetti();
-          canvas.app.ticker.remove(this.render, this);
         }
-      },
+
+        // clean up animations
+        tween.kill();
+        colorTl.kill();
+        skewTl.kill();
+      }),
       duration: DECAY
     });
-  }
-
-  /**
-   * Randomize a given sprite for the next frame
-   *
-   * @param {string} spriteId The sprite ID
-   */
-  updateConfettiParticle(spriteId) {
-    const sprite = this.confettiSprites[spriteId];
-
-    const tiltAngle = 0.0005 * sprite.d;
-
-    sprite.angle += 0.01;
-    sprite.tiltAngle += tiltAngle;
-    sprite.tiltAngle += sprite.tiltAngleIncremental;
-    sprite.tilt = Math.sin(sprite.tiltAngle - sprite.r / 2) * sprite.r * 2;
-    sprite.y += Math.sin(sprite.angle + sprite.r / 2) * 2;
-    sprite.x += Math.cos(sprite.angle) / 2;
   }
 }

@@ -1,12 +1,18 @@
-import { CONFETTI_STYLES, MODULE_ID, SETTINGS, TEMPLATES } from '../constants';
+import { CONFETTI_STYLES, CONFETTI_TEXTURES, MODULE_ID, SETTINGS, TEMPLATES } from '../constants';
 import { log } from '../helpers';
 import { Confetti } from './Confetti';
 
 const {
-  APPEARANCE: { CONFETTI_COLOR_BASE, CONFETTI_STYLE_CHOICE, CONFETTI_GLITTER_STRENGTH, CONFETTI_SCALE }
+  APPEARANCE: {
+    CONFETTI_COLOR_BASE,
+    CONFETTI_STYLE_CHOICE,
+    CONFETTI_GLITTER_STRENGTH,
+    CONFETTI_SCALE,
+    CONFETTI_TEXTURE
+  }
 } = SETTINGS;
 
-const buildChoiceData = () => {
+const buildStyleChoiceData = () => {
   const styleObj = {
     style_choices: {}
   };
@@ -16,6 +22,16 @@ const buildChoiceData = () => {
   return styleObj;
 };
 
+const buildTextureChoiceData = () => {
+  const textureObj = {
+    texture_choices: {}
+  };
+  Object.keys(CONFETTI_TEXTURES).forEach((key) => {
+    textureObj.texture_choices[key] = CONFETTI_TEXTURES[key].translation;
+  });
+  return textureObj;
+};
+
 export class AppearanceSettings extends FormApplication {
   constructor() {
     super();
@@ -23,7 +39,8 @@ export class AppearanceSettings extends FormApplication {
       [CONFETTI_COLOR_BASE]: game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE),
       [CONFETTI_STYLE_CHOICE]: game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE),
       [CONFETTI_GLITTER_STRENGTH]: game.settings.get(MODULE_ID, CONFETTI_GLITTER_STRENGTH),
-      [CONFETTI_SCALE]: game.settings.get(MODULE_ID, CONFETTI_SCALE)
+      [CONFETTI_SCALE]: game.settings.get(MODULE_ID, CONFETTI_SCALE),
+      [CONFETTI_TEXTURE]: game.settings.get(MODULE_ID, CONFETTI_TEXTURE)
     };
   }
 
@@ -40,7 +57,7 @@ export class AppearanceSettings extends FormApplication {
   }
 
   getData() {
-    return { ...this.tempData, ...buildChoiceData() };
+    return { ...this.tempData, ...buildStyleChoiceData(), ...buildTextureChoiceData() };
   }
 
   async _updateObject(_, formData) {
@@ -63,7 +80,8 @@ export class AppearanceSettings extends FormApplication {
       cColor: event.delegateTarget[CONFETTI_COLOR_BASE]?.value,
       cScale: event.delegateTarget[CONFETTI_SCALE]?.value,
       cgStrength: event.delegateTarget[CONFETTI_GLITTER_STRENGTH]?.value,
-      strength: 2
+      strength: 2,
+      texture: event.delegateTarget[CONFETTI_TEXTURE]?.value
     };
 
     switch (action) {

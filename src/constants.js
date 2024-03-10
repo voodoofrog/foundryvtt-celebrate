@@ -29,7 +29,8 @@ export const SETTINGS = {
     CONFETTI_STYLE_CHOICE: 'confettiStyleChoice',
     CONFETTI_COLOR_BASE: 'confettiColorBase',
     CONFETTI_GLITTER_STRENGTH: 'confettiGlitterStrength',
-    CONFETTI_SCALE: 'confettiScale'
+    CONFETTI_SCALE: 'confettiScale',
+    CONFETTI_TEXTURE: 'confettiTexture'
   }
 };
 
@@ -53,5 +54,28 @@ export const CONFETTI_STYLES = {
   baseGlitter: {
     key: 'baseGlitter',
     translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE}.choices.baseGlitter`
+  }
+};
+
+export const CONFETTI_TEXTURES = {
+  classic: {
+    key: 'classic',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.classic`
+  },
+  circle: {
+    key: 'circle',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.circle`
+  },
+  crescent: {
+    key: 'crescent',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.crescent`
+  },
+  skull: {
+    key: 'skull',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.skull`
+  },
+  star: {
+    key: 'star',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.star`
   }
 };

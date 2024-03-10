@@ -34,3 +34,25 @@ export const getSoundsMap = () => {
     [CONFETTI_STRENGTH.high]: game.settings.get(MODULE_ID, SETTINGS.SOUND_INTENSITY_HIGH)
   };
 };
+
+/**
+ *
+ * @param {Function} func Callback function
+ *
+ * @param {string} scope Scope of the callback
+ *
+ * @param {Array} params Callback function parameters
+ *
+ * @returns {Function} function
+ */
+export function callback(func, scope, params) {
+  let tween;
+  params = params || [];
+  return function () {
+    if (!tween) {
+      tween = this;
+      params.push(tween);
+    }
+    func.apply(scope || tween, params);
+  };
+}

@@ -23,6 +23,7 @@
     }]
   },
   "globals": {
-    "Color": "readonly"
+    "Color": "readonly",
+    "PIXI": true
   }
 }

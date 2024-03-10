@@ -85,6 +85,17 @@
           "test": "Test Settings",
           "cancel": "Cancel",
           "submit": "Save"
+        },
+        "confettiTexture": {
+          "name": "Confetti Texture",
+          "hint": "Classic: Classic rectangle. | Circle | Crescent | Skull | Star",
+          "choices": {
+            "classic": "Classic",
+            "circle": "Circle",
+            "crescent": "Crescent",
+            "skull": "Skull",
+            "star": "Star"
+          }
         }
       }
     }

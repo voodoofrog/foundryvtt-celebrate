@@ -41,6 +41,11 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 
 | **Name**              | Description                                           |
 | --------------------- | ----------------------------------------------------- |
+| Confetti Texture      | Classic: Classic rectangle.                           |
+|                       | Circle                                                |
+|                       | Crescent                                              |
+|                       | Skull                                                 |
+|                       | Star                                                  |
 | Confetti Style Choice | Default: Multi colored confetti.                      |
 |                       | Base Color: Confetti with the chosen color below.     |
 |                       | Glitter: Sparkly color cycling confetti.              |
@@ -81,8 +86,21 @@ const confettiStyles = {
   baseGlitter: 'baseGlitter',
 };
 ```
+### `confettiTextures`
 
-### `getShootConfettiProps(strength: (0 | 1 | 2), options?: {style?, scale?, color?, glitterStr?})`
+a javascript object:
+
+```js
+const confettiTextures = {
+  classic: 'classic',
+  circle: 'circle',
+  crescent: 'crescent',
+  skull: 'skull',
+  star: 'star',
+};
+```
+
+### `getShootConfettiProps(strength: (0 | 1 | 2), options?: {style?, scale?, color?, glitterStr?, texture?})`
 
 Returns the properties that `handleShootConfetti` and `shootConfetti` use based on the strength and optional parameters you feed it.
 
@@ -112,6 +130,7 @@ function makeConfetti(isSecretCelebration) {
     scale: 0.5,
     color: '#ff0000',
     glitterStr: 255,
+    texture: 'star'
   });
 
   if (isSecretCelebration) {

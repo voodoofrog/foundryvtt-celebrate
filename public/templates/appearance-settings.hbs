@@ -1,6 +1,15 @@
 <form>
   <section class="content">
     <div class="form-group">
+      <label>{{localize "celebrate.settings.appearance.confettiTexture.name"}}</label>
+      <div class="form-fields">
+        <select name="confettiTexture">
+          {{selectOptions texture_choices selected=confettiTexture localize=true}}
+        </select>
+      </div>
+      <p class="notes">{{localize "celebrate.settings.appearance.confettiTexture.hint"}}</p>
+    </div>
+    <div class="form-group">
       <label>{{localize "celebrate.settings.appearance.confettiStyleChoice.name"}}</label>
       <div class="form-fields">
         <select name="confettiStyleChoice">

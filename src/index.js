@@ -1,8 +1,7 @@
 import { writable } from 'svelte/store';
-import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS } from './constants';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, CONFETTI_TEXTURES } from './constants';
 import { registerAppearanceSettings, registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
-import CelebrateCanvas from './view/CelebrateCanvas.svelte';
 import { Confetti } from './classes/Confetti';
 
 export const cooldownStore = writable(false);
@@ -34,13 +33,13 @@ Hooks.on('renderChatLog', (app, html) => {
 Hooks.once('ready', () => {
   new Confetti();
 
-  new CelebrateCanvas({
-    target: document.body
-  });
-
   const api = {
     confettiStrength: CONFETTI_STRENGTH,
     confettiStyles: Object.values(CONFETTI_STYLES).reduce((acc, style) => ({ ...acc, [style.key]: style.key }), {}),
+    confettiTextures: Object.values(CONFETTI_TEXTURES).reduce(
+      (acc, texture) => ({ ...acc, [texture.key]: texture.key }),
+      {}
+    ),
     getShootConfettiProps: Confetti.getShootConfettiProps,
     handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
     shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance)
