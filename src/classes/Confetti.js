@@ -392,9 +392,19 @@ export class Confetti {
       },
       ease: easingFunc['power4.in'],
       onComplete: callback((tween) => {
-        // remove confetti sprite and id
-        canvas.overlay.removeChild(sprite);
+        // remove confetti sprite from list and canvas
         delete this.confettiSprites[spriteId];
+        canvas.overlay.removeChild(sprite);
+
+        // clean up timelines
+        colorTl.killTweensOf(sprite);
+        colorTl.kill();
+        skewTl.killTweensOf(sprite);
+        skewTl.kill();
+
+        // kill the tween and destroy the sprite
+        tween.kill();
+        sprite.destroy();
 
         log(false, 'tween complete', {
           spriteId,
@@ -404,11 +414,6 @@ export class Confetti {
         if (Object.keys(this.confettiSprites).length === 0) {
           log(false, 'all tweens complete');
         }
-
-        // clean up animations
-        tween.kill();
-        colorTl.kill();
-        skewTl.kill();
       }),
       duration: DECAY
     });
