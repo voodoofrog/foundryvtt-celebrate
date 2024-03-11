@@ -44,8 +44,11 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 | Confetti Texture      | Classic: Classic rectangle.                           |
 |                       | Circle                                                |
 |                       | Crescent                                              |
+|                       | Lightning Bolt                                        |
+|                       | Music Note                                            |
 |                       | Skull                                                 |
 |                       | Star                                                  |
+|                       | Tree                                                  |
 | Confetti Style Choice | Default: Multi colored confetti.                      |
 |                       | Base Color: Confetti with the chosen color below.     |
 |                       | Glitter: Sparkly color cycling confetti.              |

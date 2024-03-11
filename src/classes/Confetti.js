@@ -72,8 +72,11 @@ export class Confetti {
     this.textures.circle = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/circle.png`);
     this.textures.classic = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/classic.png`);
     this.textures.crescent = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/crescent.png`);
+    this.textures.lightning = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/lightning.png`);
+    this.textures.music = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/music.png`);
     this.textures.skull = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/skull.png`);
     this.textures.star = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/star.png`);
+    this.textures.tree = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/tree.png`);
   }
 
   /**

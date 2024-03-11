@@ -70,6 +70,14 @@ export const CONFETTI_TEXTURES = {
     key: 'crescent',
     translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.crescent`
   },
+  lightning: {
+    key: 'lightning',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.lightning`
+  },
+  music: {
+    key: 'music',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.music`
+  },
   skull: {
     key: 'skull',
     translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.skull`
@@ -77,5 +85,9 @@ export const CONFETTI_TEXTURES = {
   star: {
     key: 'star',
     translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.star`
+  },
+  tree: {
+    key: 'tree',
+    translation: `${MODULE_ID}.settings.appearance.${SETTINGS.APPEARANCE.CONFETTI_TEXTURE}.choices.tree`
   }
 };

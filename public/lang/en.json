@@ -88,13 +88,16 @@
         },
         "confettiTexture": {
           "name": "Confetti Texture",
-          "hint": "Classic: Classic rectangle. | Circle | Crescent | Skull | Star",
+          "hint": "Classic: Classic rectangle. | Circle | Crescent | Music Note | Skull | Star",
           "choices": {
             "classic": "Classic",
             "circle": "Circle",
             "crescent": "Crescent",
+            "lightning": "Lightning Bolt",
+            "music": "Music Note",
             "skull": "Skull",
-            "star": "Star"
+            "star": "Star",
+            "tree": "Tree"
           }
         }
       }
