@@ -3,7 +3,7 @@
 <script>
   import { CONFETTI_STRENGTH, MODULE_ID } from '../constants';
   import { Confetti } from '../classes/Confetti';
-  import { cooldownStore } from '../index';
+  import { cooldownStore } from '../stores';
 
   const title = game.i18n.localize(`${MODULE_ID}.buttons.title`);
   const low = game.i18n.localize(`${MODULE_ID}.buttons.intensity.low`);

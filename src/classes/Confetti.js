@@ -1,16 +1,12 @@
-import { GsapCompose, easingFunc, gsap } from '#runtime/svelte/gsap';
-import { Colord } from '#runtime/color/colord';
+import { get } from 'svelte/store';
 import '#runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
 import '#runtime/svelte/gsap/plugin/PixiPlugin';
 import '#runtime/svelte/gsap/plugin/bonus/CustomWiggle';
 import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS } from '../constants';
-import { log, random, getSoundsMap, callback } from '../helpers';
-import { cooldownStore } from '../index';
+import { log, getSoundsMap } from '../helpers';
+import { cooldownStore, particleStore } from '../stores';
+import { ConfettiParticle } from './ConfettiParticle';
 
-const DECAY = 3;
-const SPREAD = 50;
-const GRAVITY = 1200;
-const RGB_SCALAR = 1 / 255;
 const {
   APPEARANCE: {
     CONFETTI_SCALE,
@@ -26,27 +22,6 @@ const {
   SHOW_OTHERS_GLITTER_STRENGTH,
   SOUND_VOLUME
 } = SETTINGS;
-
-const randomizeShade = (color, maxDeviation = 50) => {
-  const randomDeviation = Math.round(random(0, maxDeviation));
-  const scaledRandomDeviation = RGB_SCALAR * randomDeviation;
-
-  if (Math.random() < 0.5) {
-    return color.subtract(scaledRandomDeviation);
-  } else {
-    return color.add(scaledRandomDeviation);
-  }
-};
-
-const getDrawColor = (time, sprite) => {
-  if (sprite.style === CONFETTI_STYLES.glitter.key || sprite.style === CONFETTI_STYLES.baseGlitter.key) {
-    const { red, green, blue } = sprite.originalColor;
-    const randomShade = randomizeShade(Color.fromRGB([red, green, blue]), sprite.gDeviation);
-    return `rgb(${randomShade.r * 255}, ${randomShade.g * 255}, ${randomShade.b * 255})`;
-  }
-
-  return sprite.color;
-};
 
 export class Confetti {
   static instance;
@@ -72,10 +47,9 @@ export class Confetti {
     this.dpr = canvas.app.renderer.resolution ?? window.devicePixelRatio ?? 1;
 
     this._initListeners();
-    this.confettiSprites = {};
 
     game.audio.pending.push(this._preloadSounds.bind(this));
-    this.loadTextures();
+    this._loadTextures();
 
     cooldownStore.subscribe((value) => {
       this.isOnCooldown = value;
@@ -89,21 +63,17 @@ export class Confetti {
     };
   }
 
-  async loadTextures() {
+  /**
+   * Load textures for confetti particles
+   *
+   * @private
+   */
+  async _loadTextures() {
     this.textures.circle = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/circle.png`);
     this.textures.classic = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/classic.png`);
     this.textures.crescent = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/crescent.png`);
     this.textures.skull = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/skull.png`);
     this.textures.star = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/star.png`);
-  }
-
-  /**
-   * Set the canvas element for confetti.
-   *
-   * @param {Element} canvasElement The canvas element to attach to
-   */
-  setCanvasElement(canvasElement) {
-    this.ctx = canvasElement.getContext('2d');
   }
 
   /**
@@ -123,6 +93,7 @@ export class Confetti {
   /**
    * Preload sounds so they're ready to play
    *
+   * @private
    * @returns {Array} An array of sound player functions
    */
   _preloadSounds() {
@@ -130,84 +101,55 @@ export class Confetti {
   }
 
   /**
-   * Callback for `resizeObserver` on canvas to set the canvas size.
-   *
-   * @param {number} width The width to set
-   *
-   * @param {number} height The height to set
-   */
-  onCanvasResize(width, height) {
-    log(false, `onCanvasResize - width: ${width}; height: ${height}`);
-
-    const w = width * this.dpr;
-    const h = height * this.dpr;
-
-    this.ctx.canvas.width = w;
-    this.ctx.canvas.height = h;
-  }
-
-  /**
    * Adds a given number of confetti particles and kicks off the tweening magic
+   *
+   * @private
    *
    * @param {AddConfettiParticleProps} confettiParticleProps An object containing the particle properties
    */
-  addConfettiParticles({ amount, angle, velocity, sourceX, sourceY, cColor, cStyle, cScale, cgStrength, texture }) {
-    log(false, {});
+  _addConfettiParticles(confettiParticleProps) {
+    const {
+      amount,
+      angle,
+      velocity,
+      sourceX,
+      sourceY,
+      cColor,
+      cStyle,
+      cScale = 1,
+      cgStrength = 128,
+      texture
+    } = confettiParticleProps;
+    log(false, 'addConfettiParticles props: ', confettiParticleProps);
     let i = 0;
     const allowSyncScale = game.settings.get(MODULE_ID, SHOW_OTHERS_CONFETTI_SCALE);
     const allowSyncDeviation = game.settings.get(MODULE_ID, SHOW_OTHERS_GLITTER_STRENGTH);
-    const confettiScale = allowSyncScale && cScale ? cScale : game.settings.get(MODULE_ID, CONFETTI_SCALE);
+    const confettiScale = allowSyncScale ? cScale : game.settings.get(MODULE_ID, CONFETTI_SCALE);
     const style = cStyle ?? game.settings.get(MODULE_ID, CONFETTI_STYLE_CHOICE);
-    const confettiColor = Color.from(cColor ?? game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE));
-    const gDeviation =
-      allowSyncDeviation && cgStrength ? cgStrength : game.settings.get(MODULE_ID, CONFETTI_GLITTER_STRENGTH);
+    const confettiColor = cColor ?? game.settings.get(MODULE_ID, CONFETTI_COLOR_BASE);
+    const gDeviation = allowSyncDeviation ? cgStrength : game.settings.get(MODULE_ID, CONFETTI_GLITTER_STRENGTH);
 
     while (i < amount) {
-      // sprite
-      let blue, green, red;
-      if (style === CONFETTI_STYLES.base.key || style === CONFETTI_STYLES.baseGlitter.key) {
-        const randomShade = randomizeShade(confettiColor);
-        red = randomShade.r * 255;
-        green = randomShade.g * 255;
-        blue = randomShade.b * 255;
-      } else {
-        red = random(50, 255);
-        green = random(50, 200);
-        blue = random(50, 200);
-      }
-      const colorHex = new Colord(`rgb(${red}, ${green}, ${blue})`).toHex();
+      const particle = new ConfettiParticle(
+        this.textures[texture],
+        style,
+        confettiColor,
+        confettiScale,
+        angle,
+        sourceX,
+        sourceY,
+        velocity,
+        gDeviation
+      );
 
-      const rScale = Math.max(random(confettiScale / 2, (confettiScale - 0.4) / 2), 0.1);
-
-      const pixiSprite = new PIXI.Sprite(this.textures[texture]);
-      pixiSprite.anchor.set(0.5);
-      pixiSprite.angle = angle;
-      pixiSprite.x = sourceX;
-      pixiSprite.y = sourceY;
-      pixiSprite.scale.set(rScale, rScale);
-      pixiSprite.tint = `0x${colorHex.replace('#', '')}`;
-
-      // additional
-      pixiSprite.velocity = velocity;
-      pixiSprite.originalColor = { red: red / 255, green: green / 255, blue: blue / 255 };
-      pixiSprite.style = style;
-      pixiSprite.gDeviation = gDeviation;
-
-      canvas.overlay.addChild(pixiSprite);
-
-      const id = randomID(); // foundry core
-
-      this.confettiSprites = {
-        ...this.confettiSprites,
-        [id]: pixiSprite
-      };
+      particleStore.add(particle);
 
       log(false, 'addConfettiParticles', {
-        pixiSprite,
-        confettiSprites: this.confettiSprites
+        pixiSprite: particle,
+        confettiSprites: get(particleStore)
       });
 
-      this.tweenConfettiParticle(id);
+      particle.spawnParticle();
       i++;
     }
   }
@@ -291,7 +233,7 @@ export class Confetti {
     }
 
     // bottom left
-    this.addConfettiParticles({
+    this._addConfettiParticles({
       amount: amount * confettiMultiplier,
       angle: -70,
       sourceX: 0,
@@ -300,7 +242,7 @@ export class Confetti {
     });
 
     // bottom right
-    this.addConfettiParticles({
+    this._addConfettiParticles({
       amount: amount * confettiMultiplier,
       angle: -110,
       sourceX: this.constraints.width - $('#sidebar').width() * this.dpr,
@@ -340,82 +282,5 @@ export class Confetti {
     this.handleShootConfetti(socketProps.data);
 
     game.socket.emit(`module.${MODULE_ID}`, socketProps);
-  }
-
-  /**
-   * GSAP Magic. Does things involving gravity, velocity, and other forces a mere
-   * mortal cannot hope to understand.
-   * Taken pretty directly from: https://codepen.io/elifitch/pen/apxxVL
-   *
-   * @param {string} spriteId The sprite ID
-   */
-  tweenConfettiParticle(spriteId) {
-    const minAngle = this.confettiSprites[spriteId].angle - SPREAD / 2;
-    const maxAngle = this.confettiSprites[spriteId].angle + SPREAD / 2;
-
-    const minVelocity = this.confettiSprites[spriteId].velocity / 4;
-    const maxVelocity = this.confettiSprites[spriteId].velocity;
-
-    // Physics Props
-    const velocity = random(minVelocity, maxVelocity);
-    const angle = random(minAngle, maxAngle);
-    const gravity = GRAVITY;
-    const friction = random(0.01, 0.05);
-
-    const sprite = this.confettiSprites[spriteId];
-
-    const colorTl = gsap.timeline({ repeat: -1, repeatRefresh: true });
-    const skewTl = gsap.timeline({ repeat: -1, repeatRefresh: true });
-    colorTl.to(sprite, {
-      pixi: {
-        colorize: getDrawColor,
-        colorizeAmount: 1
-      },
-      duration: 0.05
-    });
-
-    skewTl.to(sprite, {
-      pixi: { skewY: 'random([90, 0, 90])' },
-      duration: 0.5
-    });
-
-    GsapCompose.to(sprite, {
-      physics2D: {
-        velocity,
-        angle,
-        gravity,
-        friction
-      },
-      pixi: {
-        scale: 0,
-        alpha: 0
-      },
-      ease: easingFunc['power4.in'],
-      onComplete: callback((tween) => {
-        // remove confetti sprite from list and canvas
-        delete this.confettiSprites[spriteId];
-        canvas.overlay.removeChild(sprite);
-
-        // clean up timelines
-        colorTl.killTweensOf(sprite);
-        colorTl.kill();
-        skewTl.killTweensOf(sprite);
-        skewTl.kill();
-
-        // kill the tween and destroy the sprite
-        tween.kill();
-        sprite.destroy();
-
-        log(false, 'tween complete', {
-          spriteId,
-          confettiSprites: this.confettiSprites
-        });
-
-        if (Object.keys(this.confettiSprites).length === 0) {
-          log(false, 'all tweens complete');
-        }
-      }),
-      duration: DECAY
-    });
   }
 }

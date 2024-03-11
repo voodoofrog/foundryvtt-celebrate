@@ -1,10 +1,7 @@
-import { writable } from 'svelte/store';
 import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, CONFETTI_TEXTURES } from './constants';
 import { registerAppearanceSettings, registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import { Confetti } from './classes/Confetti';
-
-export const cooldownStore = writable(false);
 
 Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(MODULE_ID);

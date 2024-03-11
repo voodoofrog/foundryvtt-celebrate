@@ -12,21 +12,6 @@ export const log = (force, ...args) => {
   }
 };
 
-/**
- * Replacement for _.random
- *
- * @param {number} a Upper bound
- *
- * @param {number} b Lower bound
- *
- * @returns {number} A random result between the bounds
- */
-export const random = (a = 1, b = 0) => {
-  const lower = Math.min(a, b);
-  const upper = Math.max(a, b);
-  return lower + Math.random() * (upper - lower);
-};
-
 export const getSoundsMap = () => {
   return {
     [CONFETTI_STRENGTH.low]: game.settings.get(MODULE_ID, SETTINGS.SOUND_INTENSITY_LOW),
