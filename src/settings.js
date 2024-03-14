@@ -108,6 +108,13 @@ export const registerSettings = () => {
     hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_STRENGTH}.hint`
   });
 
+  game.settings.register(MODULE_ID, SETTINGS.EXTRA_TEXTURES, {
+    default: [],
+    type: Array,
+    scope: 'world',
+    config: false
+  });
+
   game.settings.registerMenu(MODULE_ID, SETTINGS.MENU_APPEARANCE, {
     name: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.name`,
     label: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.label`,

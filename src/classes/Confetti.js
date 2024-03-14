@@ -20,7 +20,8 @@ const {
   GM_ONLY,
   SHOW_OTHERS_CONFETTI_SCALE,
   SHOW_OTHERS_GLITTER_STRENGTH,
-  SOUND_VOLUME
+  SOUND_VOLUME,
+  EXTRA_TEXTURES
 } = SETTINGS;
 
 export class Confetti {
@@ -77,6 +78,11 @@ export class Confetti {
     this.textures.skull = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/skull.png`);
     this.textures.star = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/star.png`);
     this.textures.tree = await PIXI.Texture.from(`modules/${MODULE_ID}/assets/images/tree.png`);
+
+    const registeredTextures = game.settings.get(MODULE_ID, EXTRA_TEXTURES);
+    for (const textureDefinition of registeredTextures) {
+      this.textures[textureDefinition.id] = await PIXI.Texture.from(textureDefinition.texture);
+    }
   }
 
   /**
@@ -285,5 +291,43 @@ export class Confetti {
     this.handleShootConfetti(socketProps.data);
 
     game.socket.emit(`module.${MODULE_ID}`, socketProps);
+  }
+
+  async registerTexture(textureDefinition) {
+    if (!textureDefinition) {
+      log(true, 'You must supply a texture definition!');
+      return;
+    }
+    if (!textureDefinition.id) {
+      log(true, 'The texture definition must include an id!');
+      return;
+    }
+    if (!textureDefinition.name) {
+      log(true, 'The texture definition must include a name!');
+      return;
+    }
+    if (!textureDefinition.texture) {
+      log(true, 'The texture definition must include a path to a texture!');
+      return;
+    }
+    const registeredTextures = game.settings.get(MODULE_ID, EXTRA_TEXTURES);
+    game.settings.set(MODULE_ID, EXTRA_TEXTURES, [...registeredTextures, textureDefinition]);
+    this.textures[textureDefinition.id] = await PIXI.Texture.from(textureDefinition.texture);
+    console.log('Texture added!');
+  }
+
+  unregisterTexture(id) {
+    if (!id) {
+      log(true, 'You must supply a texture id!');
+      return;
+    }
+    const registeredTextures = game.settings.get(MODULE_ID, EXTRA_TEXTURES);
+    game.settings.set(
+      MODULE_ID,
+      EXTRA_TEXTURES,
+      registeredTextures.filter((et) => et.ic === id)
+    );
+    this.textures[id].destroy();
+    console.log('Texture removed!');
   }
 }

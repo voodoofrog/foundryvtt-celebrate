@@ -39,7 +39,9 @@ Hooks.once('ready', () => {
     ),
     getShootConfettiProps: Confetti.getShootConfettiProps,
     handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
-    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance)
+    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance),
+    registerTexture: Confetti.instance.registerTexture.bind(Confetti.instance),
+    unregisterTexture: Confetti.instance.unregisterTexture.bind(Confetti.instance)
   };
 
   Object.freeze(api);

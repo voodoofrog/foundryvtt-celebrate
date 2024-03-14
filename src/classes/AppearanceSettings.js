@@ -9,7 +9,8 @@ const {
     CONFETTI_GLITTER_STRENGTH,
     CONFETTI_SCALE,
     CONFETTI_TEXTURE
-  }
+  },
+  EXTRA_TEXTURES
 } = SETTINGS;
 
 const buildStyleChoiceData = () => {
@@ -29,6 +30,12 @@ const buildTextureChoiceData = () => {
   Object.keys(CONFETTI_TEXTURES).forEach((key) => {
     textureObj.texture_choices[key] = CONFETTI_TEXTURES[key].translation;
   });
+
+  const registeredTextures = game.settings.get(MODULE_ID, EXTRA_TEXTURES);
+  for (const textureDefinition of registeredTextures) {
+    textureObj.texture_choices[textureDefinition.id] = textureDefinition.name;
+  }
+
   return textureObj;
 };
 
