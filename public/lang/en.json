@@ -85,6 +85,20 @@
           "test": "Test Settings",
           "cancel": "Cancel",
           "submit": "Save"
+        },
+        "confettiTexture": {
+          "name": "Confetti Texture",
+          "hint": "Classic: Classic rectangle. | Circle | Crescent | Lightning Bolt | Music Note | Skull | Star | Tree",
+          "choices": {
+            "classic": "Classic",
+            "circle": "Circle",
+            "crescent": "Crescent",
+            "lightning": "Lightning Bolt",
+            "music": "Music Note",
+            "skull": "Skull",
+            "star": "Star",
+            "tree": "Tree"
+          }
         }
       }
     }

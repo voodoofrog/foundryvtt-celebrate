@@ -41,6 +41,14 @@ https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/modu
 
 | **Name**              | Description                                           |
 | --------------------- | ----------------------------------------------------- |
+| Confetti Texture      | Classic: Classic rectangle.                           |
+|                       | Circle                                                |
+|                       | Crescent                                              |
+|                       | Lightning Bolt                                        |
+|                       | Music Note                                            |
+|                       | Skull                                                 |
+|                       | Star                                                  |
+|                       | Tree                                                  |
 | Confetti Style Choice | Default: Multi colored confetti.                      |
 |                       | Base Color: Confetti with the chosen color below.     |
 |                       | Glitter: Sparkly color cycling confetti.              |
@@ -55,7 +63,7 @@ No known issues at this time, but if you spot any be sure to report it.
 
 ## API
 
-After the hook `celebrateReady` is fired, the following api methods are expected to be on `game.modules.get('celebrate').api`:
+After the hook `celebrateApiReady` is fired (the hook itself also passes the api in the first argument), the following api methods are expected to be on `game.modules.get('celebrate').api`:
 
 ### `confettiStrength`
 
@@ -81,8 +89,21 @@ const confettiStyles = {
   baseGlitter: 'baseGlitter',
 };
 ```
+### `confettiTextures`
 
-### `getShootConfettiProps(strength: (0 | 1 | 2), options?: {style?, scale?, color?, glitterStr?})`
+a javascript object:
+
+```js
+const confettiTextures = {
+  classic: 'classic',
+  circle: 'circle',
+  crescent: 'crescent',
+  skull: 'skull',
+  star: 'star',
+};
+```
+
+### `getShootConfettiProps(strength: (0 | 1 | 2), options?: {style?, scale?, color?, glitterStr?, texture?})`
 
 Returns the properties that `handleShootConfetti` and `shootConfetti` use based on the strength and optional parameters you feed it.
 
@@ -97,8 +118,13 @@ Makes the appropriate amount of confetti fire on all clients' screens.
 ### Example:
 
 ```js
+let celebrateApi;
+
+Hooks.once('celebrateApiReady', (api) => {
+  celebrateApi = api;
+});
+
 function makeConfetti(isSecretCelebration) {
-  const celebrateApi = game.modules.get('celebrate').api;
   const strength = celebrateApi.confettiStrength.low;
   const shootConfettiProps = celebrateApi.getShootConfettiProps(strength);
   const glitterStyle = celebrateApi.confettiStyles.baseGlitter;
@@ -107,6 +133,7 @@ function makeConfetti(isSecretCelebration) {
     scale: 0.5,
     color: '#ff0000',
     glitterStr: 255,
+    texture: 'star'
   });
 
   if (isSecretCelebration) {
@@ -118,8 +145,6 @@ function makeConfetti(isSecretCelebration) {
   }
 }
 ```
-
-For backwards compatability with Confetti, Celebrate will also fire the `confettiReady` hook and provide the api on `window.confetti.api`, although this will eventually be removed.
 
 ## Known Issues
 

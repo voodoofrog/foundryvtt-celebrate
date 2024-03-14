@@ -1,5 +1,5 @@
 import { AppearanceSettings } from './classes/AppearanceSettings';
-import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS, SOUNDS } from './constants';
+import { CONFETTI_STRENGTH, CONFETTI_STYLES, CONFETTI_TEXTURES, MODULE_ID, SETTINGS, SOUNDS } from './constants';
 
 const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
 
@@ -143,6 +143,13 @@ export const registerAppearanceSettings = () => {
   game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE, {
     default: 1,
     type: Number,
+    scope: 'client',
+    config: false
+  });
+
+  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_TEXTURE, {
+    default: CONFETTI_TEXTURES.classic.key,
+    type: String,
     scope: 'client',
     config: false
   });
