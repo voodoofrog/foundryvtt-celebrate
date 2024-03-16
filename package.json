@@ -18,6 +18,7 @@
     "svelte": "^4.2.0"
   },
   "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "^1.0.2",
     "@typhonjs-config/eslint-config": "^0.6.0",
     "@typhonjs-fvtt/eslint-config-foundry.js": "^0.8.0",
     "eslint": "^8",
@@ -34,13 +35,13 @@
     "not IE 11"
   ],
   "scripts": {
-    "build": "vite build --mode=development && npm run link:dist",
+    "build": "vite build --mode=development",
     "build:prod": "vite build",
     "dev": "vite",
     "eslint": "eslint .",
-    "link:create": "node symlink-module-build-dir.js",
-    "link:remove": "node symlink-module-build-dir.js --clean",
-    "link:dist": "node symlink-module-build-dir.js --distonly",
-    "watch": "vite build --watch"
+    "links:create": "node ./build-scripts/symlink-module-build-dir.js",
+    "links:remove": "node ./build-scripts/symlink-module-build-dir.js --clean",
+    "links:dist": "node ./build-scripts/symlink-module-build-dir.js --distonly",
+    "packs:extract": "node ./build-scripts/extractPacks.mjs"
   }
 }

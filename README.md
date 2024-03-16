@@ -11,9 +11,7 @@ This module lets you shoot confetti with either some handy-dandy buttons on the 
 
 Module JSON:
 
-```
-https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/module.json
-```
+`https://github.com/voodoofrog/foundryvtt-celebrate/releases/latest/download/module.json`
 
 ## Screenshots
 
@@ -89,6 +87,7 @@ const confettiStyles = {
   baseGlitter: 'baseGlitter',
 };
 ```
+
 ### `confettiTextures`
 
 a javascript object:

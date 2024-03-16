@@ -2,10 +2,35 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import preprocess from 'svelte-preprocess';
 import { postcssConfig, terserConfig } from '@typhonjs-fvtt/runtime/rollup';
+import { compilePack } from '@foundryvtt/foundryvtt-cli';
+import { readdir } from 'node:fs/promises';
+import { createSymlinks } from './build-scripts/symlink-tools';
 
 const PACKAGE_ID = 'modules/celebrate';
 const COMPRESS = false;
 const SOURCEMAPS = true;
+
+const postBuild = (mode) => {
+  return {
+    name: 'post-build',
+    writeBundle: {
+      async handler() {
+        if (mode === 'development') {
+          await createSymlinks();
+        }
+
+        const packs = await readdir('./packs');
+        const baseDir = process.cwd();
+
+        for (const pack of packs) {
+          if (pack === '.gitattributes') continue;
+          console.log(`[== Packing ${pack} ==]`);
+          await compilePack(`${baseDir}/packs/${pack}`, `${baseDir}/dist/packs/${pack}`, { yaml: false });
+        }
+      }
+    }
+  };
+};
 
 export default (options) => {
   const { mode } = options;
@@ -63,7 +88,8 @@ export default (options) => {
       resolve({
         browser: true,
         dedupe: ['svelte']
-      })
+      }),
+      postBuild(mode)
     ]
   };
 };
