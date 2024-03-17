@@ -1,8 +1,9 @@
- {
+{
   "extends": [
     "@typhonjs-config/eslint-config/esm/2022/browser",
     "@typhonjs-fvtt/eslint-config-foundry.js",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:svelte/prettier"
   ],
   "env": {
     "jquery": true,
