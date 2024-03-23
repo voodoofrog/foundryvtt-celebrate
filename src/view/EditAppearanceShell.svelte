@@ -10,11 +10,11 @@
   import { Confetti } from '../classes/Confetti';
 
   export let elementRoot;
-  let textureChoice = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_TEXTURE);
-  let confettiStyleChoice = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE);
+  let texture = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_TEXTURE);
+  let style = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE);
   let color = colord(game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_COLOR_BASE)).toHsl();
   let glitterStrength = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_GLITTER_STRENGTH);
-  let confettiScale = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE);
+  let scale = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE);
   const { application } = getContext('#external');
   const { EXTRA_TEXTURES } = SETTINGS;
   const pickerOptions = {
@@ -53,22 +53,22 @@
     const testFireProps = {
       amount: 200,
       velocity: 3000,
-      cStyle: confettiStyleChoice,
+      cStyle: style,
       cColor: color,
-      cScale: confettiScale,
+      cScale: scale,
       cgStrength: glitterStrength,
       strength: 2,
-      texture: textureChoice
+      texture: texture
     };
     Confetti.instance.handleShootConfetti(testFireProps);
   };
 
   const saveSettings = async () => {
-    await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_TEXTURE, textureChoice);
-    await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE, confettiStyleChoice);
+    await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_TEXTURE, texture);
+    await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE, style);
     await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_COLOR_BASE, colord(color).toHex());
     await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_GLITTER_STRENGTH, glitterStrength);
-    await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE, confettiScale);
+    await game.settings.set(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE, scale);
     application.close();
   };
 </script>
@@ -80,9 +80,9 @@
         <!-- svelte-ignore a11y-label-has-associated-control -->
         <label>{localize('celebrate.settings.appearance.confettiTexture.name')}</label>
         <div class="form-fields">
-          <select name="confettiTexture" on:change={(e) => (textureChoice = e.currentTarget.value)}>
+          <select name="confettiTexture" on:change={(e) => (texture = e.currentTarget.value)}>
             {#each Object.entries(buildTextureChoiceData()) as [key, value]}
-              <option value={key} selected={key === textureChoice}>{value}</option>
+              <option value={key} selected={key === texture}>{value}</option>
             {/each}
           </select>
         </div>
@@ -92,16 +92,16 @@
         <!-- svelte-ignore a11y-label-has-associated-control -->
         <label>{localize('celebrate.settings.appearance.confettiStyleChoice.name')}</label>
         <div class="form-fields">
-          <select name="confettiStyleChoice" on:change={(e) => (confettiStyleChoice = e.currentTarget.value)}>
+          <select name="confettiStyleChoice" on:change={(e) => (style = e.currentTarget.value)}>
             {#each Object.entries(buildStyleChoiceData()) as [key, value]}
-              <option value={key} selected={key === confettiStyleChoice}>{value}</option>
+              <option value={key} selected={key === style}>{value}</option>
             {/each}
           </select>
         </div>
         <p class="notes">{localize('celebrate.settings.appearance.confettiStyleChoice.hint')}</p>
       </div>
-      {#if confettiStyleChoice !== 'default'}
-        {#if confettiStyleChoice !== 'glitter'}
+      {#if style !== 'default'}
+        {#if style !== 'glitter'}
           <div class="form-group">
             <!-- svelte-ignore a11y-label-has-associated-control -->
             <label>{localize('celebrate.settings.appearance.confettiColorBase.name')}</label>
@@ -118,7 +118,7 @@
           </div>
         {/if}
 
-        {#if confettiStyleChoice !== 'base'}
+        {#if style !== 'base'}
           <div class="form-group">
             <!-- svelte-ignore a11y-label-has-associated-control -->
             <label>{localize('celebrate.settings.appearance.confettiGlitterStrength.name')}</label>
@@ -134,8 +134,8 @@
         <!-- svelte-ignore a11y-label-has-associated-control -->
         <label>{localize('celebrate.settings.appearance.confettiScale.name')}</label>
         <div class="form-fields">
-          <input type="range" min="0.3" max="2" step="0.1" bind:value={confettiScale} />
-          <span class="range-value">{confettiScale}</span>
+          <input type="range" min="0.3" max="2" step="0.1" bind:value={scale} />
+          <span class="range-value">{scale}</span>
         </div>
         <p class="notes">{localize('celebrate.settings.appearance.confettiScale.hint')}</p>
       </div>
