@@ -35,10 +35,6 @@ export const SETTINGS = {
   }
 };
 
-export const TEMPLATES = {
-  APPEARANCE_SETTINGS: `modules/${MODULE_ID}/templates/appearance-settings.hbs`
-};
-
 export const CONFETTI_STYLES = {
   default: {
     key: 'default',

@@ -30,15 +30,13 @@
   "flags": {
     "hotReload": {
       "extensions": ["json", "hbs"],
-      "paths": ["lang", "templates"]
+      "paths": ["lang"]
     }
   },
   "styles": [
     "style.css"
   ],
-  "templates": [
-    "templates/appearance-settings.hbs"
-  ],
+  "templates": [],
   "packs": [
     {
       "name": "celebrate-macros",
