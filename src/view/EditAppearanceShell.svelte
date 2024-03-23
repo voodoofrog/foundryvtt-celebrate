@@ -16,7 +16,7 @@
   let glitterStrength = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_GLITTER_STRENGTH);
   let scale = game.settings.get(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE);
   const { application } = getContext('#external');
-  const { EXTRA_TEXTURES } = SETTINGS;
+
   const pickerOptions = {
     format: 'hex',
     formatType: 'string',
@@ -33,7 +33,7 @@
       texture_choices[key] = localize(CONFETTI_TEXTURES[key].translation);
     });
 
-    const registeredTextures = game.settings.get(MODULE_ID, EXTRA_TEXTURES);
+    const registeredTextures = game.settings.get(MODULE_ID, SETTINGS.EXTRA_TEXTURES);
     for (const textureDefinition of registeredTextures) {
       texture_choices[textureDefinition.id] = textureDefinition.name;
     }
