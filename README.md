@@ -150,6 +150,7 @@ function makeConfetti(isSecretCelebration) {
 
 - Spamming the confetti buttons could cause serious slow down or crashes. That's what the Fire Limit is for.
 - If you set the Confetti Multiplier to max, things could get dicey, but it largely depends on your machine.
+- You must have an active scene in order to see the confetti.
 
 ## Acknowledgements
 
