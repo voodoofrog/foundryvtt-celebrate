@@ -91,7 +91,7 @@ export class ConfettiParticle extends PIXI.Sprite {
     const colorHex = colord(getStartingColor(style, color)).toHex();
     const rScale = Math.max(random(scale / 2, (scale - 0.4) / 2), 0.1);
 
-    this.id = randomID(); // foundry core
+    this.id = foundry.utils.randomID(); // foundry core
     this.anchor.set(0.5);
     this.angle = random(0, 360);
     this.launchAngle = angle;

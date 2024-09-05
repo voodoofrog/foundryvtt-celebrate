@@ -45,7 +45,7 @@ export class AppearanceSettings extends FormApplication {
   }
 
   static get defaultOptions() {
-    return mergeObject(super.defaultOptions, {
+    return foundry.utils.mergeObject(super.defaultOptions, {
       closeOnSubmit: false,
       submitOnChange: true,
       width: 500,
@@ -61,7 +61,7 @@ export class AppearanceSettings extends FormApplication {
   }
 
   async _updateObject(_, formData) {
-    const settings = expandObject(formData);
+    const settings = foundry.utils.expandObject(formData);
 
     Object.keys(settings).forEach(async (key) => {
       this.tempData[key] = settings[key];
