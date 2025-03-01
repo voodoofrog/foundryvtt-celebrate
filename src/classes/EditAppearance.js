@@ -1,5 +1,5 @@
 import { SvelteApplication } from '#runtime/svelte/application';
-import { localize } from '#runtime/svelte/helper';
+import { localize } from '#runtime/util/i18n';
 import { MODULE_ID } from '../constants';
 import EditAppearanceShell from '../view/EditAppearanceShell.svelte';
 

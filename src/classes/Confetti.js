@@ -1,7 +1,7 @@
 import { get } from 'svelte/store';
-import '#runtime/svelte/gsap/plugin/bonus/Physics2DPlugin';
-import '#runtime/svelte/gsap/plugin/PixiPlugin';
-import '#runtime/svelte/gsap/plugin/bonus/CustomWiggle';
+import '#runtime/svelte/animate/gsap/plugin/bonus/Physics2DPlugin';
+import '#runtime/svelte/animate/gsap/plugin/PixiPlugin';
+import '#runtime/svelte/animate/gsap/plugin/bonus/CustomWiggle';
 import { CONFETTI_STRENGTH, CONFETTI_STYLES, MODULE_ID, SETTINGS } from '../constants';
 import { log, getSoundsMap } from '../helpers';
 import { cooldownStore, particleStore } from '../stores';

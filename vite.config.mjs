@@ -1,5 +1,4 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import resolve from '@rollup/plugin-node-resolve';
 import preprocess from 'svelte-preprocess';
 import { postcssConfig, terserConfig } from '@typhonjs-fvtt/runtime/rollup';
 import { compilePack } from '@foundryvtt/foundryvtt-cli';
@@ -84,10 +83,6 @@ export default (options) => {
           cssHash: ({ hash, css }) => `svelte-cel-${hash(css)}`
         },
         preprocess: preprocess()
-      }),
-      resolve({
-        browser: true,
-        dedupe: ['svelte']
       }),
       postBuild(mode)
     ]

@@ -2,10 +2,10 @@
 
 <script>
   import { getContext } from 'svelte';
-  import { ApplicationShell } from '#runtime/svelte/component/core';
-  import { localize } from '#runtime/svelte/helper';
-  import { colord } from '#runtime/color/colord';
-  import { TJSColordPicker } from '#standard/component';
+  import { ApplicationShell } from '#runtime/svelte/component/application';
+  import { localize } from '#runtime/util/i18n';
+  import { colord } from '#runtime/data/color/colord';
+  import { TJSColordPicker } from '#standard/component/color/picker-colord';
   import { CONFETTI_STYLES, CONFETTI_TEXTURES, MODULE_ID, SETTINGS } from '../constants';
   import { Confetti } from '../classes/Confetti';
 

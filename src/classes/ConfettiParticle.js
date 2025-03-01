@@ -1,6 +1,7 @@
 import { get } from 'svelte/store';
-import { GsapCompose, easingFunc, gsap } from '#runtime/svelte/gsap';
-import { colord } from '#runtime/color/colord';
+import { GsapCompose, gsap } from '#runtime/svelte/animate/gsap';
+import { easingFunc } from '#runtime/svelte/easing';
+import { colord } from '#runtime/data/color/colord';
 import { log, callback } from '../helpers';
 import { particleStore } from '../stores';
 import { CONFETTI_STYLES } from '../constants';
