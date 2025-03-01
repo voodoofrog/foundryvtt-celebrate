@@ -2,7 +2,7 @@
   "id": "celebrate",
   "title": "Celebrate",
   "description": "Get ready to celebrate!",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "authors": [
     {
       "name": "Nick Stevens (VoodooFrog)",
@@ -21,8 +21,8 @@
     }
   ],
   "compatibility": {
-    "minimum": "12",
-    "verified": "12.331"
+    "minimum": "13",
+    "verified": "13.337"
   },
   "esmodules": [
     "index.js"
