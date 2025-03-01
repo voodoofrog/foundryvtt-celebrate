@@ -59,8 +59,8 @@ export class Confetti {
 
   get constraints() {
     return {
-      width: canvas.app.renderer.width,
-      height: canvas.app.renderer.height
+      width: canvas.app.renderer.width / this.dpr,
+      height: canvas.app.renderer.height / this.dpr
     };
   }
 

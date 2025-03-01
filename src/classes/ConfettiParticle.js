@@ -1,6 +1,5 @@
 import { get } from 'svelte/store';
-import { GsapCompose, gsap } from '#runtime/svelte/animate/gsap';
-import { easingFunc } from '#runtime/svelte/easing';
+import { GsapCompose, gsap, gsapEasingFunc } from '#runtime/svelte/animate/gsap';
 import { colord } from '#runtime/data/color/colord';
 import { log, callback } from '../helpers';
 import { particleStore } from '../stores';
@@ -149,7 +148,7 @@ export class ConfettiParticle extends PIXI.Sprite {
         scale: 0,
         alpha: 0
       },
-      ease: easingFunc['power4.in'],
+      ease: gsapEasingFunc['power4.in'],
       onComplete: callback((tween) => {
         // remove confetti sprite from list and canvas
         particleStore.remove(this);
