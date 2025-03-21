@@ -254,7 +254,7 @@ export class Confetti {
     this._addConfettiParticles({
       amount: amount * confettiMultiplier,
       angle: -110,
-      sourceX: this.constraints.width - $('#sidebar').width() * this.dpr,
+      sourceX: this.constraints.width - $('#sidebar').width(),
       sourceY: this.constraints.height,
       ...shootConfettiProps
     });
