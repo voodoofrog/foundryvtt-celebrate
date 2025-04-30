@@ -73,12 +73,10 @@ async function handleFoundrySymlinks() {
 /**
  * Handles symlinks
  */
-async function createSymlinks() {
+export async function createSymlinks() {
   const distOnly = argv.distonly || argv.d;
   await handleDistSymlinks();
   if (!distOnly) {
     await handleFoundrySymlinks();
   }
 }
-
-createSymlinks();

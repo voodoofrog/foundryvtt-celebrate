@@ -3,6 +3,10 @@ import { registerAppearanceSettings, registerSettings } from './settings';
 import CelebrateButtons from './view/CelebrateButtons.svelte';
 import { Confetti } from './classes/Confetti';
 
+const getFoundryMajorVer = () => Number(game?.version?.split('.')?.[0]);
+const getGmOnly = () => game.settings.get(MODULE_ID, SETTINGS.GM_ONLY);
+const getShowButton = () => game.settings.get(MODULE_ID, SETTINGS.SHOW_BUTTONS);
+
 Hooks.once('devModeReady', ({ registerPackageDebugFlag }) => {
   registerPackageDebugFlag(MODULE_ID);
 });
@@ -13,16 +17,28 @@ Hooks.once('init', async () => {
 });
 
 Hooks.on('renderChatLog', (app, html) => {
-  const gmOnly = game.settings.get(MODULE_ID, SETTINGS.GM_ONLY);
-  const showButton = game.settings.get(MODULE_ID, SETTINGS.SHOW_BUTTONS);
+  if (getFoundryMajorVer() < 13) {
+    if (getShowButton()) {
+      if (!getGmOnly() || game.user.isGM) {
+        const chatForm = html.find('#chat-form');
+        const btnContainer = document.createElement('div');
+        btnContainer.className = 'flex0';
+        chatForm.after(btnContainer);
+        new CelebrateButtons({ target: btnContainer });
+      }
+    }
+  }
+});
 
-  if (showButton) {
-    if (!gmOnly || game.user.isGM) {
-      const chatForm = html.find('#chat-form');
-      const div = document.createElement('div');
-      div.className = 'flex0';
-      chatForm.after(div);
-      new CelebrateButtons({ target: div });
+Hooks.on('renderPlayers', () => {
+  if (getFoundryMajorVer() >= 13) {
+    if (getShowButton()) {
+      if (!getGmOnly || game.user.isGM) {
+        const playerList = document.querySelector('#players');
+        const btnContainer = document.createElement('aside');
+        playerList.after(btnContainer);
+        new CelebrateButtons({ target: btnContainer, props: { v13: true } });
+      }
     }
   }
 });
@@ -39,7 +55,9 @@ Hooks.once('ready', () => {
     ),
     getShootConfettiProps: Confetti.getShootConfettiProps,
     handleShootConfetti: Confetti.instance.handleShootConfetti.bind(Confetti.instance),
-    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance)
+    shootConfetti: Confetti.instance.shootConfetti.bind(Confetti.instance),
+    registerTexture: Confetti.instance.registerTexture.bind(Confetti.instance),
+    unregisterTexture: Confetti.instance.unregisterTexture.bind(Confetti.instance)
   };
 
   Object.freeze(api);

@@ -1,8 +1,10 @@
 .idea
 .DS_Store
+.npmrc
 .vite-cache/
 .vscode/**/*
 !.vscode/extensions.json
+!.vscode/settings.json
 dist/
 node_modules/
 /index.js

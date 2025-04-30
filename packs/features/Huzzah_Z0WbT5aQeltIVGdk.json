@@ -1,0 +1,20 @@
+{
+  "name": "Huzzah",
+  "permission": {
+    "default": 0,
+    "bTrtjL2dcDOGRveg": 3
+  },
+  "type": "script",
+  "flags": {
+    "core": {
+      "sourceId": "Macro.6zI0NDp43rlX9BNU"
+    }
+  },
+  "scope": "global",
+  "command": "function makeConfetti() {\n  const celebrateApi = game.modules.get('celebrate').api;\n  if (!celebrateApi) {\n    return;\n  }\n  const strength = celebrateApi.confettiStrength.high;\n  const shootConfettiProps = celebrateApi.getShootConfettiProps(strength);\n  celebrateApi.shootConfetti(shootConfettiProps);\n}\nmakeConfetti();",
+  "author": "bTrtjL2dcDOGRveg",
+  "img": "icons/sundries/flags/banner-flag-pink.webp",
+  "actorIds": [],
+  "_id": "Z0WbT5aQeltIVGdk",
+  "_key": "!macros!Z0WbT5aQeltIVGdk"
+}

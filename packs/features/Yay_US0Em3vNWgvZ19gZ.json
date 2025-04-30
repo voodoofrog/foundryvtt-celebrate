@@ -1,0 +1,20 @@
+{
+  "name": "Yay",
+  "permission": {
+    "default": 0,
+    "bTrtjL2dcDOGRveg": 3
+  },
+  "type": "script",
+  "flags": {
+    "core": {
+      "sourceId": "Macro.aNDnudFT0A0o1ea9"
+    }
+  },
+  "scope": "global",
+  "command": "function makeConfetti() {\n  const celebrateApi = game.modules.get('celebrate').api;\n  if (!celebrateApi) {\n    return;\n  }\n  const strength = celebrateApi.confettiStrength.med;\n  const shootConfettiProps = celebrateApi.getShootConfettiProps(strength);\n  celebrateApi.shootConfetti(shootConfettiProps);\n}\nmakeConfetti();",
+  "author": "bTrtjL2dcDOGRveg",
+  "img": "icons/tools/instruments/horn-red-grey.webp",
+  "actorIds": [],
+  "_id": "US0Em3vNWgvZ19gZ",
+  "_key": "!macros!US0Em3vNWgvZ19gZ"
+}

@@ -25,6 +25,7 @@ export const SETTINGS = {
   SOUND_INTENSITY_LOW: 'soundIntensityLow',
   SHOW_OTHERS_CONFETTI_SCALE: 'showOthersConfettiScale',
   SHOW_OTHERS_GLITTER_STRENGTH: 'showOthersGlitterStrength',
+  EXTRA_TEXTURES: 'extraTextures',
   APPEARANCE: {
     CONFETTI_STYLE_CHOICE: 'confettiStyleChoice',
     CONFETTI_COLOR_BASE: 'confettiColorBase',
@@ -32,10 +33,6 @@ export const SETTINGS = {
     CONFETTI_SCALE: 'confettiScale',
     CONFETTI_TEXTURE: 'confettiTexture'
   }
-};
-
-export const TEMPLATES = {
-  APPEARANCE_SETTINGS: `modules/${MODULE_ID}/templates/appearance-settings.hbs`
 };
 
 export const CONFETTI_STYLES = {

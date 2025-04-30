@@ -1,4 +1,5 @@
-import { AppearanceSettings } from './classes/AppearanceSettings';
+import { TJSGameSettings } from '#runtime/svelte/store/fvtt/settings';
+import { EditAppearanceButton } from './classes/EditAppearanceButton';
 import { CONFETTI_STRENGTH, CONFETTI_STYLES, CONFETTI_TEXTURES, MODULE_ID, SETTINGS, SOUNDS } from './constants';
 
 const debouncedReload = foundry.utils.debounce(() => window.location.reload(), 100);
@@ -108,49 +109,76 @@ export const registerSettings = () => {
     hint: `${MODULE_ID}.settings.${SETTINGS.SHOW_OTHERS_GLITTER_STRENGTH}.hint`
   });
 
+  game.settings.register(MODULE_ID, SETTINGS.EXTRA_TEXTURES, {
+    default: [],
+    type: Array,
+    scope: 'world',
+    config: false
+  });
+
   game.settings.registerMenu(MODULE_ID, SETTINGS.MENU_APPEARANCE, {
     name: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.name`,
     label: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.label`,
     hint: `${MODULE_ID}.settings.${SETTINGS.MENU_APPEARANCE}.hint`,
     icon: 'fas fa-bars',
-    type: AppearanceSettings,
+    type: EditAppearanceButton,
     restricted: false
   });
 };
 
-export const registerAppearanceSettings = () => {
-  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_COLOR_BASE, {
-    default: '',
-    type: String,
-    scope: 'client',
-    config: false
-  });
+export const appearanceSettings = new TJSGameSettings(MODULE_ID);
 
-  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE, {
-    default: CONFETTI_STYLES.default.key,
-    type: String,
-    scope: 'client',
-    config: false
-  });
-
-  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_GLITTER_STRENGTH, {
-    default: 128,
-    type: Number,
-    scope: 'client',
-    config: false
-  });
-
-  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_SCALE, {
-    default: 1,
-    type: Number,
-    scope: 'client',
-    config: false
-  });
-
-  game.settings.register(MODULE_ID, SETTINGS.APPEARANCE.CONFETTI_TEXTURE, {
-    default: CONFETTI_TEXTURES.classic.key,
-    type: String,
-    scope: 'client',
-    config: false
-  });
+export const registerAppearanceSettings = async () => {
+  await appearanceSettings.registerAll([
+    {
+      namespace: MODULE_ID,
+      key: SETTINGS.APPEARANCE.CONFETTI_COLOR_BASE,
+      options: {
+        default: '',
+        type: String,
+        scope: 'client',
+        config: false
+      }
+    },
+    {
+      namespace: MODULE_ID,
+      key: SETTINGS.APPEARANCE.CONFETTI_STYLE_CHOICE,
+      options: {
+        default: CONFETTI_STYLES.default.key,
+        type: String,
+        scope: 'client',
+        config: false
+      }
+    },
+    {
+      namespace: MODULE_ID,
+      key: SETTINGS.APPEARANCE.CONFETTI_GLITTER_STRENGTH,
+      options: {
+        default: 128,
+        type: Number,
+        scope: 'client',
+        config: false
+      }
+    },
+    {
+      namespace: MODULE_ID,
+      key: SETTINGS.APPEARANCE.CONFETTI_SCALE,
+      options: {
+        default: 1,
+        type: Number,
+        scope: 'client',
+        config: false
+      }
+    },
+    {
+      namespace: MODULE_ID,
+      key: SETTINGS.APPEARANCE.CONFETTI_TEXTURE,
+      options: {
+        default: CONFETTI_TEXTURES.classic.key,
+        type: String,
+        scope: 'client',
+        config: false
+      }
+    }
+  ]);
 };
