@@ -1,6 +1,8 @@
 <svelte:options accessors={true} />
 
 <script>
+  export let v13 = false;
+
   import { CONFETTI_STRENGTH, MODULE_ID } from '../constants';
   import { Confetti } from '../classes/Confetti';
   import { cooldownStore } from '../stores';
@@ -23,7 +25,7 @@
   });
 </script>
 
-<section class="celebrate-buttons flexrow">
+<section class="celebrate-buttons flexrow" class:v13={v13} class:faded-ui={v13}>
   <p>{title}:</p>
   <button on:click={() => onClick('low')} disabled={isOnCooldown} title={low}>
     <i class="fa-solid fa-face-meh" />
@@ -45,6 +47,7 @@
   $c-rainbow-5: blue;
   $c-rainbow-6: violet;
   $c-rainbow-7: red;
+  $bg-color: var(--color-cool-5-75);
 
   .celebrate-buttons {
     flex: 0;
@@ -140,5 +143,14 @@
         box-shadow: 0 0 6px inset $c-rainbow-7;
       }
     }
+  }
+
+  .v13 {
+    width: 200px;
+    pointer-events: all;
+    background: $bg-color;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px 8px;
   }
 </style>

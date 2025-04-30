@@ -21,8 +21,9 @@
     }
   ],
   "compatibility": {
-    "minimum": "13",
-    "verified": "13.337"
+    "minimum": "12",
+    "verified": "13.337",
+    "maximum": "13"
   },
   "esmodules": [
     "index.js"
