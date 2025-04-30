@@ -145,6 +145,33 @@ function makeConfetti(isSecretCelebration) {
 }
 ```
 
+### `registerTexture(textureDefinition: TextureDefinition)`
+
+Adds a confetti texture for players to use.
+
+### TextureDefinition
+```js
+{
+  id: String,
+  name: String,
+  texture: String
+}
+```
+
+### Example
+```js
+registerTexture({ id: 'sflake', name: 'Snowflake', texture: '/assets/confetti/snowflake.webp'});
+```
+
+### `unregisterTexture(id: String)`
+
+Removes a confetti texture from the options.
+
+### Example
+```js
+unregisterTexture('sflake');
+```
+
 ## Known Issues
 
 - Spamming the confetti buttons could cause serious slow down or crashes. That's what the Fire Limit is for.
