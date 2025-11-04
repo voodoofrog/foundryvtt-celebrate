@@ -5,6 +5,9 @@ import EditAppearanceShell from '../view/EditAppearanceShell.svelte';
 
 export class EditAppearance extends SvelteApplication {
   static get defaultOptions() {
+    window.MIN_WINDOW_WIDTH = 200;
+    window.MIN_WINDOW_HEIGHT = 50;
+
     return foundry.utils.mergeObject(super.defaultOptions, {
       id: `${MODULE_ID}-edit-appearance`,
       classes: [MODULE_ID],
