@@ -30,7 +30,7 @@ Hooks.on('renderChatLog', (app, html) => {
   }
 });
 
-Hooks.on('renderPlayers', () => {
+Hooks.once('renderPlayers', () => {
   if (getFoundryMajorVer() >= 13) {
     if (getShowButton()) {
       if (!getGmOnly || game.user.isGM) {
@@ -66,3 +66,4 @@ Hooks.once('ready', () => {
   console.log('Celebrate | Ready');
   Hooks.callAll(`celebrateApiReady`, api);
 });
+
