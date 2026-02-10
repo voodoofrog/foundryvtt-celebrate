@@ -33,7 +33,7 @@ Hooks.on('renderChatLog', (app, html) => {
 Hooks.once('renderPlayers', () => {
   if (getFoundryMajorVer() >= 13) {
     if (getShowButton()) {
-      if (!getGmOnly || game.user.isGM) {
+      if (!getGmOnly() || game.user.isGM) {
         const playerList = document.querySelector('#players');
         const btnContainer = document.createElement('aside');
         playerList.after(btnContainer);
@@ -66,4 +66,5 @@ Hooks.once('ready', () => {
   console.log('Celebrate | Ready');
   Hooks.callAll(`celebrateApiReady`, api);
 });
+
 
