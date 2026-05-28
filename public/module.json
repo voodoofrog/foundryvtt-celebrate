@@ -23,7 +23,7 @@
   "compatibility": {
     "minimum": "12",
     "verified": "13.337",
-    "maximum": "13"
+    "maximum": "14"
   },
   "esmodules": [
     "index.js"
